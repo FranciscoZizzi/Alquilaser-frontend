@@ -16,7 +16,7 @@ const HomePage = () => {
         }}>
             Home Page
             <div>
-                <SearchBar value={"value"} onChange={handleChange}/>
+                <SearchBar value={value} onChange={handleChange}/>
             </div>
         </div>
     )
