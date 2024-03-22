@@ -1,26 +1,13 @@
 import React, {useState} from "react";
 import { SearchIcon } from "../icons/SearchIcon";
+import {StyledSearchBar} from "./StyledSearchBar";
 
 const SearchBar = ({value, onChange}: {
     value: string,
     onChange: (event: React.FormEvent<HTMLInputElement>) => void
 }) => {
     return (
-        <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            borderRadius: '1.5rem',
-            borderWidth: '1px',
-            borderColor: 'black',
-            width: '100%',
-            height: '3.5rem',
-            alignItems: 'center',
-            gap: '0.25rem',
-            flexShrink: 0,
-            alignSelf: 'stretch',
-            backgroundColor: '#f3f4f6',
-            paddingRight: '0.5rem'
-        }}>
+        <StyledSearchBar>
             <div style={{ padding: '0.5rem' }}>
                 <SearchIcon fill={'#4E4E4E'} />
             </div>
@@ -35,7 +22,7 @@ const SearchBar = ({value, onChange}: {
 
                 }}
             />
-        </div>
+        </StyledSearchBar>
     );
 };
 
