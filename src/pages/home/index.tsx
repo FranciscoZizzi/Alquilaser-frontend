@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import SearchBar from "../../components/searchBar/SearchBar";
+import TextField from "../../components/textField/TextField";
 
 const HomePage = () => {
 
@@ -11,12 +12,21 @@ const HomePage = () => {
 
     return (
         <div style = {{
-            height: 144,
-            fontSize: '40px'
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100vh'
         }}>
-            Home Page
-            <div>
-                <SearchBar value={value} onChange={handleChange}/>
+            <div style={{
+                height: 700,
+                width: 360
+            }}>
+                <h1>
+                    Home Page
+                </h1>
+                <div style={{fontSize: '16px'}}>
+                    <TextField placeholder={"test-placeholder"}/>
+                </div>
             </div>
         </div>
     )
