@@ -5,6 +5,7 @@ const RegisterPage = () => {
 
     return (
         <div style = {{
+            backgroundColor: '#e0f0fd',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -14,7 +15,9 @@ const RegisterPage = () => {
                 height: 700,
                 width: 360
             }}>
-                <h1>
+                <h1 style={{
+                    color: '#021452'
+                }}>
                     Register
                 </h1>
                 <div style={{

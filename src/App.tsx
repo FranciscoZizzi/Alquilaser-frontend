@@ -4,6 +4,7 @@ import SearchPage from "./pages/search";
 import HomePage from "./pages/home";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import RegisterPage from "./pages/register";
+import LoginPage from "./pages/login";
 
 
 function App() {
@@ -18,6 +19,9 @@ function App() {
           </Routes>
             <Routes>
                 <Route path={'/register'} element={<RegisterPage/>}/>
+            </Routes>
+            <Routes>
+                <Route path={'/login'} element={<LoginPage/>}/>
             </Routes>
         </BrowserRouter>
       </>
