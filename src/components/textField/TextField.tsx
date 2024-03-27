@@ -13,7 +13,7 @@ const TextField = ({value, placeholder, supportingText, isError}:{value?: string
 
     const handleBlur = () => {
         setIsFocused(false);
-        setIsFilled(value !== '');
+        //setIsFilled(value !== '');
         setActualPlaceholder(placeholder)
     };
 
@@ -40,7 +40,7 @@ const TextField = ({value, placeholder, supportingText, isError}:{value?: string
                     placeholder={actualPlaceholder}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
-                    onChange={(e) => setIsFilled(e.target.value !== '')}
+                    onChange={(e) => setIsFilled(e.target.value.trim() !== '')}
                     style={{
                         borderColor: 'transparent',
                         backgroundColor: 'white',
@@ -51,7 +51,9 @@ const TextField = ({value, placeholder, supportingText, isError}:{value?: string
                         padding: '0.5rem', // Adjust padding as needed
                         boxSizing: 'border-box', // Ensure padding and border are included in element's total width and height
                     }}
+
                 />
+
 
                 <label style={{
                     borderRadius: '0.5rem',
