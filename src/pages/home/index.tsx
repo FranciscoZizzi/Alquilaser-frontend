@@ -1,6 +1,5 @@
 import React, {useState} from "react";
-import SearchBar from "../../components/searchBar/SearchBar";
-import TextField from "../../components/textField/TextField";
+import Button from "../../components/button/Button";
 
 const HomePage = () => {
 
@@ -25,7 +24,7 @@ const HomePage = () => {
                     Home Page
                 </h1>
                 <div style={{fontSize: '16px'}}>
-                    <TextField placeholder={"test-placeholder"}/>
+                    <Button>Test</Button>
                 </div>
             </div>
         </div>

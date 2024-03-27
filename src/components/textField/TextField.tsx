@@ -23,8 +23,8 @@ const TextField = ({value, placeholder, supportingText, isError}:{value?: string
                 backgroundColor: 'white',
                 color: 'black',
                 borderStyle: 'solid',
-                width: '100%',
-                padding: '1rem',
+                width: 'calc(100% - 0.4rem - 4px)',
+                padding: '0.2rem',
                 position: 'relative',
                 borderWidth: '2px',
                 height: 56,
@@ -45,7 +45,7 @@ const TextField = ({value, placeholder, supportingText, isError}:{value?: string
                         borderColor: 'transparent',
                         backgroundColor: 'white',
                         outline: 'none',
-                        width: '100%',
+                        width: 'calc(100% - 1rem)',
                         fontSize: '16px',
                         margin: 0, // Add margin: 0 to remove default margin
                         padding: '0.5rem', // Adjust padding as needed
@@ -70,7 +70,9 @@ const TextField = ({value, placeholder, supportingText, isError}:{value?: string
             </div>
             <p style={{
                 marginLeft: '1rem',
-                color: '#718096',
+                marginBottom: '4px',
+                marginTop: '2px',
+                color: 'black',
                 opacity: isFocused ? '1' : '0',
             }}>
                 {supportingText}
