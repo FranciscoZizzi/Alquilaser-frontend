@@ -1,8 +1,19 @@
 import React, { useState } from "react";
 import TextField from "../../components/textField/TextField";
 import Button from "../../components/button/Button";
+import axios from "axios";
 
 const RegisterPage = () => {
+
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+
+    const handleSubmit =  async () => {
+        const res = await axios.post("http://localhost:3001/api/users/register", {name: username, email, password, confirmPassword, phoneNumber})
+    }
 
     return (
         <div style={{
@@ -24,12 +35,12 @@ const RegisterPage = () => {
                 }}>
                     Register
                 </h1>
-                <TextField placeholder={"Username"} />
-                <TextField placeholder={"Email"} />
-                <TextField placeholder={"Password"}/>
-                <TextField placeholder={"Confirm password"} />
-                <TextField placeholder={"Phone number"} />
-                <Button>Create account</Button>
+                <TextField value={username} placeholder={"Username"} onChange={setUsername}/>
+                <TextField value={email} placeholder={"Email"} onChange={setEmail}/>
+                <TextField value={password} placeholder={"Password"} onChange={setPassword}/>
+                <TextField value={confirmPassword} placeholder={"Confirm password"} onChange={setConfirmPassword} />
+                <TextField value={phoneNumber} placeholder={"Phone number"}  onChange={setPhoneNumber}/>
+                <Button onClick={handleSubmit}>Create account</Button>
             </div>
         </div>
     )

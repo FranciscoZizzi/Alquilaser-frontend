@@ -24,8 +24,8 @@ const LoginPage = () => {
                 <div style={{
                     fontSize: '16px',
                 }}>
-                    <TextField placeholder={"Email"}/>
-                    <TextField placeholder={"Password"}/>
+                    {/*<TextField placeholder={"Email"}/>*/}
+                    {/*<TextField placeholder={"Password"}/>*/}
                     <Button>Login</Button>
 
                 </div>
