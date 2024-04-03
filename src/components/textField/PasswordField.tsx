@@ -1,9 +1,18 @@
 import React, {useState} from 'react';
 import {StyledTextField} from "./StyledTextField";
 
-const TextField = ({value, placeholder, supportingText, isError, onChange}:{value: string, placeholder: string, supportingText?: string, isError?: Boolean, onChange: (e : string) => void;}) => {
-    const [isFocused, setIsFocused] = useState(false);
 
+const PasswordField = ({value, placeholder, supportingText, isError, onChange}:{value: string, placeholder: string, supportingText?: string, isError?: Boolean, onChange: (e : string) => void;}) => {
+//     const [isFocused, setIsFocused] = useState(false);) => {
+    const [password, setPassword] = useState('');
+    const [isFocused, setIsFocused] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value);
+    };
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
 
     const [actualPlaceholder, setActualPlaceholder] = useState(placeholder);
     const handleFocus = () => {
@@ -17,7 +26,6 @@ const TextField = ({value, placeholder, supportingText, isError, onChange}:{valu
         setActualPlaceholder(placeholder)
     };
 
-    //
     return (
         <div>
             <div style={{
@@ -33,15 +41,15 @@ const TextField = ({value, placeholder, supportingText, isError, onChange}:{valu
                 borderRadius: '0.375rem',
                 display: 'flex',
                 alignItems: 'center',
-
-
             }}>
+                <label htmlFor="password"></label>
                 <input
-                    value={value}
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
                     placeholder={actualPlaceholder}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
-                    onChange={(e) => onChange(e.target.value)}
+                    onChange={handlePasswordChange}
                     style={{
                         borderColor: 'transparent',
                         backgroundColor: 'white',
@@ -52,9 +60,10 @@ const TextField = ({value, placeholder, supportingText, isError, onChange}:{valu
                         padding: '0.5rem', // Adjust padding as needed
                         boxSizing: 'border-box', // Ensure padding and border are included in element's total width and height
                     }}
-
                 />
-
+                <button onClick={toggleShowPassword}>
+                    {showPassword ? 'Ocultar' : 'Mostrar'}
+                </button>
 
                 <label style={{
                     borderRadius: '0.5rem',
@@ -80,7 +89,5 @@ const TextField = ({value, placeholder, supportingText, isError, onChange}:{valu
             </p>
         </div>
     )
-
 }
-
-export default TextField
+export default PasswordField;
