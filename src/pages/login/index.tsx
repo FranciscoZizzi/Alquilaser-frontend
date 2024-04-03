@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import TextField from "../../components/textField/TextField";
+import PasswordField from "../../components/textField/PasswordField";
 import Button from "../../components/button/Button";
 
 const LoginPage = () => {
@@ -27,7 +28,7 @@ const LoginPage = () => {
                     fontSize: '16px',
                 }}>
                     {/*<TextField placeholder={"Email"}/>*/}
-                    {/*<TextField placeholder={"Password"}/>*/}
+                    {/*<PasswordField placeholder={"Password"}/>*/}
                     <Button>Login</Button>
 
                 </div>

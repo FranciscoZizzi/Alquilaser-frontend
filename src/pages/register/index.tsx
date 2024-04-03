@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import TextField from "../../components/textField/TextField";
+import PasswordField from "../../components/textField/PasswordField";
 import Button from "../../components/button/Button";
 import axios from "axios";
+
 
 const RegisterPage = () => {
 
@@ -35,10 +37,11 @@ const RegisterPage = () => {
                 }}>
                     Register
                 </h1>
+
                 <TextField value={username} placeholder={"Username"} onChange={setUsername}/>
                 <TextField value={email} placeholder={"Email"} onChange={setEmail}/>
-                <TextField value={password} placeholder={"Password"} onChange={setPassword}/>
-                <TextField value={confirmPassword} placeholder={"Confirm password"} onChange={setConfirmPassword} />
+                <PasswordField value={password} placeholder={"Password"} onChange={setPassword}/>
+                <PasswordField value={confirmPassword} placeholder={"Confirm password"} onChange={setConfirmPassword} />
                 <TextField value={phoneNumber} placeholder={"Phone number"}  onChange={setPhoneNumber}/>
                 <Button onClick={handleSubmit}>Create account</Button>
             </div>
