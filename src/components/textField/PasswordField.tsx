@@ -3,7 +3,6 @@ import {StyledTextField} from "./StyledTextField";
 
 
 const PasswordField = ({value, placeholder, supportingText, isError, onChange}:{value: string, placeholder: string, supportingText?: string, isError?: Boolean, onChange: (e : string) => void;}) => {
-//     const [isFocused, setIsFocused] = useState(false);) => {
     const [password, setPassword] = useState('');
     const [isFocused, setIsFocused] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -62,7 +61,7 @@ const PasswordField = ({value, placeholder, supportingText, isError, onChange}:{
                     }}
                 />
                 <button onClick={toggleShowPassword}>
-                    {showPassword ? 'Ocultar' : 'Mostrar'}
+                    {showPassword ? 'Hide' : 'Show'}
                 </button>
 
                 <label style={{
