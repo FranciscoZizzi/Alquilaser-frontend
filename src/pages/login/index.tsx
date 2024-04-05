@@ -2,10 +2,14 @@ import React, {useState} from "react";
 import TextField from "../../components/textField/TextField";
 import PasswordField from "../../components/textField/PasswordField";
 import Button from "../../components/button/Button";
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
-
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     //
+
+
 
     return (
         <div style = {{
@@ -27,12 +31,27 @@ const LoginPage = () => {
                 <div style={{
                     fontSize: '16px',
                 }}>
-                    {/*<TextField placeholder={"Email"}/>*/}
-                    {/*<PasswordField placeholder={"Password"}/>*/}
+                    <TextField value={email} placeholder={"Email"} onChange={setEmail}/>
+                    <PasswordField value={password} placeholder={"Password"} onChange={setPassword}/>
                     <Button>Login</Button>
-
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '10px', // Adds some space between the links
+                    }}>
+                    <span>
+                        Don't have an account? <Link to="/register">Register</Link>
+                    </span>
+                        <span>
+                        or
+                    </span>
+                        <span>
+                    <Link to="/">Continue without signing in</Link>
+                    </span>
+                    </div>
                 </div>
-
             </div>
         </div>
     )

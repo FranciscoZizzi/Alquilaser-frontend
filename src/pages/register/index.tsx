@@ -3,6 +3,7 @@ import TextField from "../../components/textField/TextField";
 import PasswordField from "../../components/textField/PasswordField";
 import Button from "../../components/button/Button";
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 
 const RegisterPage = () => {
@@ -44,6 +45,17 @@ const RegisterPage = () => {
                 <PasswordField value={confirmPassword} placeholder={"Confirm password"} onChange={setConfirmPassword} />
                 <TextField value={phoneNumber} placeholder={"Phone number"}  onChange={setPhoneNumber}/>
                 <Button onClick={handleSubmit}>Create account</Button>
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '10px', // Adds some space between the links
+                }}>
+                    <span>
+                        Already have an account? <Link to="/login">Login</Link>
+                    </span>
+                    </div>
             </div>
         </div>
     )
