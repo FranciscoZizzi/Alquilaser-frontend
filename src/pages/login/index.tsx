@@ -35,6 +35,7 @@ const LoginPage = () => {
                     <PasswordField value={password} placeholder={"Password"} onChange={setPassword}/>
                     <Button>Login</Button>
                     <div style={{
+                        marginTop: '10px',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',

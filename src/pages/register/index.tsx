@@ -46,11 +46,11 @@ const RegisterPage = () => {
                 <TextField value={phoneNumber} placeholder={"Phone number"}  onChange={setPhoneNumber}/>
                 <Button onClick={handleSubmit}>Create account</Button>
                 <div style={{
+                    marginTop: '10px',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '10px', // Adds some space between the links
                 }}>
                     <span>
                         Already have an account? <Link to="/login">Login</Link>
