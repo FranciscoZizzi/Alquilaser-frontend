@@ -8,15 +8,17 @@ const HomePage = () => {
     const [value, setValue] = useState<string>("");
 
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-        setValue(event.currentTarget.value)
+        setValue(event.currentTarget.value);
     }
 
-    const handleSubmit = (event: React.FormEvent<HTMLInputElement>) => {
-
+    const handleKeyPress = (keyEvent: React.KeyboardEvent<HTMLInputElement>) => {
+        if(keyEvent.key === 'Enter') {
+            alert(value);
+        }
     }
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-
+        // TODO take user to profile page
     }
 
     return (
@@ -42,11 +44,11 @@ const HomePage = () => {
                 height: 700,
                 width: 360
             }}>
-                <SearchBar value={"Search part by code or title"} onChange={handleSubmit}></SearchBar>
+                <SearchBar value={value} onChange={handleChange} onKeyUp={handleKeyPress}></SearchBar>
             </div>
         </div>
         </div>
-    )
+    );
 }
 
-export default HomePage
+export default HomePage;
