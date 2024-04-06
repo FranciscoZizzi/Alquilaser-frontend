@@ -3,12 +3,8 @@ import {StyledTextField} from "./StyledTextField";
 
 
 const PasswordField = ({value, placeholder, supportingText, isError, onChange}:{value: string, placeholder: string, supportingText?: string, isError?: Boolean, onChange: (e : string) => void;}) => {
-    const [password, setPassword] = useState('');
     const [isFocused, setIsFocused] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.target.value);
-    };
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -44,11 +40,11 @@ const PasswordField = ({value, placeholder, supportingText, isError, onChange}:{
                 <label htmlFor="password"></label>
                 <input
                     type={showPassword ? 'text' : 'password'}
-                    value={password}
+                    value={value}
                     placeholder={actualPlaceholder}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
-                    onChange={handlePasswordChange}
+                    onChange={(e) => onChange(e.target.value)}
                     style={{
                         borderColor: 'transparent',
                         backgroundColor: 'white',
