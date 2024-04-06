@@ -1,5 +1,4 @@
 import React from "react";
-import "./ListingStyles.css";
 import Button from "../button/Button";
 
 const Listing = ({image, title, price, availability}:{
@@ -8,22 +7,47 @@ const Listing = ({image, title, price, availability}:{
     price: number,
     availability: string
 }) => {
-    const style = {
-    }
     return(
-        <div className="listing">
-            <div className="listing-image">
-                <img src={image} alt="Product picture"/>
+        <div style={{
+            background: "aliceblue",
+            height: 168,
+            width: 992,
+            display: "flex",
+            flexDirection: "row"
+        }}>
+            <div>
+                <img style={{
+                    margin: 8,
+                    width: 152,
+                    height: 152,
+                }} src={image} alt="Product picture"/>
             </div>
-            <div className="listing-info">
-                <h2>{title}</h2>
-                <div className="price-and-avail">
-                    <p className="price">Price: ${price}/day</p>
-                    <div className="avail-and-button">
-                        <p className="avail">{availability}</p>
+            <div style={{
+                width: 800,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: 'center'
+            }}>
+                <h2 style={{
+                    marginBottom: 0,
+                    padding: 5,
+                }}>{title}</h2>
+                <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                }}>
+                    <p>Price: ${price}/day</p>
+                    <div style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-around",
+                    }}>
+                        <p>{availability}</p>
                         <Button style={{width:304}}>Edit</Button>
                     </div>
                 </div>
+
             </div>
         </div>
     );
