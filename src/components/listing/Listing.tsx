@@ -9,7 +9,7 @@ const Listing = ({image, title, price, availability}:{
 }) => {
     return(
         <div style={{
-            background: "aliceblue",
+            background: "white",
             height: 168,
             width: 992,
             display: "flex",
