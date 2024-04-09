@@ -16,7 +16,7 @@ const ProfilePage = () => {
 
     let navigate = useNavigate();
     const addListing = () => {
-        let path = '/listing-form';
+        let path = '/profile/create-listing';
         navigate(path);
     }
     // TODO agregar función a los botones
