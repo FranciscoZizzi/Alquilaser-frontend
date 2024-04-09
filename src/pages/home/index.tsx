@@ -1,18 +1,28 @@
 import React, {useState} from "react";
 import AvatarButton from "../../components/button/AvatarButton";
 import SearchBar from "../../components/searchBar/SearchBar";
+import axios from "axios";
+import ResultPage from "../result";
+import {createSearchParams, useNavigate} from "react-router-dom";
 
 const HomePage = () => {
 
-    const [value, setValue] = useState<string>("");
+    const [searchTerm, setValue] = useState<string>("");
 
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
         setValue(event.currentTarget.value);
     }
 
-    const handleKeyPress = (keyEvent: React.KeyboardEvent<HTMLInputElement>) => {
+    let navigate = useNavigate();
+    const handleKeyPress = async (keyEvent: React.KeyboardEvent<HTMLInputElement>) => {
         if(keyEvent.key === 'Enter') {
-            alert(value);
+            const res = await axios.post("http://localhost:3001/api/search", {searchTerm});
+            navigate({
+                pathname: "search-results",
+                search: `?${createSearchParams({
+                    searchTerm: searchTerm
+                })}`
+            });
         }
     }
 
@@ -43,7 +53,7 @@ const HomePage = () => {
                 height: 700,
                 width: 360
             }}>
-                <SearchBar value={value} onChange={handleChange} onKeyUp={handleKeyPress}></SearchBar>
+                <SearchBar value={searchTerm} onChange={handleChange} onKeyUp={handleKeyPress}></SearchBar>
             </div>
         </div>
         </div>

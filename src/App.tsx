@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import SearchPage from "./pages/search";
+import ResultPage from "./pages/result";
 import HomePage from "./pages/home";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import RegisterPage from "./pages/register";
@@ -17,7 +17,7 @@ function App() {
             <Route path={'/'} element={<HomePage/>}/>
           </Routes>
           <Routes>
-            <Route path={'/search'} element={<SearchPage/>}/>
+            <Route path={'/search-results'} element={<ResultPage/>}/>
           </Routes>
             <Routes>
                 <Route path={'/register'} element={<RegisterPage/>}/>
@@ -30,7 +30,7 @@ function App() {
             </Routes>
             <Routes>
                 {/* TODO ruta temporal, despues habría que sacarla o modificarla*/}
-                <Route path={'/listing-form'} element={<ListingForm/>}/>
+                <Route path={'/profile/create-listing'} element={<ListingForm/>}/>
             </Routes>
         </BrowserRouter>
       </>
