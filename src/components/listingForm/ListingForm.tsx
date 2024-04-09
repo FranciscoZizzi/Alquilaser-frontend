@@ -12,7 +12,7 @@ const ListingForm = () => {
     const [listingState, setState] = useState("");
     //
     const handleSubmit =  async () => {
-        const res = await axios.post("http://localhost:3001/api/listings/add", {title, price, description, damage, })
+        const res = await axios.post("http://localhost:3001/api/listings/add", {title, price, description, damage, listingState})
     }
 
     return (
@@ -33,7 +33,7 @@ const ListingForm = () => {
                 <h1 style={{
                     color: '#021452'
                 }}>
-                    Register
+                    Create Listing
                 </h1>
 
                 <TextField value={title} placeholder={"Post title"} onChange={setTitle}/>
@@ -42,7 +42,7 @@ const ListingForm = () => {
                 <TextField value={damage} placeholder={"Damage"} onChange={setDamage}/>
                 {/* TODO paso el state por acá pero se manejaría internamente*/}
                 <TextField value={listingState} placeholder={"Listing State"} onChange={setState}/>
-                <Button onClick={handleSubmit}>Create account</Button>
+                <Button onClick={handleSubmit}>Create listing</Button>
                 <div style={{
                     marginTop: '10px',
                     display: 'flex',

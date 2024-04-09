@@ -29,7 +29,7 @@ function App() {
                 <Route path={'/profile'} element={<ProfilePage/>}/>
             </Routes>
             <Routes>
-                // TODO ruta temporal, despues habría que sacarla o modificarla
+                {/* TODO ruta temporal, despues habría que sacarla o modificarla*/}
                 <Route path={'/listing-form'} element={<ListingForm/>}/>
             </Routes>
         </BrowserRouter>
