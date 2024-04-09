@@ -8,15 +8,27 @@ const ListingHistory = ({title, startDate, endDate, totalCost} : {
     totalCost: number
 }) => {
     return(
-        <div style={{width:992, display:"flex", flexDirection:"row", justifyContent:"space-between", background:"white"}}>
+        <div style={{
+            display:"flex",
+            flexDirection:"row",
+            justifyContent:"space-between",
+            background:"white",
+            borderRadius:30,
+            paddingRight:16,
+            paddingLeft:16
+        }}>
             <div>
                 <h3>{title}</h3>
             </div>
-            <div>
-                <h3>{startDate} to {endDate}</h3>
+            <div style={{ display: "flex", alignItems: "center" }}>
+                <p>
+                    {startDate} to {endDate}
+                </p>
             </div>
-            <div>
-                <h3>Total Cost: {totalCost}</h3>
+            <div style={{ display: "flex", alignItems: "center" }}>
+                <p>
+                    Total cost: {totalCost}
+                </p>
             </div>
             <div style={{display:"flex", flexDirection:"column", justifyContent:"center"}}>
                 <Button>Additional Info</Button>

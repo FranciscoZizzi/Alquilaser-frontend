@@ -6,15 +6,15 @@ import Listing from "../../components/listing/Listing";
 import ListingHistory from "../../components/listing/ListingHistory";
 import Button from "../../components/button/Button";
 import {useNavigate} from "react-router-dom";
+import {theme} from '../../utils/theme'
 
 const ProfilePage = () => {
     let name = "Jeremy Elbertson"
-
+    let navigate = useNavigate();
     const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> ) => {
-
+        navigate(-1)
     }
 
-    let navigate = useNavigate();
     const addListing = () => {
         let path = '/listing-form';
         navigate(path);
@@ -25,7 +25,7 @@ const ProfilePage = () => {
         <div>
             <div className="header" style={{
                 height:80,
-                backgroundColor:"lightgray",
+                backgroundColor:theme.primary500,
                 display:"flex",
                 justifyContent:"space-between",
             }}>
@@ -39,7 +39,7 @@ const ProfilePage = () => {
                     <AvatarButton name={name} src={"https://hard-drive.net/wp-content/uploads/2023/08/jerma-killer.jpg.webp"}></AvatarButton>
                 </div>
             </div>
-            <div style={{background:"lightgray", display:"flex", flexDirection:"row", marginTop:53, marginLeft:"2.5%", width:"90%", padding:"2.5%"}}>
+            <div style={{background:theme.primary300, display:"flex", flexDirection:"row", marginTop:53, marginLeft:"2.5%", width:"90%", padding:"2.5%"}}>
                 <div className="profile-picture">
                     <Avatar name={name} size="320" src="https://hard-drive.net/wp-content/uploads/2023/08/jerma-killer.jpg.webp"/>
                 </div>
