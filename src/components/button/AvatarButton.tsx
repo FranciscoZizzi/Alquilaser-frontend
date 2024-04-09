@@ -1,7 +1,15 @@
 import React from 'react';
 import Avatar from 'react-avatar';
+import {useNavigate} from "react-router-dom";
 
-const AvatarButton = ({name, src, onClick}: {name: string, src: string, onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void}) => {
+const AvatarButton = ({name, src}: {name: string, src: string}) => {
+
+    let navigate = useNavigate();
+    const onClick = () => {
+        let path = '/profile';
+        navigate(path);
+    }
+
     return(
         <div>
             <button onClick={onClick} style={{

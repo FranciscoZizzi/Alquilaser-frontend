@@ -9,9 +9,6 @@ import {useNavigate} from "react-router-dom";
 
 const ProfilePage = () => {
     let name = "Jeremy Elbertson"
-    const handleAvatarClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-
-    }
 
     const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> ) => {
 
@@ -39,7 +36,7 @@ const ProfilePage = () => {
                     <BackButton onClick={handleBackButtonClick}></BackButton>
                 </div>
                 <div style={{marginTop:2, marginBottom:2}}>
-                    <AvatarButton name={name} onClick={handleAvatarClick} src={"https://hard-drive.net/wp-content/uploads/2023/08/jerma-killer.jpg.webp"}></AvatarButton>
+                    <AvatarButton name={name} src={"https://hard-drive.net/wp-content/uploads/2023/08/jerma-killer.jpg.webp"}></AvatarButton>
                 </div>
             </div>
             <div style={{background:"lightgray", display:"flex", flexDirection:"row", marginTop:53, marginLeft:"2.5%", width:"90%", padding:"2.5%"}}>

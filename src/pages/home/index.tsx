@@ -29,7 +29,7 @@ const HomePage = () => {
             justifyContent:"right",
         }}>
             <div style={{marginTop:2, marginBottom:2}}>
-                <AvatarButton name={"Jeremy Elbertson"} onClick={handleClick} src={"https://hard-drive.net/wp-content/uploads/2023/08/jerma-killer.jpg.webp"}></AvatarButton>
+                <AvatarButton name={"Jeremy Elbertson"} src={"https://hard-drive.net/wp-content/uploads/2023/08/jerma-killer.jpg.webp"}></AvatarButton>
             </div>
         </div>
         <div style = {{
