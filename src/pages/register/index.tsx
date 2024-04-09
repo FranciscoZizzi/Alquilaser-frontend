@@ -13,7 +13,6 @@ const RegisterPage = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
-    //
     const handleSubmit =  async () => {
         const res = await axios.post("http://localhost:3001/api/users/register", {name: username, email, password, confirmPassword, phoneNumber})
     }
