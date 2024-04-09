@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import Button from "../../components/button/Button";
 import AvatarButton from "../../components/button/AvatarButton";
 import SearchBar from "../../components/searchBar/SearchBar";
 

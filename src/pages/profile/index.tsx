@@ -5,6 +5,7 @@ import Avatar from "react-avatar";
 import Listing from "../../components/listing/Listing";
 import ListingHistory from "../../components/listing/ListingHistory";
 import Button from "../../components/button/Button";
+import {useNavigate} from "react-router-dom";
 
 const ProfilePage = () => {
     let name = "Jeremy Elbertson"
@@ -14,6 +15,12 @@ const ProfilePage = () => {
 
     const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> ) => {
 
+    }
+
+    let navigate = useNavigate();
+    const addListing = () => {
+        let path = '/listing-form';
+        navigate(path);
     }
     // TODO agregar función a los botones
 
@@ -45,7 +52,7 @@ const ProfilePage = () => {
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                             <h1>Listed Parts:</h1>
                             <div style={{display: "flex", flexDirection:'column', justifyContent: "center"}}>
-                                <Button style={{width: 240, height: 41}}>Add new listing</Button>
+                                <Button style={{width: 240, height: 41}} onClick={addListing}>Add new listing</Button>
                             </div>
                         </div>
                         <Listing image={"https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"}
