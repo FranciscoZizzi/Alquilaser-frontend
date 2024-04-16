@@ -10,9 +10,9 @@ import PopUp from "../../components/popUp/addNewListingPopUp";
 
 const ProfilePage = () => {
     let name = "Jeremy Elbertson"
-
+    let navigate = useNavigate();
     const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> ) => {
-
+        navigate(-1)
     }
     // TODO agregar función a los botones
 
