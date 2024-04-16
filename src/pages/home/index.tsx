@@ -1,10 +1,7 @@
 import React, {useState} from "react";
 import AvatarButton from "../../components/button/AvatarButton";
 import SearchBar from "../../components/searchBar/SearchBar";
-import Popup from "reactjs-popup";
-import PopUp from "../../components/popUp/addNewListingPopUp";
 import axios from "axios";
-import ResultPage from "../result";
 import {createSearchParams, useNavigate} from "react-router-dom";
 
 const HomePage = () => {
