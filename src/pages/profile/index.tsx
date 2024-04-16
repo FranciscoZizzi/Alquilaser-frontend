@@ -19,7 +19,7 @@ const ProfilePage = () => {
         let path = '/listing-form';
         navigate(path);
     }
-    // TODO agregar función a los botones
+    // TODO agregar función a los botones n
 
     return(
         <div>
