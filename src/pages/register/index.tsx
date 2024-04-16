@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import IconButton from "../../components/iconButton/IconButton";
 import {SearchIcon} from "../../components/icons/SearchIcon";
 
-
 const RegisterPage = () => {
 
     const [username, setUsername] = useState("");
