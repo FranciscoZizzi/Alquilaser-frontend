@@ -6,15 +6,14 @@ import {Link, useNavigate} from 'react-router-dom';
 import axios from "axios";
 
 const LoginPage = () => {
-    const [user, setUser] = useState(null);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSubmit = async () => {
         try {
             const res = await axios.post("http://localhost:3001/api/users/login", {email, password});
-            setUser(res.data);
-
+            localStorage.setItem("user", res.data.data); // Queda guardado en localstorage, se puede acceder desde toda la app
+            // Mandar header
         } catch(e) {
             alert(e);
         }
