@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+
 import {StyledTextField} from "./StyledTextField";
 
 
@@ -56,6 +57,7 @@ const PasswordField = ({value, placeholder, supportingText, isError, onChange}:{
                         boxSizing: 'border-box', // Ensure padding and border are included in element's total width and height
                     }}
                 />
+
                 <button onClick={toggleShowPassword}>
                     {showPassword ? 'Hide' : 'Show'}
                 </button>

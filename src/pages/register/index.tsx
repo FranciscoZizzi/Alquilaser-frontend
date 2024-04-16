@@ -5,7 +5,6 @@ import Button from "../../components/button/Button";
 import axios from "axios";
 import { Link } from 'react-router-dom';
 
-
 const RegisterPage = () => {
 
     const [username, setUsername] = useState("");

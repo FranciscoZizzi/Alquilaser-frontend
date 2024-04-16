@@ -2,14 +2,18 @@ import React, {useState} from "react";
 import TextField from "../../components/textField/TextField";
 import PasswordField from "../../components/textField/PasswordField";
 import Button from "../../components/button/Button";
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     //
 
-
+    // let navigate = useNavigate();
+    // const goToRegister = () => {
+    //     let path = '/register';
+    //     navigate(path);
+    // }
 
     return (
         <div style = {{
@@ -42,7 +46,9 @@ const LoginPage = () => {
                         justifyContent: 'center',
                         gap: '10px', // Adds some space between the links
                     }}>
+
                     <span>
+                        {/*TODO use navigate*/}
                         Don't have an account? <Link to="/register">Register</Link>
                     </span>
                         <span>
