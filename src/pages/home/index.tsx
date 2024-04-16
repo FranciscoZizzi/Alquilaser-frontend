@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import AvatarButton from "../../components/button/AvatarButton";
 import SearchBar from "../../components/searchBar/SearchBar";
+import Popup from "reactjs-popup";
+import PopUp from "../../components/popUp/addNewListingPopUp";
 
 const HomePage = () => {
 
@@ -44,6 +46,7 @@ const HomePage = () => {
                 width: 360
             }}>
                 <SearchBar value={value} onChange={handleChange} onKeyUp={handleKeyPress}></SearchBar>
+
             </div>
         </div>
         </div>
