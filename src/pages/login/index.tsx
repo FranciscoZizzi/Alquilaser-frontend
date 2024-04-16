@@ -3,12 +3,22 @@ import TextField from "../../components/textField/TextField";
 import PasswordField from "../../components/textField/PasswordField";
 import Button from "../../components/button/Button";
 import {Link, useNavigate} from 'react-router-dom';
+import axios from "axios";
 
 const LoginPage = () => {
+    const [user, setUser] = useState(null);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    //
 
+    const handleSubmit = async () => {
+        try {
+            const res = await axios.post("http://localhost:3001/api/users/login", {email, password});
+            setUser(res.data);
+
+        } catch(e) {
+            alert(e);
+        }
+    }
     // let navigate = useNavigate();
     // const goToRegister = () => {
     //     let path = '/register';
@@ -37,7 +47,7 @@ const LoginPage = () => {
                 }}>
                     <TextField value={email} placeholder={"Email"} onChange={setEmail}/>
                     <PasswordField value={password} placeholder={"Password"} onChange={setPassword}/>
-                    <Button>Login</Button>
+                    <Button onClick={handleSubmit}>Login</Button>
                     <div style={{
                         marginTop: '10px',
                         display: 'flex',
