@@ -14,7 +14,7 @@ const ResultPage = () => {
             .then(res => setResult(res.data))
     }, [])
     const rows: any[] = [];
-    results.forEach((e: any) => rows.push(<Listing availability={e.listingState} image={"https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"} price={e.price} title={e.title}/>))
+    results.forEach((e: any) => rows.push(<Listing availability={e.listing_state} image={"https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"} price={e.price} title={e.title}/>))
 
     return(
         <body>
