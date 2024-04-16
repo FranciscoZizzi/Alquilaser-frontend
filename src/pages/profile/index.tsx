@@ -6,6 +6,7 @@ import Listing from "../../components/listing/Listing";
 import ListingHistory from "../../components/listing/ListingHistory";
 import Button from "../../components/button/Button";
 import {useNavigate} from "react-router-dom";
+import PopUp from "../../components/popUp/addNewListingPopUp";
 import {theme} from '../../utils/theme'
 
 const ProfilePage = () => {
@@ -19,7 +20,7 @@ const ProfilePage = () => {
         let path = '/listing-form';
         navigate(path);
     }
-    // TODO agregar función a los botones n
+    // TODO agregar función a los botones
 
     return(
         <div>
@@ -49,7 +50,8 @@ const ProfilePage = () => {
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                             <h1>Listed Parts:</h1>
                             <div style={{display: "flex", flexDirection:'column', justifyContent: "center"}}>
-                                <Button style={{width: 240, height: 41}} onClick={addListing}>Add new listing</Button>
+                                {/*<Button style={{width: 240, height: 41}} onClick={addListing}>Add new listing</Button>*/}
+                                <PopUp/>
                             </div>
                         </div>
                         <Listing image={"https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"}
