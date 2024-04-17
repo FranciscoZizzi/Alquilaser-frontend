@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { ButtonHTMLAttributes } from 'react';
 
-const IconButton = ({icon}:{icon:React.ReactElement}) => {
+export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+    icon: React.ReactElement;
+}
+
+const IconButton: React.FC<IconButtonProps> = ({ icon, ...rest }) => {
     return (
-        <button style={{borderColor:"red"}}>
+        <button {...rest} style={{ borderColor: "red"}}>
             {icon}
         </button>
     );
 };
 
-export default IconButton
+export default IconButton;
