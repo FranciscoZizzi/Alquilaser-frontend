@@ -6,7 +6,6 @@ import ImageButton from "../imageButton/ImageButton";
 import {BackArrowIcon} from "../icons/BackArrowIcon";
 import SearchBar from "../searchBar/SearchBar";
 import axios from "axios";
-import {SearchIcon} from "../icons/SearchIcon";
 
 const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
     showBackButton: boolean,
