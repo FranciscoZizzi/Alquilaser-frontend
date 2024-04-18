@@ -6,7 +6,7 @@ export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
 
 const IconButton: React.FC<IconButtonProps> = ({ icon, ...rest }) => {
     return (
-        <button {...rest} style={{ borderColor: "red"}}>
+        <button {...rest} style={{backgroundColor:"transparent", borderColor:"transparent"}}>
             {icon}
         </button>
     );
