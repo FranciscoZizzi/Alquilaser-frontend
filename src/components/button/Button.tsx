@@ -35,7 +35,9 @@ const EmptyButton = styled.button`
   border: solid;
 
   &:hover {
-    background-color: #495057;
+    background-color: darkgray;
+    border-color: dimgrey;
+    color:white;
   }
 `;
 
