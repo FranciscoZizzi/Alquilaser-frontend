@@ -1,8 +1,8 @@
 import React, {useState} from "react";
-import AvatarButton from "../../components/button/AvatarButton";
 import SearchBar from "../../components/searchBar/SearchBar";
 import axios from "axios";
 import {createSearchParams, useNavigate} from "react-router-dom";
+import ImageButton from "../../components/imageButton/ImageButton";
 
 const HomePage = () => {
 
@@ -38,7 +38,7 @@ const HomePage = () => {
             justifyContent:"right",
         }}>
             <div style={{marginTop:2, marginBottom:2}}>
-                <AvatarButton name={"Jeremy Elbertson"} src={"https://hard-drive.net/wp-content/uploads/2023/08/jerma-killer.jpg.webp"}></AvatarButton>
+                <ImageButton imageURL={"PLACE_USER_PIC_URL"}/>
             </div>
         </div>
         <div style = {{

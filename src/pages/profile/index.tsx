@@ -1,6 +1,4 @@
 import React from "react";
-import AvatarButton from "../../components/button/AvatarButton";
-import BackButton from "../../components/button/BackButton";
 import Avatar from "react-avatar";
 import Listing from "../../components/listing/Listing";
 import ListingHistory from "../../components/listing/ListingHistory";
@@ -8,6 +6,9 @@ import Button from "../../components/button/Button";
 import {useNavigate} from "react-router-dom";
 import PopUp from "../../components/popUp/addNewListingPopUp";
 import {theme} from '../../utils/theme'
+import {BackArrowIcon} from "../../components/icons/BackArrowIcon";
+import IconButton from "../../components/iconButton/IconButton";
+import ImageButton from "../../components/imageButton/ImageButton";
 
 const ProfilePage = () => {
     let name = "Jeremy Elbertson"
@@ -34,10 +35,10 @@ const ProfilePage = () => {
                     marginLeft:15,
                     marginTop: 10
                 }}>
-                    <BackButton onClick={handleBackButtonClick}></BackButton>
+                    <IconButton icon={<BackArrowIcon/>} onClick={handleBackButtonClick}></IconButton>
                 </div>
                 <div style={{marginTop:2, marginBottom:2}}>
-                    <AvatarButton name={name} src={"https://hard-drive.net/wp-content/uploads/2023/08/jerma-killer.jpg.webp"}></AvatarButton>
+                    <ImageButton imageURL={"PLACE_USER_IMAGE_URL"}/>
                 </div>
             </div>
             <div style={{background:theme.primary300, display:"flex", flexDirection:"row", marginTop:53, marginLeft:"2.5%", width:"90%", padding:"2.5%"}}>
