@@ -42,7 +42,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: 'primary' | 'secondary' | 'disabled';
 }
 
-const Button: React.FC<ButtonProps> = ({ variant = 'primary', ...rest }) => {
+const Button: React.FC<ButtonProps> = ({ variant, ...rest }) => {
     switch (variant) {
         case 'primary':
             return <PrimaryButton {...rest} />;

@@ -4,6 +4,8 @@ import PasswordField from "../../components/textField/PasswordField";
 import Button from "../../components/button/Button";
 import axios from "axios";
 import { Link } from 'react-router-dom';
+import IconButton from "../../components/iconButton/IconButton";
+import {SearchIcon} from "../../components/icons/SearchIcon";
 
 const RegisterPage = () => {
 
@@ -12,7 +14,6 @@ const RegisterPage = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
-    //
     const handleSubmit =  async () => {
         const res = await axios.post("http://localhost:3001/api/users/register", {name: username, email, password, confirmPassword, phoneNumber})
     }
@@ -37,7 +38,6 @@ const RegisterPage = () => {
                 }}>
                     Register
                 </h1>
-
                 <TextField value={username} placeholder={"Username"} onChange={setUsername}/>
                 <TextField value={email} placeholder={"Email"} onChange={setEmail}/>
                 <PasswordField value={password} placeholder={"Password"} onChange={setPassword}/>

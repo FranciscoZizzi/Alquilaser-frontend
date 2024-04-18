@@ -11,9 +11,10 @@ const Listing = ({image, title, price, availability}:{
         <div style={{
             background: "white",
             height: 168,
-            width: 992,
             display: "flex",
-            flexDirection: "row"
+            flexDirection: "row",
+            borderRadius: 30,
+            padding: 8
         }}>
             <div>
                 <img style={{
@@ -31,19 +32,29 @@ const Listing = ({image, title, price, availability}:{
                 <h2 style={{
                     marginBottom: 0,
                     padding: 5,
+                    fontSize:30
                 }}>{title}</h2>
                 <div style={{
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "space-between",
                 }}>
-                    <p>Price: ${price}/day</p>
+                    <p style={{
+                        fontSize:24
+                    }}>
+                        Price: ${price}/day
+                    </p>
                     <div style={{
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "space-around",
                     }}>
-                        <p>{availability}</p>
+                        <p style={{
+                            fontSize:20,
+                            textAlign:"center"
+                        }}>
+                            Status: {availability}
+                        </p>
                         <Button style={{width:304}}>Edit</Button>
                     </div>
                 </div>
