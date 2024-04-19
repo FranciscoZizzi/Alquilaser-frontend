@@ -26,7 +26,7 @@ const  FilterBox = ({minPrice, maxPrice, setMinPrice, setMaxPrice}: {
             flexDirection: "column",
             alignItems: "center",
             justifyContent:"center",
-            gap: '10px'
+            gap: '11px'
         }}>
             <h2>Price</h2>
             <div style={{
