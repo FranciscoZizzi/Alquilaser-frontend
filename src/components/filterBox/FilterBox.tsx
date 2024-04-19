@@ -9,10 +9,10 @@ import {Simulate} from "react-dom/test-utils";
 
 
 const  FilterBox = ({minPrice, maxPrice, setMinPrice, setMaxPrice, onClick}: {
-    minPrice: number,
-    maxPrice: number,
-    setMinPrice: (value: number) => void;
-    setMaxPrice: (value: number) => void;
+    minPrice: string,
+    maxPrice: string,
+    setMinPrice: (value: string) => void;
+    setMaxPrice: (value: string) => void;
     onClick: any
 
 }) =>{

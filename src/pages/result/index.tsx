@@ -19,21 +19,32 @@ const ResultPage = () => {
     const minPrice = queryParameters.get("min");
     const maxPrice = queryParameters.get("max");
 
-    const [min, setMin] = useState(0)
-    const [max, setMax] = useState(0)
+    const [min, setMin] = useState(minPrice && minPrice != '0' ? minPrice : "")
+    const [max, setMax] = useState(maxPrice ? maxPrice : "")
 
     const [results, setResult] = useState([])
 
     let navigate = useNavigate();
 
     const handleClick = async () => {
-        if (searchTerm) {
+        let minValue = min ? min : '0'
+        let maxValue = max
+        if (searchTerm && max) {
             navigate({
                 pathname: "",
                 search: `?${createSearchParams({
                     searchTerm,
-                    min: min.toString(),
-                    max: max.toString()
+                    min: minValue,
+                    max: maxValue
+                })}`
+            });
+        }
+        if (searchTerm && !max) {
+            navigate({
+                pathname: "",
+                search: `?${createSearchParams({
+                    searchTerm,
+                    min: minValue,
                 })}`
             });
         }
