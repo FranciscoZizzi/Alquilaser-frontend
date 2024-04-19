@@ -7,6 +7,9 @@ import {theme} from '../../utils/theme'
 import SearchBar from "../../components/searchBar/SearchBar";
 import {createSearchParams, useNavigate} from "react-router-dom";
 import FilterBox from "../../components/filterBox/FilterBox";
+import {Simulate} from "react-dom/test-utils";
+import click = Simulate.click;
+import Header from "../../components/header/Header";
 
 
 const ResultPage = () => {
@@ -16,8 +19,26 @@ const ResultPage = () => {
 
     const [results, setResult] = useState([])
     const queryParameters = new URLSearchParams(window.location.search)
+    const queryParametersMin= new URLSearchParams(window.location.search)
+
 
     const searchTerm = queryParameters.get("searchTerm");
+
+    let navigate = useNavigate();
+
+    const handleClick = async () => {
+        const res = await axios.post("http://localhost:3001/api/search", {searchTerm,Min, Max})
+        if (searchTerm){
+            navigate( {
+                pathname: "",
+                search: `?${createSearchParams({
+                    searchTerm: searchTerm,
+                    Min: Min.toString(),
+                    Max: Max.toString()
+                })}`
+            });
+        }
+    }
 
     useEffect(() => {
         axios.post("http://localhost:3001/api/search", {searchTerm})
@@ -31,19 +52,8 @@ const ResultPage = () => {
             <div style={{
                 alignItems: "center"
             }}>
-                <div className="header" style={{
-                    height: 80,
-                    backgroundColor: theme.primary500,
-                    display: "flex",
-                    justifyContent: "space-between",
-                }}>
-                    <div style={{
-                        marginLeft: 15,
-                        marginTop: 10
-                    }}>
-                        <h1>Results</h1>
-                    </div>
-                </div>
+                <Header showBackButton={true} showSearchBar={true} showProfileIcon={true}></Header>
+
                 <div style={{
                     backgroundColor: '#e0f0fd',
                     display: "flex",
@@ -52,8 +62,8 @@ const ResultPage = () => {
 
                 }}>
                     <div style={{
-                        marginTop: '2%',
-                        marginLeft: '20%',
+                        marginTop: '20px',
+                        marginLeft: '50px',
                         alignItems: 'center',
                     }}>
                         <div style={{
@@ -62,10 +72,10 @@ const ResultPage = () => {
                             height: '100vh'
                         }}>
                             <div style={{
-                                marginTop: '2%',
-                                marginRight: '2%'
+                                marginTop: '20px',
+                                marginRight: '20px'
                             }}>
-                                <FilterBox minPrice={Min} maxPrice={Max} setMinPrice={setMin} setMaxPrice={setMax}></FilterBox>
+                                <FilterBox minPrice={Min} maxPrice={Max} setMinPrice={setMin} setMaxPrice={setMax} onClick={handleClick}></FilterBox>
                             </div>
 
                             <div style={{

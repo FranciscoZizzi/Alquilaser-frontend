@@ -8,30 +8,28 @@ import axios from "axios";
 import {Simulate} from "react-dom/test-utils";
 
 
-const  FilterBox = ({minPrice, maxPrice, setMinPrice, setMaxPrice}: {
+const  FilterBox = ({minPrice, maxPrice, setMinPrice, setMaxPrice, onClick}: {
     minPrice: number,
-    maxPrice:number,
+    maxPrice: number,
     setMinPrice: (value: number) => void;
     setMaxPrice: (value: number) => void;
+    onClick: any
 
 }) =>{
     let navigate = useNavigate();
-    const handleClick = async (clickPress: React.MouseEvent<HTMLButtonElement> )=> {
-        const res = axios.post("http://localhost:3001/api/search", {minPrice, maxPrice})
-        navigate(0)
-    }
     return(
         <div style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent:"center",
-            gap: '11px'
+            gap: '10px',
+            backgroundColor:"red",
         }}>
             <h2>Price</h2>
             <div style={{
                 display: "flex",
-                flexDirection: "row",
+                flexDirection: "column",
 
             }}>
                 <div style={{
@@ -44,9 +42,8 @@ const  FilterBox = ({minPrice, maxPrice, setMinPrice, setMaxPrice}: {
                     <NumberField value={minPrice} placeholder={'Min'} onChange={setMinPrice}></NumberField>
                     <NumberField value={maxPrice} placeholder={'Max'} onChange={setMaxPrice}></NumberField>
                 </div>
+                <Button onClick={onClick}>Apply Filter</Button>
             </div>
-
-            <Button style={{width: "100%"}} onClick={handleClick}> Apply filter</Button>
         </div>
     );
 }

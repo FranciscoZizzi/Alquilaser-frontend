@@ -39,10 +39,9 @@ const NumberField = ({value, placeholder, supportingText, isError, onChange}:{va
                 display: 'flex',
                 alignItems: 'center',
 
-
             }}>
                 <input
-
+                    type={'number'}
                     value={value}
                     placeholder={actualPlaceholder}
                     onFocus={handleFocus}
