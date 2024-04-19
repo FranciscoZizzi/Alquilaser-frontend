@@ -48,6 +48,7 @@ const ResultPage = () => {
                 })}`
             });
         }
+        window.location.reload();
     }
 
     useEffect(() => {
