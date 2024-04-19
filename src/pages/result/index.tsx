@@ -13,84 +13,85 @@ import Header from "../../components/header/Header";
 
 
 const ResultPage = () => {
-    //TODO add searchbar
-    const [Min, setMin ] = useState(0)
-    const [Max, setMax ] = useState(0)
-
-    const [results, setResult] = useState([])
     const queryParameters = new URLSearchParams(window.location.search)
-    const queryParametersMin= new URLSearchParams(window.location.search)
-
 
     const searchTerm = queryParameters.get("searchTerm");
+    const minPrice = queryParameters.get("min");
+    const maxPrice = queryParameters.get("max");
+
+    const [min, setMin] = useState(0)
+    const [max, setMax] = useState(0)
+
+    const [results, setResult] = useState([])
 
     let navigate = useNavigate();
 
     const handleClick = async () => {
-        const res = await axios.post("http://localhost:3001/api/search", {searchTerm,Min, Max})
-        if (searchTerm){
-            navigate( {
+        if (searchTerm) {
+            navigate({
                 pathname: "",
                 search: `?${createSearchParams({
-                    searchTerm: searchTerm,
-                    Min: Min.toString(),
-                    Max: Max.toString()
+                    searchTerm,
+                    min: min.toString(),
+                    max: max.toString()
                 })}`
             });
         }
     }
 
     useEffect(() => {
-        axios.post("http://localhost:3001/api/search", {searchTerm})
+        axios.post("http://localhost:3001/api/search", {searchTerm, min: minPrice, max: maxPrice})
             .then(res => setResult(res.data))
     }, [])
 
     const rows: any[] = [];
-    results.forEach((e: any) => rows.push(<Listing availability={e.listing_state} image={"https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"} price={e.price} title={e.title}/>))
-    return(
+    results.forEach((e: any) => rows.push(<Listing availability={e.listing_state}
+                                                   image={"https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"}
+                                                   price={e.price} title={e.title}/>))
+    return (
         <body>
+        <div style={{
+            alignItems: "center"
+        }}>
+            <Header showBackButton={true} showSearchBar={true} showProfileIcon={true}></Header>
+
             <div style={{
+                backgroundColor: '#e0f0fd',
+                display: "flex",
+                flexDirection: "column",
                 alignItems: "center"
+
             }}>
-                <Header showBackButton={true} showSearchBar={true} showProfileIcon={true}></Header>
-
                 <div style={{
-                    backgroundColor: '#e0f0fd',
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center"
-
+                    marginTop: '20px',
+                    marginLeft: '50px',
+                    alignItems: 'center',
                 }}>
                     <div style={{
-                        marginTop: '20px',
-                        marginLeft: '50px',
-                        alignItems: 'center',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        height: '100vh'
                     }}>
                         <div style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            height: '100vh'
+                            marginTop: '20px',
+                            marginRight: '20px'
                         }}>
-                            <div style={{
-                                marginTop: '20px',
-                                marginRight: '20px'
-                            }}>
-                                <FilterBox minPrice={Min} maxPrice={Max} setMinPrice={setMin} setMaxPrice={setMax} onClick={handleClick}></FilterBox>
-                            </div>
+                            <FilterBox minPrice={min} maxPrice={max} setMinPrice={setMin} setMaxPrice={setMax}
+                                       onClick={handleClick}></FilterBox>
+                        </div>
 
-                            <div style={{
-                                display: 'flex',
-                                flexDirection: "column",
-                                gap: '30px',
-                            }}>
-                                {rows}
-                            </div>
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: "column",
+                            gap: '30px',
+                        }}>
+                            {rows}
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
         </body>
     )
 }
-
 export default ResultPage;
