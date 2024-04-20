@@ -65,7 +65,7 @@ const ResultPage = () => {
         <div style={{
             alignItems: "center"
         }}>
-            <Header showBackButton={true} showSearchBar={true} showProfileIcon={true}></Header>
+            <Header showBackButton={true} showSearchBar={true} showProfileIcon={true}/>
 
             <div style={{
                 backgroundColor: '#e0f0fd',
