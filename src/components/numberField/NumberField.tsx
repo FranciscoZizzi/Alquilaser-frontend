@@ -22,6 +22,12 @@ const NumberField = ({value, placeholder, supportingText, isError, onChange}:{va
         }
     };
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (/(^[0-9]+$|^$)/.test(e.target.value)) {
+            onChange(e.target.value)
+        }
+    }
+
     //
     return (
         <div>
@@ -39,16 +45,15 @@ const NumberField = ({value, placeholder, supportingText, isError, onChange}:{va
                 display: 'flex',
                 alignItems: 'center',
 
-
             }}>
                 <input
-
+                    type={'number'}
                     value={value}
                     placeholder={actualPlaceholder}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     // onKeyPress={handleKeyPress}
-                    onChange={(e) => onChange(e.target.value)}
+                    onChange={handleChange}
                     style={{
                         borderColor: 'transparent',
                         backgroundColor: 'white',
