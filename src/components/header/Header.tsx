@@ -6,6 +6,7 @@ import ImageButton from "../imageButton/ImageButton";
 import {BackArrowIcon} from "../icons/BackArrowIcon";
 import SearchBar from "../searchBar/SearchBar";
 import axios from "axios";
+import {getSearchURL} from "../../utils/url";
 
 const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
     showBackButton: boolean,
@@ -19,19 +20,20 @@ const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
         navigate(-1)
     }
 
-    const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const handleChange = (event: any) => {
         setValue(event.currentTarget.value);
     }
 
     const handleKeyPress = async (keyEvent: React.KeyboardEvent<HTMLInputElement>) => {
         if(keyEvent.key === 'Enter') {
-            const res = await axios.post("http://localhost:3001/api/search", {searchTerm});
+            const res = await axios.post(getSearchURL(), {searchTerm});
             navigate({
-                pathname: "search-results",
+                pathname: "/search-results",
                 search: `?${createSearchParams({
                     searchTerm: searchTerm
                 })}`
             });
+            window.location.reload();
         }
     }
 

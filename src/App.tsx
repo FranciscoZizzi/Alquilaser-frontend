@@ -6,7 +6,6 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import RegisterPage from "./pages/register";
 import LoginPage from "./pages/login";
 import ProfilePage from "./pages/profile";
-import ListingForm from "./components/listingForm/ListingForm";
 
 
 function App() {
@@ -27,10 +26,6 @@ function App() {
             </Routes>
             <Routes>
                 <Route path={'/profile'} element={<ProfilePage/>}/>
-            </Routes>
-            <Routes>
-                {/* TODO ruta temporal, despues habría que sacarla o modificarla*/}
-                <Route path={'/profile/create-listing'} element={<ListingForm/>}/>
             </Routes>
         </BrowserRouter>
       </>

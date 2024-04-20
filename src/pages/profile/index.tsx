@@ -19,11 +19,6 @@ const ProfilePage = () => {
     }
     const [fileUrl, setFileUrl] = useState<string | undefined>(undefined);
 
-    const addListing = () => {
-        let path = '/listing-form';
-        navigate(path);
-    }
-
     return(
         <div>
             <div className="header" style={{
