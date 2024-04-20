@@ -29,8 +29,6 @@ const ResultPage = () => {
     const [min, setMin] = useState(minPrice && minPrice != '0' ? minPrice : "")
     const [max, setMax] = useState(maxPrice ? maxPrice : "")
 
-    const [results, setResult] = useState([])
-
     const handleClick = async () => {
         if (searchTerm){
             const res = await axios.post(getSearchURL(), {searchTerm}, {params: {priceMinFilter, priceMaxFilter}});
@@ -50,49 +48,50 @@ const ResultPage = () => {
                                                    price={e.price} title={e.title}/>))
     return (
         <body>
-        <div style={{
-            alignItems: "center"
-        }}>
-            <Header showBackButton={true} showSearchBar={true} showProfileIcon={true}/>
-
             <div style={{
-                backgroundColor: '#e0f0fd',
-                display: "flex",
-                flexDirection: "column",
                 alignItems: "center"
-
             }}>
+                <Header showBackButton={true} showSearchBar={true} showProfileIcon={true}/>
+
                 <div style={{
-                    marginTop: '20px',
-                    marginLeft: '50px',
-                    alignItems: 'center',
+                    backgroundColor: '#e0f0fd',
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center"
+
                 }}>
                     <div style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        height: '100vh'
+                        marginTop: '20px',
+                        marginLeft: '50px',
+                        alignItems: 'center',
                     }}>
                         <div style={{
-                            marginTop: '20px',
-                            marginRight: '20px'
+                            display: 'flex',
+                            flexDirection: 'row',
+                            height: '100vh'
                         }}>
                             <div style={{
                                 marginTop: '20px',
                                 marginRight: '20px'
                             }}>
-                                <FilterBox minPrice={priceMinFilter} maxPrice={priceMaxFilter} setMinPrice={setPriceMinFilter} setMaxPrice={setPriceMaxFilter} onClick={handleClick}></FilterBox>
+                                <div style={{
+                                    marginTop: '20px',
+                                    marginRight: '20px'
+                                }}>
+                                    <FilterBox minPrice={priceMinFilter} maxPrice={priceMaxFilter} setMinPrice={setPriceMinFilter} setMaxPrice={setPriceMaxFilter} onClick={handleClick}></FilterBox>
+                                </div>
+                                <div style={{
+                                    display: 'flex',
+                                    flexDirection: "column",
+                                    gap: '30px',
+                                }}>
+                                    {rows}
+                                </div>
                             </div>
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: "column",
-                            gap: '30px',
-                        }}>
-                            {rows}
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </body>
     )
 }
