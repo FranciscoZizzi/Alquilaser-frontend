@@ -46,7 +46,7 @@ const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
                 {showBackButton ? <IconButton icon={<BackArrowIcon fill={"white"} width={'50'} height={'50'}/>} onClick={handleBackButtonClick}/> : null}
             </div>
             <div className="search-bar">
-                {showSearchBar ? <SearchBar value={"Search for parts"} onChange={handleChange} onKeyUp={handleKeyPress}/> : null}
+                {showSearchBar ? <SearchBar value={searchTerm} onChange={handleChange} onKeyUp={handleKeyPress}/> : null}
             </div>
             <div className="profile-icon">
                 {showProfileIcon ? <ImageButton onClick={handleProfileClick} imageURL={"https://hard-drive.net/wp-content/uploads/2023/08/jerma-killer.jpg.webp"}/> : null}
