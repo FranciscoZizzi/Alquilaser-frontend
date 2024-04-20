@@ -28,6 +28,19 @@ const SecondaryButton = styled.button`
   }
 `;
 
+const EmptyButton = styled.button`
+  ${BaseButton};
+  background-color: transparent;
+  color: black;
+  border: solid;
+
+  &:hover {
+    background-color: darkgray;
+    border-color: dimgrey;
+    color:white;
+  }
+`;
+
 const DisabledButton = styled.button`
     ${BaseButton};
     background-color: gray;
@@ -39,7 +52,7 @@ const DisabledButton = styled.button`
 `;
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: 'primary' | 'secondary' | 'disabled';
+    variant?: 'primary' | 'secondary' | 'empty' | 'disabled';
 }
 
 const Button: React.FC<ButtonProps> = ({ variant, ...rest }) => {
@@ -48,6 +61,8 @@ const Button: React.FC<ButtonProps> = ({ variant, ...rest }) => {
             return <PrimaryButton {...rest} />;
         case 'secondary':
             return <SecondaryButton {...rest} />;
+        case 'empty':
+            return <EmptyButton {...rest} />;
         case 'disabled':
             return <DisabledButton {...rest} />;
         default:

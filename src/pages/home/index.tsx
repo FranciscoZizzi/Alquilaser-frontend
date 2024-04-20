@@ -3,6 +3,7 @@ import SearchBar from "../../components/searchBar/SearchBar";
 import axios from "axios";
 import {createSearchParams, useNavigate} from "react-router-dom";
 import ImageButton from "../../components/imageButton/ImageButton";
+import Header from "../../components/header/Header";
 
 const HomePage = () => {
 
@@ -30,17 +31,8 @@ const HomePage = () => {
 
     return (
         <div>
-        <div style={{
-            height:80,
-            backgroundColor:"lightgray",
-            display:"flex",
-            justifyContent:"right",
-        }}>
-            <div style={{marginTop:2, marginBottom:2}}>
-                <ImageButton imageURL={"PLACE_USER_PIC_URL"}/>
-            </div>
-        </div>
-        <div style = {{
+            <Header showBackButton={false} showProfileIcon={true} showSearchBar={false}/>
+            <div style = {{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
