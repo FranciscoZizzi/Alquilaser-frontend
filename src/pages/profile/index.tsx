@@ -10,6 +10,7 @@ import {BackArrowIcon} from "../../components/icons/BackArrowIcon";
 import IconButton from "../../components/iconButton/IconButton";
 import ImageButton from "../../components/imageButton/ImageButton";
 import ImageUploadButton from "../../components/imageUploadButton/ImageUploadButton";
+import Header from "../../components/header/Header";
 
 const ProfilePage = () => {
     let name = "Jeremy Elbertson"
@@ -21,22 +22,7 @@ const ProfilePage = () => {
 
     return(
         <div>
-            <div className="header" style={{
-                height:80,
-                backgroundColor:theme.primary500,
-                display:"flex",
-                justifyContent:"space-between",
-            }}>
-                <div style={{
-                    marginLeft:15,
-                    marginTop: 10
-                }}>
-                    <IconButton icon={<BackArrowIcon/>} onClick={handleBackButtonClick}></IconButton>
-                </div>
-                <div style={{marginTop:2, marginBottom:2}}>
-                    <ImageButton imageURL={"PLACE_USER_IMAGE_URL"}/>
-                </div>
-            </div>
+            <Header showSearchBar={false} showProfileIcon={true} showBackButton={true}/>
             <div style={{background:theme.primary300, display:"flex", flexDirection:"row", marginTop:53, marginLeft:"2.5%", width:"90%", padding:"2.5%"}}>
                 <div style={{
                     width: 320,

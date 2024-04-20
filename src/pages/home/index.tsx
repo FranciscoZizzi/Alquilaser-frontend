@@ -25,10 +25,6 @@ const HomePage = () => {
         }
     }
 
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        // TODO take user to profile page
-    }
-
     return (
         <div>
             <Header showBackButton={false} showProfileIcon={true} showSearchBar={false}/>
