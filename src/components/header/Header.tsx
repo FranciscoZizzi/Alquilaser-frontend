@@ -6,6 +6,7 @@ import ImageButton from "../imageButton/ImageButton";
 import {BackArrowIcon} from "../icons/BackArrowIcon";
 import SearchBar from "../searchBar/SearchBar";
 import axios from "axios";
+import {getSearchURL} from "../../utils/url";
 
 const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
     showBackButton: boolean,
@@ -19,19 +20,20 @@ const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
         navigate(-1)
     }
 
-    const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const handleChange = (event: any) => {
         setValue(event.currentTarget.value);
     }
 
     const handleKeyPress = async (keyEvent: React.KeyboardEvent<HTMLInputElement>) => {
         if(keyEvent.key === 'Enter') {
-            const res = await axios.post("http://localhost:3001/api/search", {searchTerm});
+            const res = await axios.post(getSearchURL(), {searchTerm});
             navigate({
-                pathname: "search-results",
+                pathname: "/search-results",
                 search: `?${createSearchParams({
                     searchTerm: searchTerm
                 })}`
             });
+            window.location.reload();
         }
     }
 
@@ -46,7 +48,7 @@ const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
                 {showBackButton ? <IconButton icon={<BackArrowIcon fill={"white"} width={'50'} height={'50'}/>} onClick={handleBackButtonClick}/> : null}
             </div>
             <div className="search-bar">
-                {showSearchBar ? <SearchBar value={"Search for parts"} onChange={handleChange} onKeyUp={handleKeyPress}/> : null}
+                {showSearchBar ? <SearchBar value={searchTerm} onChange={handleChange} onKeyUp={handleKeyPress}/> : null}
             </div>
             <div className="profile-icon">
                 {showProfileIcon ? <ImageButton onClick={handleProfileClick} imageURL={"https://hard-drive.net/wp-content/uploads/2023/08/jerma-killer.jpg.webp"}/> : null}
