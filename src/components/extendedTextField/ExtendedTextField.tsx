@@ -1,28 +1,32 @@
-import React, {useState} from 'react';
-import {StyledTextField} from "./StyledTextField";
+import React, { useState } from 'react';
 
-interface TextFieldProps{
+interface ExtendedTextFieldProps {
     value: string;
     placeholder: string;
     supportingText?: string;
     isError?: Boolean;
-    onChange: (e : string) => void;
+    onChange: (e: string) => void;
+    height?: string;
 }
 
-const TextField: React.FC<TextFieldProps> = ({value, placeholder, supportingText, isError, onChange}) => {
+const ExtendedTextField: React.FC<ExtendedTextFieldProps> = ({
+                                                                 value,
+                                                                 placeholder,
+                                                                 supportingText,
+                                                                 isError,
+                                                                 onChange,
+                                                                 height
+                                                             }) => {
     const [isFocused, setIsFocused] = useState(false);
-    const [actualPlaceholder, setActualPlaceholder] = useState(placeholder);
+
     const handleFocus = () => {
         setIsFocused(true);
-        setActualPlaceholder('')
     };
 
     const handleBlur = () => {
         setIsFocused(false);
-        setActualPlaceholder(placeholder)
     };
 
-    //
     return (
         <div>
             <div style={{
@@ -33,15 +37,15 @@ const TextField: React.FC<TextFieldProps> = ({value, placeholder, supportingText
                 padding: '0.2rem',
                 position: 'relative',
                 borderWidth: '2px',
-                height: 56,
+                height: height || 'auto',  // Set a default height or use the height prop
                 borderColor: isFocused ? '#1D4ED8' : (isError ? 'red' : '#D1D5DB'),
                 borderRadius: '0.375rem',
                 display: 'flex',
-                alignItems: 'center'
+                alignItems: 'flex-start' // Changed from center to flex-start to align text at the top
             }}>
-                <input
+                <textarea
                     value={value}
-                    placeholder={actualPlaceholder}
+                    placeholder={isFocused ? '' : placeholder}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     onChange={(e) => onChange(e.target.value)}
@@ -49,38 +53,27 @@ const TextField: React.FC<TextFieldProps> = ({value, placeholder, supportingText
                         borderColor: 'transparent',
                         backgroundColor: 'white',
                         outline: 'none',
-                        width: 'calc(100% - 1rem)',
+                        width: '100%',  // Full width to fill container
                         fontSize: '16px',
-                        margin: 0, // Add margin: 0 to remove default margin
-                        padding: '0.5rem', // Adjust padding as needed
-                        boxSizing: 'border-box', // Ensure padding and border are included in element's total width and height
+                        margin: 0,
+                        padding: '0.5rem',
+                        boxSizing: 'border-box',
+                        height: height || '100px',  // Default height or use the height prop
+                        resize: 'none' // Prevent resizing the textarea
                     }}
                 />
-                <label style={{
-                    borderRadius: '0.5rem',
-                    position: 'absolute',
-                    left: '0.75rem',
-                    top: '-0.75rem',
-                    backgroundColor: '#F3F4F6',
-                    padding: '0.1rem 0.2rem',
-                    transition: 'all 0.25s ease',
-                    opacity: (isFocused || value.length > 0) ? '100%' : '0',
-                }}>
-                    {placeholder}
-                </label>
             </div>
             <p style={{
                 marginLeft: '1rem',
                 marginBottom: '4px',
                 marginTop: '2px',
                 color: 'black',
-                opacity: isFocused ? '1' : '0',
+                opacity: isFocused || value ? '1' : '0',
             }}>
                 {supportingText}
             </p>
         </div>
-    )
+    );
+};
 
-}
-
-export default TextField
+export default ExtendedTextField;

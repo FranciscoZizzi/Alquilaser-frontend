@@ -1,11 +1,12 @@
 import React from "react";
-import Button from "../button/Button";
+import EditListingPopUp from "../popUp/EditListingPopUp";
 
-const Listing = ({image, title, price, availability}:{
+const Listing = ({image, title, price, availability, description}:{
     image: string,
     title: string,
-    price: number,
-    availability: string
+    price: string,
+    availability: string,
+    description?: string
 }) => {
     return(
         <div style={{
@@ -55,7 +56,8 @@ const Listing = ({image, title, price, availability}:{
                         }}>
                             Status: {availability}
                         </p>
-                        <Button style={{width:304}}>Edit</Button>
+                        <EditListingPopUp title={title} availability={availability} description={description ?? "No description"} rate={price}/>
+
                     </div>
                 </div>
 

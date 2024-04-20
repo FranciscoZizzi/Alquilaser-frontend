@@ -1,14 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import Avatar from "react-avatar";
 import Listing from "../../components/listing/Listing";
 import ListingHistory from "../../components/listing/ListingHistory";
 import Button from "../../components/button/Button";
 import {useNavigate} from "react-router-dom";
-import PopUp from "../../components/popUp/addNewListingPopUp";
+import AddNewListingPopUp from "../../components/popUp/AddNewListingPopUp";
 import {theme} from '../../utils/theme'
 import {BackArrowIcon} from "../../components/icons/BackArrowIcon";
 import IconButton from "../../components/iconButton/IconButton";
 import ImageButton from "../../components/imageButton/ImageButton";
+import ImageUploadButton from "../../components/imageUploadButton/ImageUploadButton";
 
 const ProfilePage = () => {
     let name = "Jeremy Elbertson"
@@ -16,12 +17,12 @@ const ProfilePage = () => {
     const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> ) => {
         navigate(-1)
     }
+    const [fileUrl, setFileUrl] = useState<string | undefined>(undefined);
 
     const addListing = () => {
         let path = '/listing-form';
         navigate(path);
     }
-    // TODO agregar función a los botones
 
     return(
         <div>
@@ -42,8 +43,14 @@ const ProfilePage = () => {
                 </div>
             </div>
             <div style={{background:theme.primary300, display:"flex", flexDirection:"row", marginTop:53, marginLeft:"2.5%", width:"90%", padding:"2.5%"}}>
-                <div className="profile-picture">
-                    <Avatar name={name} size="320" src="https://hard-drive.net/wp-content/uploads/2023/08/jerma-killer.jpg.webp"/>
+                <div style={{
+                    width: 320,
+                    display: 'flex',
+                    flexDirection: "column",
+                    gap: 10
+                }}>
+                    <Avatar name={name} size="320" src={fileUrl}/>
+                    <ImageUploadButton setImage={setFileUrl}/>
                 </div>
                 <div className="info" style={{marginLeft:30}}>
                     <h1>{name}</h1>
@@ -51,18 +58,17 @@ const ProfilePage = () => {
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                             <h1>Listed Parts:</h1>
                             <div style={{display: "flex", flexDirection:'column', justifyContent: "center"}}>
-                                {/*<Button style={{width: 240, height: 41}} onClick={addListing}>Add new listing</Button>*/}
-                                <PopUp/>
+                                <AddNewListingPopUp/>
                             </div>
                         </div>
                         <Listing image={"https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"}
-                                 title={"My part"} price={9} availability={"Available"}></Listing>
+                                 title={"My part"} price={"9"} availability={"Available"} description={"test description"}></Listing>
                     </div>
                     <div className="Rent-history">
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                             <h1>Rent History:</h1>
                             <div style={{display:"flex", flexDirection:'column', justifyContent: "center"}}>
-                                <Button style={{width: 240, height: 41}}>Register return</Button>
+                                <Button style={{width: 240, height: 40}}>Register return</Button>
                             </div>
                         </div>
                         <ListingHistory title={"My Part"} startDate={"10/10/10"} endDate={"11/10/10"} totalCost={25}/>

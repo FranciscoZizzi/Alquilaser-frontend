@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "../button/Button";
+import ExtraInfoPopUp from "../popUp/ExtraInfoPopUp";
 
 const ListingHistory = ({title, startDate, endDate, totalCost} : {
     title: string,
@@ -31,7 +32,7 @@ const ListingHistory = ({title, startDate, endDate, totalCost} : {
                 </p>
             </div>
             <div style={{display:"flex", flexDirection:"column", justifyContent:"center"}}>
-                <Button>Additional Info</Button>
+                <ExtraInfoPopUp title={title} rate={"placeholder"} client={"client"} dateOfReservation={"dateOf"} prevDamage={"prev damage"} finalPrice={"199 final"} additionalDamage={"no damage"} />
             </div>
         </div>
     );
