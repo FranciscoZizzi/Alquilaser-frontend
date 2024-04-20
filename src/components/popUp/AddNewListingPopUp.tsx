@@ -7,6 +7,7 @@ import TextField from "../textField/TextField";
 import Button from "../button/Button";
 import MultipleImagesUploadButton from "../multipleImagesUploadButton/MultipleImagesUploadButton";
 import ExtendedTextField from "../extendedTextField/ExtendedTextField";
+import {getAddListingURL} from "../../utils/url";
 
 const AddNewListingPopUp: React.FC = () => {
     const [open, setOpen] = useState(false);
@@ -16,7 +17,17 @@ const AddNewListingPopUp: React.FC = () => {
     const [imageUrls, setImageUrls] = useState<string[]>([]);
 
     const handleSubmit =  async () => {
-        const res = await axios.post("http://localhost:3001/api/listings/add", {title, price, description, imageUrls})
+        try {
+            let token = localStorage.getItem("token")
+            const res = await axios.post(getAddListingURL(), {
+                title,
+                price,
+                description,
+                imageUrls
+            }, {headers: {authorization: "Bearer " + token}})
+        } catch(e: any) {
+            alert(e.response.data.message);
+        }
     }
 
     const handleSetImages = (newUrls: string[]) => {
