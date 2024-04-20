@@ -3,7 +3,7 @@ import TextField from "../../components/textField/TextField";
 import PasswordField from "../../components/textField/PasswordField";
 import Button from "../../components/button/Button";
 import axios from "axios";
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import IconButton from "../../components/iconButton/IconButton";
 import {SearchIcon} from "../../components/icons/SearchIcon";
 
@@ -14,8 +14,17 @@ const RegisterPage = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
-    const handleSubmit =  async () => {
-        const res = await axios.post("http://localhost:3001/api/users/register", {name: username, email, password, confirmPassword, phoneNumber})
+
+    const navigate = useNavigate();
+    const handleSubmit = async () => {
+        try {
+            const res = await axios.post("http://localhost:3001/api/users/register", {name: username, email, password, confirmPassword, phoneNumber});
+            localStorage.setItem("user", res.data.data); // Queda guardado en localstorage, se puede acceder desde toda la app
+            navigate('/')
+            // Mandar header
+        } catch(e: any) {
+            alert(e.response.data.message);
+        }
     }
 
     return (

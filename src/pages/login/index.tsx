@@ -9,20 +9,17 @@ const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const navigate = useNavigate();
     const handleSubmit = async () => {
         try {
             const res = await axios.post("http://localhost:3001/api/users/login", {email, password});
             localStorage.setItem("user", res.data.data); // Queda guardado en localstorage, se puede acceder desde toda la app
+            navigate('/')
             // Mandar header
-        } catch(e) {
-            alert(e);
+        } catch(e: any) {
+            alert(e.response.data.message);
         }
     }
-    // let navigate = useNavigate();
-    // const goToRegister = () => {
-    //     let path = '/register';
-    //     navigate(path);
-    // }
 
     return (
         <div style = {{
