@@ -52,6 +52,7 @@ const NumberField = ({value, placeholder, supportingText, isError, onChange}:{va
                     placeholder={actualPlaceholder}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
+                    min={0}
                     // onKeyPress={handleKeyPress}
                     onChange={handleChange}
                     style={{
@@ -76,7 +77,7 @@ const NumberField = ({value, placeholder, supportingText, isError, onChange}:{va
                     backgroundColor: '#F3F4F6',
                     padding: '0.1rem 0.2rem',
                     transition: 'all 0.25s ease',
-                    opacity: (isFocused || value.toString().length > 0) ? '100%' : '0',
+                    opacity: (isFocused || value?.toString().length > 0) ? '100%' : '0',
                 }}>
                     {placeholder}
                 </label>

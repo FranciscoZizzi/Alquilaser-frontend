@@ -9,10 +9,10 @@ import {Simulate} from "react-dom/test-utils";
 
 
 const  FilterBox = ({minPrice, maxPrice, setMinPrice, setMaxPrice, onClick}: {
-    minPrice: string,
-    maxPrice: string,
-    setMinPrice: (value: string) => void;
-    setMaxPrice: (value: string) => void;
+    minPrice: number | undefined,
+    maxPrice: number | undefined,
+    setMinPrice: (value: number) => void;
+    setMaxPrice: (value: number ) => void;
     onClick: any
 
 }) =>{
@@ -24,7 +24,6 @@ const  FilterBox = ({minPrice, maxPrice, setMinPrice, setMaxPrice, onClick}: {
             alignItems: "center",
             justifyContent:"center",
             gap: '10px',
-            backgroundColor:"red",
         }}>
             <h2>Price</h2>
             <div style={{

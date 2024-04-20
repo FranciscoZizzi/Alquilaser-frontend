@@ -10,9 +10,16 @@ import FilterBox from "../../components/filterBox/FilterBox";
 import {Simulate} from "react-dom/test-utils";
 import click = Simulate.click;
 import Header from "../../components/header/Header";
+import {getSearchURL} from "../../utils/url";
 
 
 const ResultPage = () => {
+
+    //TODO add searchbar
+    const [priceMinFilter, setPriceMinFilter ] = useState<number>()
+    const [priceMaxFilter, setPriceMaxFilter ] = useState<number>()
+
+    const [results, setResult] = useState([])
     const queryParameters = new URLSearchParams(window.location.search)
 
     const searchTerm = queryParameters.get("searchTerm");
@@ -24,29 +31,10 @@ const ResultPage = () => {
 
     const [results, setResult] = useState([])
 
-    let navigate = useNavigate();
-
     const handleClick = async () => {
-        let minValue = min ? min : '0'
-        let maxValue = max
-        if (searchTerm && max) {
-            navigate({
-                pathname: "",
-                search: `?${createSearchParams({
-                    searchTerm,
-                    min: minValue,
-                    max: maxValue
-                })}`
-            });
-        }
-        if (searchTerm && !max) {
-            navigate({
-                pathname: "",
-                search: `?${createSearchParams({
-                    searchTerm,
-                    min: minValue,
-                })}`
-            });
+        if (searchTerm){
+            const res = await axios.post(getSearchURL(), {searchTerm}, {params: {priceMinFilter, priceMaxFilter}});
+            return setResult(res.data);
         }
         window.location.reload();
     }
@@ -88,10 +76,12 @@ const ResultPage = () => {
                             marginTop: '20px',
                             marginRight: '20px'
                         }}>
-                            <FilterBox minPrice={min} maxPrice={max} setMinPrice={setMin} setMaxPrice={setMax}
-                                       onClick={handleClick}></FilterBox>
-                        </div>
-
+                            <div style={{
+                                marginTop: '20px',
+                                marginRight: '20px'
+                            }}>
+                                <FilterBox minPrice={priceMinFilter} maxPrice={priceMaxFilter} setMinPrice={setPriceMinFilter} setMaxPrice={setPriceMaxFilter} onClick={handleClick}></FilterBox>
+                            </div>
                         <div style={{
                             display: 'flex',
                             flexDirection: "column",
