@@ -25,6 +25,7 @@ const AddNewListingPopUp: React.FC = () => {
                 description,
                 imageUrls
             }, {headers: {authorization: "Bearer " + token}})
+            alert("Listing created successfully")
         } catch(e: any) {
             alert(e.response.data.message);
         }
