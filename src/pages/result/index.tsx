@@ -1,14 +1,7 @@
 import React, {useEffect, useState} from "react"
 import axios, {AxiosResponse} from "axios";
 import Listing from "../../components/listing/Listing";
-
-import { JSX } from "react/jsx-runtime";
-import {theme} from '../../utils/theme'
-import SearchBar from "../../components/searchBar/SearchBar";
-import {createSearchParams, useNavigate} from "react-router-dom";
 import FilterBox from "../../components/filterBox/FilterBox";
-import {Simulate} from "react-dom/test-utils";
-import click = Simulate.click;
 import Header from "../../components/header/Header";
 import {getSearchURL} from "../../utils/url";
 
@@ -23,11 +16,6 @@ const ResultPage = () => {
     const queryParameters = new URLSearchParams(window.location.search)
 
     const searchTerm = queryParameters.get("searchTerm");
-    const minPrice = queryParameters.get("min");
-    const maxPrice = queryParameters.get("max");
-
-    const [min, setMin] = useState(minPrice && minPrice != '0' ? minPrice : "")
-    const [max, setMax] = useState(maxPrice ? maxPrice : "")
 
     const handleClick = async () => {
         if (searchTerm){
@@ -38,7 +26,7 @@ const ResultPage = () => {
     }
 
     useEffect(() => {
-        axios.post("http://localhost:3001/api/search", {searchTerm, min: minPrice, max: maxPrice})
+        axios.post("http://localhost:3001/api/search", {searchTerm})
             .then(res => setResult(res.data))
     }, [])
 
