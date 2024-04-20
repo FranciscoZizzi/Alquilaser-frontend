@@ -19,7 +19,7 @@ const RegisterPage = () => {
     const handleSubmit = async () => {
         try {
             const res = await axios.post("http://localhost:3001/api/users/register", {name: username, email, password, confirmPassword, phoneNumber});
-            localStorage.setItem("user", res.data.data); // Queda guardado en localstorage, se puede acceder desde toda la app
+            localStorage.setItem("token", res.data.data.token); // Queda guardado en localstorage, se puede acceder desde toda la app
             navigate('/')
             // Mandar header
         } catch(e: any) {
