@@ -10,33 +10,24 @@ import FilterBox from "../../components/filterBox/FilterBox";
 import {Simulate} from "react-dom/test-utils";
 import click = Simulate.click;
 import Header from "../../components/header/Header";
+import {getSearchURL} from "../../utils/url";
 
 
 const ResultPage = () => {
     //TODO add searchbar
-    const [Min, setMin ] = useState(0)
-    const [Max, setMax ] = useState(0)
+    const [priceMinFilter, setPriceMinFilter ] = useState<number>()
+    const [priceMaxFilter, setPriceMaxFilter ] = useState<number>()
 
     const [results, setResult] = useState([])
     const queryParameters = new URLSearchParams(window.location.search)
-    const queryParametersMin= new URLSearchParams(window.location.search)
 
 
     const searchTerm = queryParameters.get("searchTerm");
 
-    let navigate = useNavigate();
-
     const handleClick = async () => {
-        const res = await axios.post("http://localhost:3001/api/search", {searchTerm,Min, Max})
         if (searchTerm){
-            navigate( {
-                pathname: "",
-                search: `?${createSearchParams({
-                    searchTerm: searchTerm,
-                    Min: Min.toString(),
-                    Max: Max.toString()
-                })}`
-            });
+            const res = await axios.post(getSearchURL(), {searchTerm}, {params: {priceMinFilter, priceMaxFilter}});
+            return setResult(res.data);
         }
     }
 
@@ -75,7 +66,7 @@ const ResultPage = () => {
                                 marginTop: '20px',
                                 marginRight: '20px'
                             }}>
-                                <FilterBox minPrice={Min} maxPrice={Max} setMinPrice={setMin} setMaxPrice={setMax} onClick={handleClick}></FilterBox>
+                                <FilterBox minPrice={priceMinFilter} maxPrice={priceMaxFilter} setMinPrice={setPriceMinFilter} setMaxPrice={setPriceMaxFilter} onClick={handleClick}></FilterBox>
                             </div>
 
                             <div style={{

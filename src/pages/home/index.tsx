@@ -15,7 +15,6 @@ const HomePage = () => {
     let navigate = useNavigate();
     const handleKeyPress = async (keyEvent: React.KeyboardEvent<HTMLInputElement>) => {
         if(keyEvent.key === 'Enter') {
-            const res = await axios.post("http://localhost:3001/api/search", {searchTerm});
             navigate({
                 pathname: "search-results",
                 search: `?${createSearchParams({
