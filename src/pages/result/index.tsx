@@ -36,7 +36,7 @@ const ResultPage = () => {
     return(
         <body>
             <div style={{
-                alignItems: "center"
+                alignItems: "center",
             }}>
                 <Header showBackButton={true} showSearchBar={true} showProfileIcon={true}/>
 
@@ -59,7 +59,9 @@ const ResultPage = () => {
                         }}>
                             <div style={{
                                 marginTop: '20px',
-                                marginRight: '20px'
+                                marginRight: '20px',
+                                display: "flex",
+                                flexDirection: "row"
                             }}>
                                 <FilterBox minPrice={priceMinFilter} maxPrice={priceMaxFilter} setMinPrice={setPriceMinFilter} setMaxPrice={setPriceMaxFilter} onClick={handleClick}></FilterBox>
                             </div>

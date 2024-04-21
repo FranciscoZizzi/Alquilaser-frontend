@@ -9,6 +9,7 @@ import Listing from "../../components/listing/Listing";
 import src from "*.jpg";
 import Button from "../../components/button/Button";
 
+
 const ListingPage = () => {
     const [listingData, setListingData] = useState(Object)
     const {listingId} = useParams();
