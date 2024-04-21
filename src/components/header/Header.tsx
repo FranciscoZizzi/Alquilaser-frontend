@@ -7,6 +7,7 @@ import {BackArrowIcon} from "../icons/BackArrowIcon";
 import SearchBar from "../searchBar/SearchBar";
 import axios from "axios";
 import {getSearchURL} from "../../utils/url";
+import { UserIcon } from "../icons/UserIcon";
 
 const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
     showBackButton: boolean,
@@ -23,6 +24,17 @@ const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
     const handleChange = (event: any) => {
         setValue(event.currentTarget.value);
     }
+    const imageUrl = localStorage.getItem("profilePicData");
+
+    function hasJWT() {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            return false;
+        }
+
+
+        return true;
+    }
 
     const handleKeyPress = async (keyEvent: React.KeyboardEvent<HTMLInputElement>) => {
         if(keyEvent.key === 'Enter') {
@@ -38,9 +50,15 @@ const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
     }
 
     const handleProfileClick = () => {
-        let path = '/profile';
+        let path;
+        if (hasJWT()) {
+            path = '/profile';
+        } else {
+            path = '/login';
+        }
         navigate(path);
     }
+
 
     return(
         <div className="header">
@@ -51,8 +69,13 @@ const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
                 {showSearchBar ? <SearchBar value={searchTerm} onChange={handleChange} onKeyUp={handleKeyPress}/> : null}
             </div>
             <div className="profile-icon">
-                {showProfileIcon ? <ImageButton onClick={handleProfileClick} imageURL={"https://hard-drive.net/wp-content/uploads/2023/08/jerma-killer.jpg.webp"}/> : null}
+                {showProfileIcon && hasJWT() ? (
+                    <ImageButton onClick={handleProfileClick} imageURL={imageUrl || ''} />
+                ) : (
+                    <IconButton onClick={handleProfileClick} icon={<UserIcon fill={"white"} height={"50"} width={"50"} />} borderColor={"white"} />
+                )}
             </div>
+
         </div>
     )
 }
