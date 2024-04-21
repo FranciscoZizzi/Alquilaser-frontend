@@ -7,8 +7,6 @@ import {getSearchURL} from "../../utils/url";
 
 
 const ResultPage = () => {
-
-    //TODO add searchbar
     const [priceMinFilter, setPriceMinFilter ] = useState<number>()
     const [priceMaxFilter, setPriceMaxFilter ] = useState<number>()
 
@@ -37,7 +35,7 @@ const ResultPage = () => {
     return (
         <body>
             <div style={{
-                alignItems: "center"
+                alignItems: "center",
             }}>
                 <Header showBackButton={true} showSearchBar={true} showProfileIcon={true}/>
 
@@ -60,7 +58,9 @@ const ResultPage = () => {
                         }}>
                             <div style={{
                                 marginTop: '20px',
-                                marginRight: '20px'
+                                marginRight: '20px',
+                                display: "flex",
+                                flexDirection: "row"
                             }}>
                                 <div style={{
                                     marginTop: '20px',
