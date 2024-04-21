@@ -10,16 +10,24 @@ const LoginPage = () => {
     const [password, setPassword] = useState("");
 
     const navigate = useNavigate();
+
     const handleSubmit = async () => {
         try {
-            const res = await axios.post("http://localhost:3001/api/users/login", {email, password});
-            localStorage.setItem("token", res.data.data.token); // Queda guardado en localstorage, se puede acceder desde toda la app
-            navigate('/')
-            // Mandar header
+            const res = await axios.post("http://localhost:3001/api/users/login", { email, password });
+            const { token, profilePic } = res.data.data;
+
+            localStorage.setItem("token", token);
+
+            const profilePicDataURL = URL.createObjectURL(new Blob([profilePic], { type: 'image/jpeg' })); // Adjust MIME type if needed
+
+            localStorage.setItem("profilePic", profilePicDataURL);
+
+            navigate('/');
         } catch(e: any) {
             alert(e.response.data.message);
         }
-    }
+    };
+
 
     return (
         <div style = {{

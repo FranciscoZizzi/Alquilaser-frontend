@@ -13,6 +13,7 @@ const HomePage = () => {
         setValue(event.currentTarget.value);
     }
 
+
     let navigate = useNavigate();
     const handleKeyPress = async (keyEvent: React.KeyboardEvent<HTMLInputElement>) => {
         if(keyEvent.key === 'Enter') {

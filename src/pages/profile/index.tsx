@@ -1,64 +1,139 @@
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar";
 import Listing from "../../components/listing/Listing";
 import ListingHistory from "../../components/listing/ListingHistory";
 import Button from "../../components/button/Button";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AddNewListingPopUp from "../../components/popUp/AddNewListingPopUp";
-import {theme} from '../../utils/theme'
-import {BackArrowIcon} from "../../components/icons/BackArrowIcon";
-import IconButton from "../../components/iconButton/IconButton";
-import ImageButton from "../../components/imageButton/ImageButton";
+import { theme } from '../../utils/theme';
 import ImageUploadButton from "../../components/imageUploadButton/ImageUploadButton";
 import Header from "../../components/header/Header";
+import axios from "axios";
+import { Buffer } from 'buffer';
 
 const ProfilePage = () => {
-    let name = "Jeremy Elbertson"
-    let navigate = useNavigate();
-    const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> ) => {
-        navigate(-1)
-    }
-    const [fileUrl, setFileUrl] = useState<string | undefined>(undefined);
+    const navigate = useNavigate();
 
-    return(
+    const [userData, setUserData] = useState({ name: '', profilePic: null, listings: [] });
+    const [imageUrl, setImageUrl] = useState('');
+
+    const handleLogoutClick = () => {
+        localStorage.removeItem("token");
+        navigate('/');
+    };
+
+    const handleImageUpload = async (imageUrl: string) => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No JWT token available');
+            }
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+
+            const blob = await fetch(imageUrl).then((response) => response.blob());
+            const formData = new FormData();
+            const extension = blob.type.split('/')[1];
+            const fileName = `profile_pic.${extension}`;
+            const file = new File([blob], fileName);
+            formData.append('profile_pic', file, fileName);
+
+            const res = await axios.put('http://localhost:3001/api/users/profile', formData, config);
+            console.log('Response from server:', res.data);
+            window.location.reload()
+        } catch (error) {
+            console.error('Error updating profile picture:', error);
+        }
+    };
+
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('No JWT token available');
+                }
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                };
+
+                const res = await axios.get("http://localhost:3001/api/users/profile", config);
+                if (!res.data || !res.data.data) {
+                    throw new Error('No user profile data available');
+                }
+
+                const { name, profile_pic, listings } = res.data.data;
+                setUserData({ name, profilePic: profile_pic, listings });
+
+                if (profile_pic && profile_pic.data) {
+                    const buffer = new ArrayBuffer(profile_pic.data.length);
+                    const view = new Uint8Array(buffer);
+                    for (let i = 0; i < profile_pic.data.length; i++) {
+                        view[i] = profile_pic.data[i];
+                    }
+                    const blob = new Blob([buffer], { type: 'image/png' }); // Assuming the image is PNG
+
+                    const imageUrl = URL.createObjectURL(blob);
+                    setImageUrl(imageUrl);
+                }
+            } catch (error) {
+                console.error("Error fetching user profile:", error);
+            }
+        };
+
+        fetchUserProfile();
+    }, []);
+
+
+
+    return (
         <div>
-            <Header showSearchBar={false} showProfileIcon={true} showBackButton={true}/>
-            <div style={{background:theme.primary300, display:"flex", flexDirection:"row", marginTop:53, marginLeft:"2.5%", width:"90%", padding:"2.5%"}}>
+            <Header showSearchBar={false} showProfileIcon={true} showBackButton={true} />
+            <div style={{ background: theme.primary300, display: "flex", flexDirection: "row", marginTop: 53, marginLeft: "2.5%", width: "90%", padding: "2.5%" }}>
                 <div style={{
                     width: 320,
                     display: 'flex',
                     flexDirection: "column",
                     gap: 10
                 }}>
-                    <Avatar name={name} size="320" src={fileUrl}/>
-                    <ImageUploadButton setImage={setFileUrl}/>
+                    <Avatar name={userData.name} size="320" src={imageUrl} />
+                    <ImageUploadButton setImage={handleImageUpload} />
+                    <Button variant={"secondary"} onClick={handleLogoutClick}>Logout</Button>
                 </div>
-                <div className="info" style={{marginLeft:30}}>
-                    <h1>{name}</h1>
+                <div className="info" style={{ marginLeft: 30 }}>
+                    <h1>{userData.name}</h1>
                     <div className="listed-parts">
-                        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                             <h1>Listed Parts:</h1>
-                            <div style={{display: "flex", flexDirection:'column', justifyContent: "center"}}>
-                                <AddNewListingPopUp/>
+                            <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center" }}>
+                                <AddNewListingPopUp />
                             </div>
                         </div>
                         <Listing image={"https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"}
                                  title={"My part"} price={"9"} availability={"Available"} description={"test description"}></Listing>
                     </div>
                     <div className="Rent-history">
-                        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                             <h1>Rent History:</h1>
-                            <div style={{display:"flex", flexDirection:'column', justifyContent: "center"}}>
-                                <Button style={{width: 240, height: 40}}>Register return</Button>
+                            <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center" }}>
+                                <Button style={{ width: 240, height: 40 }}>Register return</Button>
                             </div>
                         </div>
-                        <ListingHistory title={"My Part"} startDate={"10/10/10"} endDate={"11/10/10"} totalCost={25}/>
+                        <ListingHistory title={"My Part"} startDate={"10/10/10"} endDate={"11/10/10"} totalCost={25} />
                     </div>
                     <div className="Rented-history">
-                        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                             <h1>Rented History:</h1>
                         </div>
-                        <ListingHistory title={"My Part"} startDate={"10/10/10"} endDate={"11/10/10"} totalCost={25}/>
+                        <ListingHistory title={"My Part"} startDate={"10/10/10"} endDate={"11/10/10"} totalCost={25} />
                     </div>
                 </div>
             </div>
