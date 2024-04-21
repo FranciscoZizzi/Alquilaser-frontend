@@ -6,18 +6,11 @@ import Header from "../../components/header/Header";
 
 const ListingPage = () => {
     const [listingData, setListingData] = useState(Object)
-    const [listingOwner, setOwner] = useState(Object);
     const {listingId} = useParams();
 
     useEffect(() => {
         axios.get(BASE_URL + ':' + PORT + `/api/listings/get/${listingId}`)
             .then(res => setListingData(res.data))
-            .catch((e) => alert(e.response.data.message))
-    }, []);
-
-    useEffect(() => {
-        axios.get(BASE_URL + ':' + PORT + `/api/users/get/${listingData.user_id}`)
-            .then(res => setOwner(res.data))
             .catch((e) => alert(e.response.data.message))
     }, []);
 
@@ -34,12 +27,17 @@ const ListingPage = () => {
                             <h1>{listingData.title}</h1>
                         </div>
                         <div className="publisher">
-                            <h2>{listingOwner.name}</h2>
+                            <p>{listingData.owner}</p>
+                        </div>
+                        <div className="price">
+                            <h2>{listingData.price}$/day</h2>
                         </div>
                         <div className="availability">
                             <p>{listingData.listing_state}</p>
                         </div>
-                        {/*TODO componente calendario*/}
+                        <div>
+                            {/*TODO componente calendario*/}
+                        </div>
                     </div>
                 </div>
                 <div className="description">
