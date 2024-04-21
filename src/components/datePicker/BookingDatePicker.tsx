@@ -6,7 +6,6 @@ import dayjs, {Dayjs} from "dayjs";
 import {DateRange} from "@mui/icons-material";
 import axios from "axios";
 import {BASE_URL, PORT} from "../../utils/constants";
-import Button from "../button/Button";
 
 type DateRange = {from: Dayjs, to: Dayjs}
 
@@ -20,7 +19,7 @@ const BookingDatePicker = ({listingId, maxBookDuration}:{listingId: string | und
             .then(res => {
                 let bookings = res.data;
                 let dates: DateRange[] = []
-                bookings.forEach((booking: any) => dates.push({from: dayjs(booking.start_date), to: dayjs(booking.end_date)}))
+                bookings.forEach((booking: any) => dates.push({from: dayjs(booking.start_date.split('T')[0]), to: dayjs(booking.end_date.split('T')[0])}))
                 setBookedDates(dates);
             })
             .catch((e: any) => alert(e.response.data));
@@ -37,7 +36,7 @@ const BookingDatePicker = ({listingId, maxBookDuration}:{listingId: string | und
         if (!date) return false;
         if (!startDate) return true;
         let nextBookedDate = getNextBookedDate(startDate);
-        return date < startDate || date >= nextBookedDate;
+        return date <= startDate || date >= nextBookedDate;
     }
 
     const getNextBookedDate = (from: dayjs.Dayjs) => {
