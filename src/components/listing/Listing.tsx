@@ -1,13 +1,22 @@
 import React from "react";
 import EditListingPopUp from "../popUp/EditListingPopUp";
+import {Link, useNavigate} from "react-router-dom";
+import {BASE_URL} from "../../utils/constants";
+import listing from "../../pages/listing";
 
-const Listing = ({image, title, price, availability, description}:{
+const Listing = ({listing_id,image, title, price, availability, description}:{
+    listing_id: number;
     image: string,
     title: string,
     price: string,
     availability: string,
     description?: string
 }) => {
+    let navigate = useNavigate()
+    const handleClick = async () => {
+        navigate('/listing/'+ listing_id)
+    }
+
     return(
         <div style={{
             background: "white",
@@ -29,12 +38,13 @@ const Listing = ({image, title, price, availability, description}:{
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: 'center'
-            }}>
-                <h2 style={{
-                    marginBottom: 0,
-                    padding: 5,
-                    fontSize:30
-                }}>{title}</h2>
+            }}> <span onClick={handleClick} style={{ cursor: "pointer"}}>
+                    <h2 style={{
+                        marginBottom: 0,
+                        padding: 5,
+                        fontSize:30
+                    }}>{title}</h2>
+                </span>
                 <div style={{
                     display: "flex",
                     flexDirection: "row",
@@ -57,10 +67,8 @@ const Listing = ({image, title, price, availability, description}:{
                             Status: {availability}
                         </p>
                         <EditListingPopUp title={title} availability={availability} description={description ?? "No description"} rate={price}/>
-
                     </div>
                 </div>
-
             </div>
         </div>
     );
