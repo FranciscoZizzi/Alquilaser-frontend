@@ -1,18 +1,22 @@
 import React, {useEffect, useState} from "react"
-import {DateCalendar, DatePicker, LocalizationProvider} from '@mui/x-date-pickers';
+import {DatePicker, LocalizationProvider} from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs, {Dayjs} from "dayjs";
 
 type DateRange = {from: Dayjs, to: Dayjs}
 
 const BookingCalendar = () => {
-    const [value, setValue] = useState<Dayjs>(dayjs);
-    const [disabledDates, setDisabledDates] = useState<DateRange[]>([
-        {from: dayjs('0000-00-00'), to: dayjs().subtract(1, 'day')}
+    const [startDate, setStartDate] = useState<Dayjs | null>();
+    const [endDate, setEndDate] = useState<Dayjs | null>();
+    const [bookedDates, setBookedDate] = useState<DateRange[]>([
+        // {from: dayjs(), to:dayjs('2024-05-15')}
     ]);
+    const [disabledDates, setDisabledDate] = useState<DateRange[]>([]);
 
-    const onChange = (e: any) => {
-        setValue(e);
+    const dateIsBooked = (date: Dayjs) => {
+        return bookedDates.some((range) => {
+            return date >= range.from && date <= range.to
+        })
     }
 
     const dateIsDisabled = (date: Dayjs) => {
@@ -24,11 +28,12 @@ const BookingCalendar = () => {
     return(
         <div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateCalendar value={value} onChange={onChange} shouldDisableDate={dateIsDisabled}/>
-                {/*https://mui.com/x/react-date-pickers/date-calendar/*/}
+                <DatePicker label="From" value={startDate} onChange={setStartDate} shouldDisableDate={dateIsBooked} minDate={dayjs()}/>
+                <DatePicker label="To" value={endDate} onChange={setEndDate} shouldDisableDate={dateIsDisabled} minDate={dayjs()}/>
             </LocalizationProvider>
-            <p>{value.toString()}</p>
         </div>
     )
 }
 export default BookingCalendar;
+
+// https://mui.com/x/react-date-pickers/date-calendar/

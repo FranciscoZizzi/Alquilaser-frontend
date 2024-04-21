@@ -37,6 +37,7 @@ const ListingPage = () => {
                             <p>{listingData.listing_state}</p>
                         </div>
                         <div>
+                            <BookingCalendar/>
                             {/*TODO componente calendario*/}
                         </div>
                     </div>
