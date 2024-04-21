@@ -3,14 +3,17 @@ import axios from "axios";
 import {useParams} from "react-router-dom";
 import {BASE_URL, PORT} from "../../utils/constants";
 import Header from "../../components/header/Header";
-import {theme} from "../../utils/theme";
-import Listing from "../../components/listing/Listing";
-import src from "*.jpg";
+import BookingDatePicker from "../../components/datePicker/BookingDatePicker";
 import Button from "../../components/button/Button";
-
+import {Dayjs} from "dayjs";
+import {theme} from "../../utils/theme";
+import src from "*.jpg";
 
 const ListingPage = () => {
     const [listingData, setListingData] = useState(Object)
+    const [startDate, setStartDate] = useState<Dayjs | null>();
+    const [endDate, setEndDate] = useState<Dayjs | null>();
+
     const {listingId} = useParams();
     //TODO add images from the listing itself
     const image = "https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"
@@ -20,7 +23,20 @@ const ListingPage = () => {
             .catch((e) => alert(e.response.data.message))
     }, []);
 
-    return (
+    const handleClick = () => {
+        let token = localStorage.getItem('token');
+        axios.post(BASE_URL + ':' + PORT + '/api/bookings/add',
+            {listingId, startDate, endDate},
+            {headers: { authorization: "Bearer " + token}})
+            .then(() => {
+                    alert("booking successfully created");
+                    window.location.reload();
+                }
+            )
+            .catch((e) => alert(e.response.data.message))
+    }
+
+    return(
         <div className="body">
             <Header showBackButton={true} showSearchBar={true} showProfileIcon={true}/>
             <div style={{
@@ -50,7 +66,6 @@ const ListingPage = () => {
                                 height: 500,
                             }} src={image} alt="Product picture"/></p>
                         </div>
-
                         <div className="info-column" style={{
                             marginLeft: '50px'
                         }}>
@@ -66,10 +81,12 @@ const ListingPage = () => {
                             <div className="availability">
                                 <p>{listingData.listing_state}</p>
                             </div>
-                            <div>
-                                {/*TODO componente calendario*/}
+                            <div className="date-picker">
+                                <BookingDatePicker listingId={listingId} maxBookDuration={60} startDate={startDate} endDate={endDate} handleSetStartDate={setStartDate} handleSetEndDate={setEndDate}/>
                             </div>
-                            <Button>Make reservation</Button>
+                            <div>
+                                <Button onClick={handleClick}>Make Reservation</Button>
+                            </div>
                         </div>
                     </div>
                     <div className="description">

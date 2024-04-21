@@ -9,9 +9,14 @@ import {BASE_URL, PORT} from "../../utils/constants";
 
 type DateRange = {from: Dayjs, to: Dayjs}
 
-const BookingDatePicker = ({listingId, maxBookDuration}:{listingId: string | undefined, maxBookDuration: number}) => {
-    const [startDate, setStartDate] = useState<Dayjs | null>();
-    const [endDate, setEndDate] = useState<Dayjs | null>();
+const BookingDatePicker = ({listingId, maxBookDuration, startDate, endDate, handleSetStartDate, handleSetEndDate}:{
+    listingId: string | undefined,
+    maxBookDuration: number,
+    startDate: Dayjs | null | undefined,
+    endDate: Dayjs | null | undefined,
+    handleSetStartDate: (e:any) => void,
+    handleSetEndDate: (e:any) => void
+}) => {
     const [bookedDates, setBookedDates] = useState<DateRange[]>([]);
 
     useEffect(() => {
@@ -19,7 +24,11 @@ const BookingDatePicker = ({listingId, maxBookDuration}:{listingId: string | und
             .then(res => {
                 let bookings = res.data;
                 let dates: DateRange[] = []
-                bookings.forEach((booking: any) => dates.push({from: dayjs(booking.start_date.split('T')[0]), to: dayjs(booking.end_date.split('T')[0])}))
+                bookings.forEach((booking: any) => {
+                    if (booking.start_date && booking.end_date) {
+                        dates.push({from: dayjs(booking.start_date.split('T')[0]), to: dayjs(booking.end_date.split('T')[0])});
+                    }
+                })
                 setBookedDates(dates);
             })
             .catch((e: any) => alert(e.response.data));
@@ -49,15 +58,11 @@ const BookingDatePicker = ({listingId, maxBookDuration}:{listingId: string | und
         return date;
     }
 
-    const handleStartDateChange = (e: any) => {
-        setStartDate(e);
-    }
-
     return(
         <div>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='en-gb'>
-                <DatePicker label="From" value={startDate} onChange={handleStartDateChange} shouldDisableDate={dateIsBooked} minDate={dayjs()}/>
-                <DatePicker label="To" value={endDate} onChange={setEndDate} shouldDisableDate={dateIsDisabled} minDate={dayjs()}/>
+                <DatePicker label="From" value={startDate} onChange={handleSetStartDate} shouldDisableDate={dateIsBooked} minDate={dayjs()}/>
+                <DatePicker label="To" value={endDate} onChange={handleSetEndDate} shouldDisableDate={dateIsDisabled} minDate={dayjs()}/>
             </LocalizationProvider>
         </div>
     )
