@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import './headerStyle.css'
 import {createSearchParams, useNavigate} from "react-router-dom";
 import IconButton from "../iconButton/IconButton";
@@ -15,6 +15,7 @@ const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
     showProfileIcon: boolean,
 }) => {
     const [searchTerm, setValue] = useState<string>("");
+    const [imageUrl, setImageUrl] = useState('');
 
     let navigate = useNavigate();
     const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> ) => {
@@ -24,7 +25,6 @@ const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
     const handleChange = (event: any) => {
         setValue(event.currentTarget.value);
     }
-    const imageUrl = localStorage.getItem("profilePicData");
 
     function hasJWT() {
         const token = localStorage.getItem("token");
@@ -35,6 +35,45 @@ const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
 
         return true;
     }
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('No JWT token available');
+                }
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                };
+
+                const res = await axios.get("http://localhost:3001/api/users/profile", config);
+                if (!res.data || !res.data.data) {
+                    throw new Error('No user profile data available');
+                }
+
+                const { profile_pic } = res.data.data;
+
+                if (profile_pic && profile_pic.data) {
+                    const buffer = new ArrayBuffer(profile_pic.data.length);
+                    const view = new Uint8Array(buffer);
+                    for (let i = 0; i < profile_pic.data.length; i++) {
+                        view[i] = profile_pic.data[i];
+                    }
+                    const blob = new Blob([buffer], { type: 'image/png' }); // Assuming the image is PNG
+
+                    const imageUrl = URL.createObjectURL(blob);
+                    setImageUrl(imageUrl);
+                }
+            } catch (error) {
+                console.error("Error fetching user profile:", error);
+            }
+        };
+
+        fetchUserProfile();
+    }, []);
 
     const handleKeyPress = async (keyEvent: React.KeyboardEvent<HTMLInputElement>) => {
         if(keyEvent.key === 'Enter') {
