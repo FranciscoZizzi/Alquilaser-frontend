@@ -81,11 +81,12 @@ const ListingPage = () => {
                             <div className="availability">
                                 <p>{listingData.listing_state}</p>
                             </div>
-                            <div>
+                            <div className="date-picker">
                                 <BookingDatePicker listingId={listingId} maxBookDuration={60} startDate={startDate} endDate={endDate} handleSetStartDate={setStartDate} handleSetEndDate={setEndDate}/>
+                            </div>
+                            <div>
                                 <Button onClick={handleClick}>Make Reservation</Button>
                             </div>
-                            <Button>Make reservation</Button>
                         </div>
                     </div>
                     <div className="description">
