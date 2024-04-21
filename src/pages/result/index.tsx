@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import axios, {AxiosResponse} from "axios";
+import axios from "axios";
 import Listing from "../../components/listing/Listing";
 import FilterBox from "../../components/filterBox/FilterBox";
 import Header from "../../components/header/Header";
@@ -8,7 +8,6 @@ import {getSearchURL} from "../../utils/url";
 
 const ResultPage = () => {
 
-    //TODO add searchbar
     const [priceMinFilter, setPriceMinFilter ] = useState<number>()
     const [priceMaxFilter, setPriceMaxFilter ] = useState<number>()
 
@@ -26,15 +25,15 @@ const ResultPage = () => {
     }
 
     useEffect(() => {
-        axios.post("http://localhost:3001/api/search", {searchTerm})
+        axios.post(getSearchURL(), {searchTerm})
             .then(res => setResult(res.data))
     }, [])
 
     const rows: any[] = [];
     results.forEach((e: any) => rows.push(<Listing availability={e.listing_state}
                                                    image={"https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"}
-                                                   price={e.price} title={e.title}/>))
-    return (
+                                                   price={e.price} title={e.title} listing_id={e.id}/>))
+    return(
         <body>
             <div style={{
                 alignItems: "center"
@@ -62,19 +61,14 @@ const ResultPage = () => {
                                 marginTop: '20px',
                                 marginRight: '20px'
                             }}>
-                                <div style={{
-                                    marginTop: '20px',
-                                    marginRight: '20px'
-                                }}>
-                                    <FilterBox minPrice={priceMinFilter} maxPrice={priceMaxFilter} setMinPrice={setPriceMinFilter} setMaxPrice={setPriceMaxFilter} onClick={handleClick}></FilterBox>
-                                </div>
-                                <div style={{
-                                    display: 'flex',
-                                    flexDirection: "column",
-                                    gap: '30px',
-                                }}>
-                                    {rows}
-                                </div>
+                                <FilterBox minPrice={priceMinFilter} maxPrice={priceMaxFilter} setMinPrice={setPriceMinFilter} setMaxPrice={setPriceMaxFilter} onClick={handleClick}></FilterBox>
+                            </div>
+                            <div style={{
+                                display: 'flex',
+                                flexDirection: "column",
+                                gap: '30px',
+                            }}>
+                                {rows}
                             </div>
                         </div>
                     </div>
@@ -83,4 +77,5 @@ const ResultPage = () => {
         </body>
     )
 }
+
 export default ResultPage;
