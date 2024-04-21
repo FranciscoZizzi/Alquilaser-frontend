@@ -118,7 +118,7 @@ const ProfilePage = () => {
                             </div>
                         </div>
                         <Listing image={"https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"}
-                                 title={"My part"} price={"9"} availability={"Available"} description={"test description"}></Listing>
+                                 title={"My part"} price={"9"} availability={"Available"} description={"test description"} listing_id={912}></Listing>
                     </div>
                     <div className="Rent-history">
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
