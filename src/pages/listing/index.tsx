@@ -3,7 +3,6 @@ import axios from "axios";
 import {useParams} from "react-router-dom";
 import {BASE_URL, PORT} from "../../utils/constants";
 import Header from "../../components/header/Header";
-import BookingCalendar from "../../components/calendar/BookingCalendar";
 import {theme} from "../../utils/theme";
 import Listing from "../../components/listing/Listing";
 import src from "*.jpg";
