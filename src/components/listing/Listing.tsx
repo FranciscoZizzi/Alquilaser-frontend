@@ -69,7 +69,6 @@ const Listing = ({listing_id,image, title, price, availability, description}:{
                         <EditListingPopUp title={title} availability={availability} description={description ?? "No description"} rate={price}/>
                     </div>
                 </div>
-
             </div>
         </div>
     );
