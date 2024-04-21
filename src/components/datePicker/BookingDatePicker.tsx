@@ -6,10 +6,11 @@ import dayjs, {Dayjs} from "dayjs";
 import {DateRange} from "@mui/icons-material";
 import axios from "axios";
 import {BASE_URL, PORT} from "../../utils/constants";
+import Button from "../button/Button";
 
 type DateRange = {from: Dayjs, to: Dayjs}
 
-const BookingCalendar = ({listingId, maxBookDuration}:{listingId: string | undefined, maxBookDuration: number}) => {
+const BookingDatePicker = ({listingId, maxBookDuration}:{listingId: string | undefined, maxBookDuration: number}) => {
     const [startDate, setStartDate] = useState<Dayjs | null>();
     const [endDate, setEndDate] = useState<Dayjs | null>();
     const [bookedDates, setBookedDates] = useState<DateRange[]>([]);
@@ -62,4 +63,4 @@ const BookingCalendar = ({listingId, maxBookDuration}:{listingId: string | undef
         </div>
     )
 }
-export default BookingCalendar;
+export default BookingDatePicker;
