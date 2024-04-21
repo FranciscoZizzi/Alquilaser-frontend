@@ -3,6 +3,7 @@ import axios from "axios";
 import {useParams} from "react-router-dom";
 import {BASE_URL, PORT} from "../../utils/constants";
 import Header from "../../components/header/Header";
+import BookingCalendar from "../../components/calendar/BookingCalendar";
 
 const ListingPage = () => {
     const [listingData, setListingData] = useState(Object)
@@ -36,6 +37,7 @@ const ListingPage = () => {
                             <p>{listingData.listing_state}</p>
                         </div>
                         <div>
+                            <BookingCalendar/>
                             {/*TODO componente calendario*/}
                         </div>
                     </div>
