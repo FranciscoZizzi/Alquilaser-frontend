@@ -50,6 +50,7 @@ const AddNewListingPopUp = forwardRef((props, ref) => {
                     'Content-Type': 'multipart/form-data'
                 }});
             alert("Listing created successfully");
+            window.location.reload();
         } catch (e: any) {
             if (e.response && e.response.data && e.response.data.message) {
                 alert(e.response.data.message);
