@@ -30,8 +30,7 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
             const res = await axios.put("http://localhost:3001/api/listings/edit", {
                 title: currentTitle,
                 rate: currentRate,
-                description: currentDescription,
-                imageUrls
+                description: currentDescription
             });
             console.log("Listing edited successfully");
         } catch (error) {

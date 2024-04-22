@@ -45,7 +45,7 @@ const MultiImageUploadButton: React.FC<MultiImageUploadButtonProps> = ({ setImag
             <HiddenInput
                 id="multi-file-upload"
                 type="file"
-                multiple
+                multiple={true}
                 onChange={handleChange}
                 accept="image/*"
             />

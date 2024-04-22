@@ -18,22 +18,48 @@ const AddNewListingPopUp = forwardRef((props, ref) => {
 
     const handleSubmit = async () => {
         try {
-            let token = localStorage.getItem("token")
-            const res = await axios.post(getAddListingURL(), {
+            let token = localStorage.getItem("token");
+            if (!token) {
+                throw new Error('No JWT token available');
+            }
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            };
+
+            const listingRes = await axios.post(getAddListingURL(), {
                 title,
                 price,
-                description,
-                imageUrls
-            }, { headers: { authorization: "Bearer " + token } })
-            alert("Listing created successfully")
-        } catch (e:any) {
+                description
+            },config)
+
+            const formData = new FormData();
+
+            for (let i = 0; i < imageUrls.length; i++) {
+                const imageUrl = imageUrls[i];
+                const blob = await fetch(imageUrl).then((response) => response.blob());
+                const extension = blob.type.split('/')[1]; // Extract extension from the URL
+                const fileName = `listing_pic_${i}.${extension}`; // Unique file name
+                const file = new File([blob], fileName);
+                formData.append(`listing_pic_${i}`, file, fileName);
+            }
+
+            const imageRes = await axios.put(`http://localhost:3001/api/listings/addImages/${listingRes.data.data.listing_id}`, formData, {headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }});
+            alert("Listing created successfully");
+        } catch (e: any) {
             if (e.response && e.response.data && e.response.data.message) {
                 alert(e.response.data.message);
             } else {
                 alert("An error occurred while creating the listing");
             }
         }
-    }
+    };
+
+
 
     const handleSetImages = (newUrls: string[]) => {
         setImageUrls(prevUrls => [...prevUrls, ...newUrls]);
