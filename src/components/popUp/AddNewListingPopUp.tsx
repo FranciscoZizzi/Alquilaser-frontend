@@ -25,7 +25,6 @@ const AddNewListingPopUp = forwardRef((props, ref) => {
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    // 'Content-Type': 'multipart/form-data'
                 }
             };
 
@@ -34,20 +33,22 @@ const AddNewListingPopUp = forwardRef((props, ref) => {
                 price,
                 description
             },config)
+
             const formData = new FormData();
-            formData.append('listing_id', listingRes.data.dataValues.listing_id);
 
             for (let i = 0; i < imageUrls.length; i++) {
                 const imageUrl = imageUrls[i];
                 const blob = await fetch(imageUrl).then((response) => response.blob());
-                const extension = imageUrl.split('.').pop(); // Extract extension from the URL
+                const extension = blob.type.split('/')[1]; // Extract extension from the URL
                 const fileName = `listing_pic_${i}.${extension}`; // Unique file name
                 const file = new File([blob], fileName);
                 formData.append(`listing_pic_${i}`, file, fileName);
             }
 
-
-            const imageRes = await axios.put("http://localhost:3001/api/listings/addImages", formData, config);
+            const imageRes = await axios.put(`http://localhost:3001/api/listings/addImages/${listingRes.data.data.listing_id}`, formData, {headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }});
             alert("Listing created successfully");
         } catch (e: any) {
             if (e.response && e.response.data && e.response.data.message) {
