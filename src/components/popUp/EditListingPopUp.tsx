@@ -34,8 +34,8 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
                 title: currentTitle,
                 rate: currentRate,
                 description: currentDescription,
-                imageUrls
             }, { headers: { authorization: "Bearer " + token } });
+            });
             console.log("Listing edited successfully");
             window.location.reload();
         } catch (error:any) {
