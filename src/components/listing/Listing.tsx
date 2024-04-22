@@ -4,7 +4,8 @@ import {Link, useNavigate} from "react-router-dom";
 import {BASE_URL} from "../../utils/constants";
 import listing from "../../pages/listing";
 
-const Listing = ({listing_id,image, title, price, availability, description}:{
+const Listing = ({showEditButton, listing_id, image, title, price, availability, description}:{
+    showEditButton: boolean;
     listing_id: number;
     image: string,
     title: string,
@@ -66,7 +67,9 @@ const Listing = ({listing_id,image, title, price, availability, description}:{
                         }}>
                             Status: {availability}
                         </p>
-                        <EditListingPopUp title={title} availability={availability} description={description ?? "No description"} rate={price}/>
+                        {showEditButton ? <EditListingPopUp listingId={listing_id} title={title} availability={availability}
+                                           description={description ? description : "No description"} rate={price}/> : null
+                        }
                     </div>
                 </div>
             </div>

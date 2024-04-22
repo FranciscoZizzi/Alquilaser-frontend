@@ -10,11 +10,12 @@ import ImageUploadButton from "../../components/imageUploadButton/ImageUploadBut
 import Header from "../../components/header/Header";
 import axios from "axios";
 import { Buffer } from 'buffer';
+import listingHistory from "../../components/listing/ListingHistory";
 
 const ProfilePage = () => {
     const navigate = useNavigate();
 
-    const [userData, setUserData] = useState({ name: '', profilePic: null, listings: [] });
+    const [userData, setUserData] = useState({ name: '', profilePic: null, listings: [], bookings: [] });
     const [imageUrl, setImageUrl] = useState('');
 
     const handleLogoutClick = () => {
@@ -70,8 +71,8 @@ const ProfilePage = () => {
                     throw new Error('No user profile data available');
                 }
 
-                const { name, profile_pic, listings } = res.data.data;
-                setUserData({ name, profilePic: profile_pic, listings });
+                const { name, profile_pic, listings, bookings } = res.data.data;
+                setUserData({ name, profilePic: profile_pic, listings, bookings });
 
                 if (profile_pic && profile_pic.data) {
                     const buffer = new ArrayBuffer(profile_pic.data.length);
@@ -84,6 +85,9 @@ const ProfilePage = () => {
                     const imageUrl = URL.createObjectURL(blob);
                     setImageUrl(imageUrl);
                 }
+
+
+
             } catch (error) {
                 console.error("Error fetching user profile:", error);
             }
@@ -92,6 +96,13 @@ const ProfilePage = () => {
         fetchUserProfile();
     }, []);
 
+    const listedParts: any[] = [];
+    userData.listings.forEach((e: any) => listedParts.push(<Listing showEditButton availability={e.listing_state}
+                                                   image={"https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"}
+                                                   price={e.price} title={e.title} listing_id={e.id} description={e.description}/>))
+
+    const bookingHistory: any[] = [];
+    userData.bookings.forEach((e: any) => bookingHistory.push(<ListingHistory listingId={e.listing_id} startDate={e.start_date} endDate={e.end_date} client={"You"}/>))
 
 
     return (
@@ -117,23 +128,28 @@ const ProfilePage = () => {
                                 <AddNewListingPopUp />
                             </div>
                         </div>
-                        <Listing image={"https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"}
-                                 title={"My part"} price={"9"} availability={"Available"} description={"test description"} listing_id={912}></Listing>
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: "column",
+                            gap: '10px'
+                        }}>
+                            {listedParts}
+                        </div>
                     </div>
-                    <div className="Rent-history">
+                    <div className="rent-history">
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                             <h1>Rent History:</h1>
                             <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center" }}>
                                 <Button style={{ width: 240, height: 40 }}>Register return</Button>
                             </div>
                         </div>
-                        <ListingHistory title={"My Part"} startDate={"10/10/10"} endDate={"11/10/10"} totalCost={25} />
+                        {/*<ListingHistory listingId={1} startDate={"placeholder"} endDate={"placeholder"} client={"placeholder"}/>*/}
                     </div>
-                    <div className="Rented-history">
+                    <div className="booking-history">
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                            <h1>Rented History:</h1>
+                            <h1>Booking History:</h1>
                         </div>
-                        <ListingHistory title={"My Part"} startDate={"10/10/10"} endDate={"11/10/10"} totalCost={25} />
+                        {bookingHistory}
                     </div>
                 </div>
             </div>

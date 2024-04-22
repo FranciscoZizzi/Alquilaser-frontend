@@ -9,6 +9,7 @@ import MultipleImagesUploadButton from "../multipleImagesUploadButton/MultipleIm
 import ExtendedTextField from "../extendedTextField/ExtendedTextField";
 
 interface EditListingPopUpProps {
+    listingId: number,
     title: string;
     rate: string;
     availability: string;
@@ -16,7 +17,7 @@ interface EditListingPopUpProps {
 }
 
 const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
-    const { title, rate, availability, description } = props;
+    const { listingId, title, rate, availability, description } = props;
 
     const [currentTitle, setCurrentTitle] = useState(title);
     const [currentRate, setCurrentRate] = useState(rate);
@@ -27,13 +28,17 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
 
     const handleSubmit = async () => {
         try {
-            const res = await axios.put("http://localhost:3001/api/listings/edit", {
+            let token = localStorage.getItem('token');
+            const res = await axios.put(`http://localhost:3001/api/listings/edit/${listingId}`, {
+                listingId: listingId,
                 title: currentTitle,
                 rate: currentRate,
-                description: currentDescription
-            });
+                description: currentDescription,
+            }, { headers: { authorization: "Bearer " + token } });
             console.log("Listing edited successfully");
-        } catch (error) {
+            window.location.reload();
+        } catch (error:any) {
+            alert(error.response.data.message)
             console.error("Error editing listing:", error);
         }
     };
