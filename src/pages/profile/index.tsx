@@ -93,7 +93,7 @@ const ProfilePage = () => {
     }, []);
 
     const rows: any[] = [];
-    userData.listings.forEach((e: any) => rows.push(<Listing availability={e.listing_state}
+    userData.listings.forEach((e: any) => rows.push(<Listing showEditButton availability={e.listing_state}
                                                    image={"https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"}
                                                    price={e.price} title={e.title} listing_id={e.id}/>))
 
