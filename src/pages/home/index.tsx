@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 import SearchBar from "../../components/searchBar/SearchBar";
-import axios from "axios";
 import {createSearchParams, useNavigate} from "react-router-dom";
-import ImageButton from "../../components/imageButton/ImageButton";
 import Header from "../../components/header/Header";
 
 const HomePage = () => {

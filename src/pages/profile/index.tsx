@@ -9,8 +9,6 @@ import { theme } from '../../utils/theme';
 import ImageUploadButton from "../../components/imageUploadButton/ImageUploadButton";
 import Header from "../../components/header/Header";
 import axios from "axios";
-import { Buffer } from 'buffer';
-import listingHistory from "../../components/listing/ListingHistory";
 
 const ProfilePage = () => {
     const navigate = useNavigate();
@@ -85,7 +83,6 @@ const ProfilePage = () => {
                     const imageUrl = URL.createObjectURL(blob);
                     setImageUrl(imageUrl);
                 }
-
 
 
             } catch (error) {
