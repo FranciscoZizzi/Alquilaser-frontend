@@ -92,7 +92,10 @@ const ProfilePage = () => {
         fetchUserProfile();
     }, []);
 
-
+    const rows: any[] = [];
+    userData.listings.forEach((e: any) => rows.push(<Listing availability={e.listing_state}
+                                                   image={"https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"}
+                                                   price={e.price} title={e.title} listing_id={e.id}/>))
 
     return (
         <div>
@@ -117,8 +120,13 @@ const ProfilePage = () => {
                                 <AddNewListingPopUp />
                             </div>
                         </div>
-                        <Listing image={"https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"}
-                                 title={"My part"} price={"9"} availability={"Available"} description={"test description"} listing_id={912}></Listing>
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: "column",
+                            gap: '10px'
+                        }}>
+                            {rows}
+                        </div>
                     </div>
                     <div className="Rent-history">
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
