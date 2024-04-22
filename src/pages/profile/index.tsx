@@ -92,7 +92,6 @@ const ProfilePage = () => {
 
         fetchUserProfile();
     }, []);
-
     const listedParts: any[] = [];
     userData.listings.forEach((e: any) => listedParts.push(<Listing showEditButton availability={e.listing_state}
                                                    image={"https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"}

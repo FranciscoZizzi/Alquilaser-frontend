@@ -7,21 +7,43 @@ import BookingDatePicker from "../../components/datePicker/BookingDatePicker";
 import Button from "../../components/button/Button";
 import {Dayjs} from "dayjs";
 import {theme} from "../../utils/theme";
-import src from "*.jpg";
+import { Slider } from "reactjs-simple-slider";
+
 
 const ListingPage = () => {
     const [listingData, setListingData] = useState(Object)
     const [startDate, setStartDate] = useState<Dayjs | null>();
     const [endDate, setEndDate] = useState<Dayjs | null>();
+    const [imageUrls, setImageUrls] = useState<any>([]);
 
     const {listingId} = useParams();
-    //TODO add images from the listing itself
-    const image = "https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"
+
     useEffect(() => {
-        axios.get(BASE_URL + ':' + PORT + `/api/listings/get/${listingId}`)
-            .then(res => setListingData(res.data))
-            .catch((e) => alert(e.response.data.message))
+        const fetchListingData = async () => {
+            const res = await axios.get(BASE_URL + ':' + PORT + `/api/listings/get/${listingId}`);
+            setListingData(res.data);
+        };
+
+        fetchListingData();
     }, []);
+
+    useEffect(() => {
+        if (listingData && listingData.images) {
+            setImageUrls(listingData.images.map((image: { data: { length: number; data: string | any[]; }; }) => {
+                const buffer = new ArrayBuffer(image.data.data.length);
+                const view = new Uint8Array(buffer);
+                for (let i = 0; i < image.data.data.length; i++) {
+                    view[i] = image.data.data[i];
+                }
+                const blob = new Blob([buffer], { type: 'image/png' });
+                return URL.createObjectURL(blob);
+            }));
+        }
+    }, [listingData]);
+
+
+    console.log(imageUrls)
+
 
     const handleClick = () => {
         let token = localStorage.getItem('token');
@@ -56,15 +78,11 @@ const ListingPage = () => {
                     <div className="main-content" style={{
                         display: "flex",
                     }}>
-                        <div className="pictures">
-                            {/*TODO componente para las fotos*/}
-                        </div>
-                        <div className="main-picture">
-                            <p><img style={{
-                                margin:10,
-                                width: 500,
-                                height: 500,
-                            }} src={image} alt="Product picture"/></p>
+                        <div>
+                            <Slider
+                                objectFit="contain"
+                                images={imageUrls}
+                            />
                         </div>
                         <div className="info-column" style={{
                             marginLeft: '50px'

@@ -14,7 +14,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ component: Component, ...rest }
     return (
         <Route
             {...rest}
-            element={hasJWT() ? <Component /> : <Navigate to="/login" />}
+            element={hasJWT() ? <Component {...rest}/> : <Navigate to="/login" />}
         />
     );
 };
