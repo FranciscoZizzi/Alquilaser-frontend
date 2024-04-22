@@ -68,7 +68,7 @@ const Listing = ({showEditButton, listing_id, image, title, price, availability,
                             Status: {availability}
                         </p>
                         {showEditButton ? <EditListingPopUp listingId={listing_id} title={title} availability={availability}
-                                           description={description ?? "No description"} rate={price}/> : null
+                                           description={description ? description : "No description"} rate={price}/> : null
                         }
                     </div>
                 </div>
