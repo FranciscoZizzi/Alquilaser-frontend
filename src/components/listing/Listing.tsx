@@ -66,7 +66,7 @@ const Listing = ({listing_id,image, title, price, availability, description}:{
                         }}>
                             Status: {availability}
                         </p>
-                        <EditListingPopUp title={title} availability={availability} description={description ?? "No description"} rate={price}/>
+                        <EditListingPopUp listingId={listing_id} title={title} availability={availability} description={description ?? "No description"} rate={price}/>
                     </div>
                 </div>
             </div>
