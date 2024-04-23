@@ -116,9 +116,9 @@ const ProfilePage = () => {
 
 
     return (
-        <div>
+        <div style={{display: 'flex', flexDirection: 'column', justifyContent:'center'}}>
             <Header showSearchBar={false} showProfileIcon={true} showBackButton={true} />
-            <div style={{ background: theme.primary300, display: "flex", flexDirection: "row", marginTop: 53, marginLeft: "2.5%", width: "90%", padding: "2.5%" }}>
+            <div style={{ borderRadius: 25, background: theme.primary300, display: "flex", flexDirection: "row", marginTop: 53, marginLeft: "8%", width: "80%", padding: "2.5%" }}>
                 <div style={{
                     width: 320,
                     display: 'flex',
