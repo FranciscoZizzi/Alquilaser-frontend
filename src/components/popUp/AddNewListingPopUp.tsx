@@ -85,7 +85,7 @@ const AddNewListingPopUp = forwardRef((props, ref) => {
             >
 
                 <div className="modal">
-                    <button className="close" onClick={() => setOpen(false)}>
+                    <button className="close" onClick={() => setOpen(!open)}>
                         &times;
                     </button>
                     <h1 style={{
