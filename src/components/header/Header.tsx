@@ -16,6 +16,7 @@ const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
 }) => {
     const [searchTerm, setValue] = useState<string>("");
     const [imageUrl, setImageUrl] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
     let navigate = useNavigate();
     const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> ) => {
@@ -31,8 +32,6 @@ const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
         if (!token) {
             return false;
         }
-
-
         return true;
     }
 
@@ -53,6 +52,7 @@ const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
                 if (!res.data || !res.data.data) {
                     throw new Error('No user profile data available');
                 }
+                setIsLoggedIn(true);
 
                 const { profile_pic } = res.data.data;
 
@@ -71,7 +71,6 @@ const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
                 console.error("Error fetching user profile:", error);
             }
         };
-
         fetchUserProfile();
     }, []);
 
@@ -90,7 +89,7 @@ const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
 
     const handleProfileClick = () => {
         let path;
-        if (hasJWT()) {
+        if (isLoggedIn) {
             path = '/profile';
         } else {
             path = '/login';
@@ -108,11 +107,9 @@ const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
                 {showSearchBar ? <SearchBar value={searchTerm} onChange={handleChange} onKeyUp={handleKeyPress}/> : null}
             </div>
             <div className="profile-icon">
-                {showProfileIcon && hasJWT() ? (
-                    <ImageButton onClick={handleProfileClick} imageURL={imageUrl || ''} />
-                ) : (
-                    <IconButton onClick={handleProfileClick} icon={<UserIcon fill={"white"} height={"50"} width={"50"} />} borderColor={"white"} />
-                )}
+                {showProfileIcon ?
+                    (isLoggedIn ? <ImageButton onClick={handleProfileClick} imageURL={imageUrl || ''}/> :
+                        <IconButton onClick={handleProfileClick} icon={<UserIcon fill={"white"} height={"50"} width={"50"}/>}/>) : null}
             </div>
 
         </div>
