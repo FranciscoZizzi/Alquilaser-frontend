@@ -16,12 +16,6 @@ const NumberField = ({value, placeholder, supportingText, isError, onChange}:{va
         setActualPlaceholder(placeholder)
     };
 
-    const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (!/[0-9]/.test(event.key)) {
-            event.preventDefault();
-        }
-    };
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (/(^[0-9]+$|^$)/.test(e.target.value)) {
             onChange(e.target.value)

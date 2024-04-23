@@ -7,6 +7,7 @@ import TextField from "../textField/TextField";
 import Button from "../button/Button";
 import MultipleImagesUploadButton from "../multipleImagesUploadButton/MultipleImagesUploadButton";
 import ExtendedTextField from "../extendedTextField/ExtendedTextField";
+import NumberField from "../numberField/NumberField";
 
 interface EditListingPopUpProps {
     listingId: number,
@@ -81,7 +82,7 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
                             <TextField value={currentAvailability} placeholder={"Availability"} onChange={setCurrentAvailability} />
                         </div>
                         <div style={{ flex: 1 }}>
-                            <TextField value={currentRate} placeholder={"Rate"} onChange={setCurrentRate} />
+                            <NumberField value={currentRate} placeholder={"Rate"} onChange={setCurrentRate} />
                         </div>
                     </div>
                     <div>

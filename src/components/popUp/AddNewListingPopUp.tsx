@@ -9,6 +9,7 @@ import MultipleImagesUploadButton from "../multipleImagesUploadButton/MultipleIm
 import ExtendedTextField from "../extendedTextField/ExtendedTextField";
 import { QRCode } from 'react-qrcode-logo';
 import { getAddListingURL } from "../../utils/url";
+import NumberField from "../numberField/NumberField";
 
 const AddNewListingPopUp = forwardRef((props, ref) => {
     const [open, setOpen] = useState(false);
@@ -103,7 +104,7 @@ const AddNewListingPopUp = forwardRef((props, ref) => {
                                 <TextField value={title} placeholder={"Post title"} onChange={setTitle} />
                             </div>
                             <div style={{ flex: 1 }}>
-                                <TextField value={price} placeholder={"Price"} onChange={setPrice} />
+                                <NumberField value={price} placeholder={"Price"} onChange={setPrice} />
                             </div>
                         </div>
                         <div>
