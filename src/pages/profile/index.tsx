@@ -13,7 +13,8 @@ import axios from "axios";
 const ProfilePage = () => {
     const navigate = useNavigate();
 
-    const [userData, setUserData] = useState({ name: '', profilePic: null, listings: [], bookings: [] });
+    const [userListings, setUserListings] = useState({listings: []})
+    const [userData, setUserData] = useState({ name: '', profilePic: null,  bookings: [] });
     const [imageUrl, setImageUrl] = useState('');
 
     const handleLogoutClick = () => {
@@ -34,7 +35,6 @@ const ProfilePage = () => {
                     'Content-Type': 'multipart/form-data'
                 }
             };
-
             const blob = await fetch(imageUrl).then((response) => response.blob());
             const formData = new FormData();
             const extension = blob.type.split('/')[1];
@@ -49,6 +49,16 @@ const ProfilePage = () => {
             console.error('Error updating profile picture:', error);
         }
     };
+
+    const bufferToUrl = (image: any) => {
+        const buffer = new ArrayBuffer(image.data.length);
+        const view = new Uint8Array(buffer);
+        for (let i = 0; i < image.data.length; i++) {
+            view[i] = image.data[i];
+        }
+        const blob = new Blob([buffer], { type: 'image/png' });
+        return URL.createObjectURL(blob);
+    }
 
 
     useEffect(() => {
@@ -68,34 +78,38 @@ const ProfilePage = () => {
                 if (!res.data || !res.data.data) {
                     throw new Error('No user profile data available');
                 }
-
-                const { name, profile_pic, listings, bookings } = res.data.data;
-                setUserData({ name, profilePic: profile_pic, listings, bookings });
-
-                if (profile_pic && profile_pic.data) {
-                    const buffer = new ArrayBuffer(profile_pic.data.length);
-                    const view = new Uint8Array(buffer);
-                    for (let i = 0; i < profile_pic.data.length; i++) {
-                        view[i] = profile_pic.data[i];
-                    }
-                    const blob = new Blob([buffer], { type: 'image/png' }); // Assuming the image is PNG
-
-                    const imageUrl = URL.createObjectURL(blob);
-                    setImageUrl(imageUrl);
+                const listingRes = await axios.get("http://localhost:3001/api/users/listings", config);
+                if (!listingRes.data || !listingRes.data.data) {
+                    throw new Error('No user listing data available');
                 }
 
+                setUserListings(listingRes.data.data)
+                const { name, profile_pic, bookings } = res.data.data;
+                setUserData({ name, profilePic: profile_pic, bookings });
+
+                if (profile_pic && profile_pic.data) {
+                    setImageUrl(bufferToUrl(profile_pic));
+                }
 
             } catch (error) {
                 console.error("Error fetching user profile:", error);
             }
         };
-
         fetchUserProfile();
     }, []);
+
+
     const listedParts: any[] = [];
-    userData.listings.forEach((e: any) => listedParts.push(<Listing showEditButton availability={e.listing_state}
-                                                   image={"https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"}
-                                                   price={e.price} title={e.title} listing_id={e.id} description={e.description}/>))
+    userListings.listings.forEach((e: any) => {
+        let imageUrl = ''
+        if(e.Images.length > 0){
+            imageUrl = bufferToUrl(e.Images[0].image_data)
+        }
+        listedParts.push(<Listing showEditButton availability={e.listing_state}
+                           image={imageUrl}
+                           price={e.price} title={e.title} listing_id={e.id} description={e.description}/>)
+    })
+
 
     const bookingHistory: any[] = [];
     userData.bookings.forEach((e: any) => bookingHistory.push(<ListingHistory listingId={e.listing_id} startDate={e.start_date} endDate={e.end_date} client={"You"}/>))

@@ -23,6 +23,17 @@ const ResultPage = () => {
         }
         window.location.reload();
     }
+    console.log(results)
+
+    const bufferToUrl = (image: any) => {
+        const buffer = new ArrayBuffer(image.data.length);
+        const view = new Uint8Array(buffer);
+        for (let i = 0; i < image.data.length; i++) {
+            view[i] = image.data[i];
+        }
+        const blob = new Blob([buffer], { type: 'image/png' });
+        return URL.createObjectURL(blob);
+    }
 
     useEffect(() => {
         axios.post(getSearchURL(), {searchTerm})
@@ -30,9 +41,16 @@ const ResultPage = () => {
     }, [])
 
     const rows: any[] = [];
-    results.forEach((e: any) => rows.push(<Listing showEditButton={false} availability={e.listing_state}
-                                                   image={"https://ilcadinghy.es/wp-content/uploads/2020/04/barco-ilca-7-laser-completo.jpg"}
-                                                   price={e.price} title={e.title} listing_id={e.id}/>))
+    results.forEach((e: any) => {
+        console.log(e)
+        let imageUrl = ''
+        if(e.Images.length > 0){
+            imageUrl = bufferToUrl(e.Images[0].image_data)
+        }
+        rows.push(<Listing showEditButton={false} availability={e.listing_state}
+                           image={imageUrl}
+                           price={e.price} title={e.title} listing_id={e.id}/>)
+    })
     return(
         <body>
             <div style={{
