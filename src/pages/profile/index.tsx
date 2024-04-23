@@ -153,7 +153,6 @@ const ProfilePage = () => {
                                 <Button style={{ width: 240, height: 40 }}>Register return</Button>
                             </div>
                         </div>
-                        {/*<ListingHistory listingId={1} startDate={"placeholder"} endDate={"placeholder"} client={"placeholder"}/>*/}
                     </div>
                     <div className="booking-history">
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>

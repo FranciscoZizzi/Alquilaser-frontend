@@ -61,16 +61,20 @@ const Listing = ({showEditButton, listing_id, image, title, price, availability,
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "space-around",
+                        paddingBottom: 20
                     }}>
                         <p style={{
                             fontSize:20,
-                            textAlign:"center"
+                            textAlign:"center",
                         }}>
                             Status: {availability}
                         </p>
-                        {showEditButton ? <EditListingPopUp listingId={listing_id} title={title} availability={availability}
-                                           description={description ? description : "No description"} rate={price}/> : null
-                        }
+                        <div>
+                            {showEditButton ? <EditListingPopUp listingId={listing_id} title={title} availability={availability}
+                                                                description={description ? description : "No description"} rate={price}/> : null
+                            }
+                        </div>
+
                     </div>
                 </div>
             </div>

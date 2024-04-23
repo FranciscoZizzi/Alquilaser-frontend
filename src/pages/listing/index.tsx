@@ -69,6 +69,7 @@ const ListingPage = () => {
                 marginLeft: "2.5%",
                 width: "90%",
                 padding: "2.5%",
+                borderRadius: 30
             }}>
                 <div className="content" style={{
                     display: "flex",
@@ -78,7 +79,7 @@ const ListingPage = () => {
                     <div className="main-content" style={{
                         display: "flex",
                     }}>
-                        <div>
+                        <div style={{width:500, height: 500}}>
                             <Slider
                                 objectFit="contain"
                                 images={imageUrls}
