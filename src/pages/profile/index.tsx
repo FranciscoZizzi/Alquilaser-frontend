@@ -92,6 +92,7 @@ const ProfilePage = () => {
                 }
 
             } catch (error) {
+                navigate('/login');
                 console.error("Error fetching user profile:", error);
             }
         };
