@@ -45,6 +45,15 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
         }
     };
 
+    const handleDelete = async () => {
+        let token = localStorage.getItem('token');
+        const res = await axios.put(`http://localhost:3001/api/listings/edit/${listingId}`, {
+            availability: 'deleted',
+        }, { headers: { authorization: "Bearer " + token } });
+        console.log("Listing deleted successfully");
+        window.location.reload();
+    }
+
     useImperativeHandle(ref, () => ({
         openPopup: () => setOpen(true)
     }), []);
@@ -88,12 +97,14 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
                     <div>
                         <ExtendedTextField value={currentDescription} placeholder={"Description"} onChange={setCurrentDescription} />
                     </div>
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: "column",
-                        gap: 10
-                    }}>
-                        <Button onClick={handleSubmit}>Edit listing</Button>
+                        <div style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-around",
+                            gap: "10px"
+                        }}>
+                            <Button variant={'secondary'} onClick={handleDelete}>Delete Listing</Button>
+                            <Button onClick={handleSubmit}>Edit listing</Button>
                     </div>
                 </div>
             </div>
