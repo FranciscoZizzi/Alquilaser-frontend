@@ -34,6 +34,7 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
                 title: currentTitle,
                 rate: currentRate,
                 description: currentDescription,
+                availability: currentAvailability,
             }, { headers: { authorization: "Bearer " + token } });
             console.log("Listing edited successfully");
             window.location.reload();
@@ -43,7 +44,6 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
         }
     };
 
-    // Expose a method to open the popup externally
     useImperativeHandle(ref, () => ({
         openPopup: () => setOpen(true)
     }), []);
@@ -54,7 +54,7 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
             modal
             nested
             contentStyle={{
-                borderRadius: '10px', // Apply rounded corners to the popup content
+                borderRadius: '10px',
             }}
             trigger={<Button variant={"secondary"} style={{ width: 240, height: 40 }} className="button" onClick={() => setOpen(!open)}>Edit</Button>}
         >
