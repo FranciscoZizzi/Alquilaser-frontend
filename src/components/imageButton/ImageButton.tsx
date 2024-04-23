@@ -12,6 +12,7 @@ const ImageButton: React.FC<ImageButtonProps> = ({imageURL, ...rest}:{imageURL: 
             border: 'none',
             outline: 'none',
             backgroundColor: 'transparent',
+            cursor: 'pointer'
         }}>
             <img src={imageURL} style={{
                 width: '50px',
