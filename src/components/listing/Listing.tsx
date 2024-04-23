@@ -32,6 +32,7 @@ const Listing = ({showEditButton, listing_id, image, title, price, availability,
                     margin: 8,
                     width: 152,
                     height: 152,
+                    borderRadius: 15
                 }} src={image} alt="Product picture"/>
             </div>
             <div style={{
