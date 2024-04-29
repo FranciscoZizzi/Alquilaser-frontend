@@ -16,6 +16,12 @@ const RegisterPage = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
 
+    const [usernameError, setUsernameError] = useState(false);
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+    const [numberError, setNumberError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+
     const navigate = useNavigate();
     const handleSubmit = async () => {
         try {
@@ -23,7 +29,12 @@ const RegisterPage = () => {
             localStorage.setItem("token", res.data.data.token); // Queda guardado en localstorage, se puede acceder desde toda la app
             navigate('/')
         } catch(e: any) {
-            alert(e.response.data.message);
+            setUsernameError(e.response.data.usernameError);
+            setEmailError(e.response.data.emailError);
+            setPasswordError(e.response.data.passwordError)
+            setNumberError(e.response.data.numberError);
+            setErrorMessage(e.response.data.message);
+            // alert(e.response.data.message);
         }
     }
 
@@ -47,11 +58,11 @@ const RegisterPage = () => {
                 }}>
                     Register
                 </h1>
-                <TextField value={username} placeholder={"Username"} onChange={setUsername}/>
-                <TextField value={email} placeholder={"Email"} onChange={setEmail}/>
-                <PasswordField value={password} placeholder={"Password"} onChange={setPassword}/>
-                <PasswordField value={confirmPassword} placeholder={"Confirm password"} onChange={setConfirmPassword} />
-                <PhoneNumberField value={phoneNumber} placeholder={"Phone number"}  onChange={setPhoneNumber}/>
+                <TextField value={username} placeholder={"Username"} onChange={setUsername} isError={usernameError}/>
+                <TextField value={email} placeholder={"Email"} onChange={setEmail} isError={emailError}/>
+                <PasswordField value={password} placeholder={"Password"} onChange={setPassword} isError={passwordError}/>
+                <PasswordField value={confirmPassword} placeholder={"Confirm password"} onChange={setConfirmPassword} isError={passwordError}/>
+                <PhoneNumberField value={phoneNumber} placeholder={"Phone number"}  onChange={setPhoneNumber} isError={numberError}/>
                 <Button onClick={handleSubmit}>Create account</Button>
                 <div style={{
                     marginTop: '10px',
@@ -60,6 +71,7 @@ const RegisterPage = () => {
                     alignItems: 'center',
                     justifyContent: 'center',
                 }}>
+                    <p style={{color: 'red'}}>{errorMessage}</p>
                     <span>
                         Already have an account? <Link to="/login">Login</Link>
                     </span>
