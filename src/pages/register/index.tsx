@@ -6,6 +6,7 @@ import axios from "axios";
 import {Link, useNavigate} from 'react-router-dom';
 import IconButton from "../../components/iconButton/IconButton";
 import {SearchIcon} from "../../components/icons/SearchIcon";
+import PhoneNumberField from "../../components/phoneNumberField/PhoneNumberField";
 
 const RegisterPage = () => {
 
@@ -21,7 +22,6 @@ const RegisterPage = () => {
             const res = await axios.post("http://localhost:3001/api/users/register", {name: username, email, password, confirmPassword, phoneNumber});
             localStorage.setItem("token", res.data.data.token); // Queda guardado en localstorage, se puede acceder desde toda la app
             navigate('/')
-            // Mandar header
         } catch(e: any) {
             alert(e.response.data.message);
         }
@@ -51,7 +51,7 @@ const RegisterPage = () => {
                 <TextField value={email} placeholder={"Email"} onChange={setEmail}/>
                 <PasswordField value={password} placeholder={"Password"} onChange={setPassword}/>
                 <PasswordField value={confirmPassword} placeholder={"Confirm password"} onChange={setConfirmPassword} />
-                <TextField value={phoneNumber} placeholder={"Phone number"}  onChange={setPhoneNumber}/>
+                <PhoneNumberField value={phoneNumber} placeholder={"Phone number"}  onChange={setPhoneNumber}/>
                 <Button onClick={handleSubmit}>Create account</Button>
                 <div style={{
                     marginTop: '10px',
