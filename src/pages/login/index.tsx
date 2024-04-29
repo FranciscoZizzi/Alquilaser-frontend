@@ -9,6 +9,10 @@ const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+
     const navigate = useNavigate();
 
     const handleSubmit = async () => {
@@ -24,7 +28,9 @@ const LoginPage = () => {
 
             navigate('/');
         } catch(e: any) {
-            alert(e.response.data.message);
+            setEmailError(e.response.data.emailError);
+            setPasswordError(e.response.data.passwordError);
+            setErrorMessage(e.response.data.message);
         }
     };
 
@@ -49,8 +55,8 @@ const LoginPage = () => {
                 <div style={{
                     fontSize: '16px',
                 }}>
-                    <TextField value={email} placeholder={"Email"} onChange={setEmail}/>
-                    <PasswordField value={password} placeholder={"Password"} onChange={setPassword}/>
+                    <TextField value={email} placeholder={"Email"} onChange={setEmail} isError={emailError}/>
+                    <PasswordField value={password} placeholder={"Password"} onChange={setPassword} isError={passwordError}/>
                     <Button onClick={handleSubmit}>Login</Button>
                     <div style={{
                         marginTop: '10px',
@@ -60,7 +66,7 @@ const LoginPage = () => {
                         justifyContent: 'center',
                         gap: '10px', // Adds some space between the links
                     }}>
-
+                        <p style={{color: 'red'}}>{errorMessage}</p>
                     <span>
                         {/*TODO use navigate*/}
                         Don't have an account? <Link to="/register">Register</Link>
