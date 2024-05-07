@@ -34,7 +34,6 @@ const RegisterPage = () => {
             setPasswordError(e.response.data.passwordError)
             setNumberError(e.response.data.numberError);
             setErrorMessage(e.response.data.message);
-            // alert(e.response.data.message);
         }
     }
 

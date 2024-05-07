@@ -15,6 +15,8 @@ const ListingPage = () => {
     const [startDate, setStartDate] = useState<Dayjs | null>();
     const [endDate, setEndDate] = useState<Dayjs | null>();
     const [imageUrls, setImageUrls] = useState<any>([]);
+    const [additionalInfo, setInfo] = useState("");
+    const [isLoading, setLoading] = useState(false);
 
     const {listingId} = useParams();
 
@@ -39,23 +41,26 @@ const ListingPage = () => {
                 return URL.createObjectURL(blob);
             }));
         }
-    }, [listingData]);
+    }, [listingData, additionalInfo]);
 
 
     console.log(imageUrls)
 
-
-    const handleClick = () => {
+    const handleClick = (event: any) => {
+        setLoading(true)
         let token = localStorage.getItem('token');
         axios.post(BASE_URL + ':' + PORT + '/api/bookings/add',
             {listingId, startDate, endDate},
             {headers: { authorization: "Bearer " + token}})
             .then(() => {
-                    alert("booking successfully created");
-                    window.location.reload();
-                }
+                setStartDate(null);
+                setEndDate(null);
+
+                setLoading(false);
+                setInfo("booking successfully created");
+            }
             )
-            .catch((e) => alert(e.response.data.message))
+            .catch((e) => setInfo(e.response.data.message))
     }
 
     return(
@@ -101,10 +106,11 @@ const ListingPage = () => {
                                 <p>{listingData.listing_state}</p>
                             </div>
                             <div className="date-picker">
-                                <BookingDatePicker listingId={listingId} maxBookDuration={60} startDate={startDate} endDate={endDate} handleSetStartDate={setStartDate} handleSetEndDate={setEndDate}/>
+                                <BookingDatePicker listingId={listingId} maxBookDuration={60} startDate={startDate} endDate={endDate} handleSetStartDate={setStartDate} handleSetEndDate={setEndDate} disabled={isLoading}/>
                             </div>
                             <div>
-                                <Button onClick={handleClick}>Make Reservation</Button>
+                                <Button onClick={handleClick} disabled={isLoading}>{isLoading ? "Loading" : "Make Reservation"}</Button>
+                                <p>{additionalInfo}</p>
                             </div>
                         </div>
                     </div>

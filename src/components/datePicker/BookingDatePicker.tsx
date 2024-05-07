@@ -9,13 +9,14 @@ import {BASE_URL, PORT} from "../../utils/constants";
 
 type DateRange = {from: Dayjs, to: Dayjs}
 
-const BookingDatePicker = ({listingId, maxBookDuration, startDate, endDate, handleSetStartDate, handleSetEndDate}:{
+const BookingDatePicker = ({listingId, maxBookDuration, startDate, endDate, handleSetStartDate, handleSetEndDate, disabled}:{
     listingId: string | undefined,
     maxBookDuration: number,
     startDate: Dayjs | null | undefined,
     endDate: Dayjs | null | undefined,
     handleSetStartDate: (e:any) => void,
     handleSetEndDate: (e:any) => void
+    disabled: boolean
 }) => {
     const [bookedDates, setBookedDates] = useState<DateRange[]>([]);
 
@@ -32,7 +33,7 @@ const BookingDatePicker = ({listingId, maxBookDuration, startDate, endDate, hand
                 setBookedDates(dates);
             })
             .catch((e: any) => alert(e.response.data));
-    }, []);
+    }, [disabled]);
 
     const dateIsBooked = (date: dayjs.Dayjs | null | undefined) => {
         if (!date) return false;
