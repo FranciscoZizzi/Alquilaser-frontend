@@ -60,7 +60,10 @@ const ListingPage = () => {
                 setInfo("booking successfully created");
             }
             )
-            .catch((e) => setInfo(e.response.data.message))
+            .catch((e) => {
+                setLoading(false);
+                setInfo(e.response.data.message);
+            })
     }
 
     return(

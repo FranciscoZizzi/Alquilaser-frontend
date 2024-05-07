@@ -32,7 +32,7 @@ const BookingDatePicker = ({listingId, maxBookDuration, startDate, endDate, hand
                 })
                 setBookedDates(dates);
             })
-            .catch((e: any) => alert(e.response.data));
+            .catch((e: any) => console.log(e.response.data));
     }, [disabled]);
 
     const dateIsBooked = (date: dayjs.Dayjs | null | undefined) => {
