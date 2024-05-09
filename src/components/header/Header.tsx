@@ -108,7 +108,7 @@ const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
             </div>
             <div className="profile-icon">
                 {showProfileIcon ?
-                    (isLoggedIn ? <ImageButton onClick={handleProfileClick} imageURL={imageUrl || ''}/> :
+                    (isLoggedIn ? <ImageButton onClick={handleProfileClick} imageURL={imageUrl || 'https://t4.ftcdn.net/jpg/04/10/43/77/360_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg'}/> :
                         <IconButton onClick={handleProfileClick} icon={<UserIcon fill={"white"} height={"50"} width={"50"}/>}/>) : null}
             </div>
 
