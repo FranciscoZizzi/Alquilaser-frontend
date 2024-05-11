@@ -9,17 +9,30 @@ import { theme } from '../../utils/theme';
 import ImageUploadButton from "../../components/imageUploadButton/ImageUploadButton";
 import Header from "../../components/header/Header";
 import axios from "axios";
+import TextField from "../../components/textField/TextField";
+import PasswordField from "../../components/textField/PasswordField";
+import PhoneNumberField from "../../components/phoneNumberField/PhoneNumberField";
 
 const ProfileInfoPage = () => {
     const navigate = useNavigate();
 
     const [userData, setUserData] = useState({ name: '', phone: '', email: '', profilePic: null});
     const [imageUrl, setImageUrl] = useState('');
+    const [editMode, setEditMode] = useState(false)
 
-    const handleLogoutClick = () => {
-        localStorage.removeItem("token");
-        navigate('/');
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+
+    const handleEditProfile = () => {
+        setEditMode(!editMode)
     };
+
+    const handleSaveChanges = () => {
+
+    }
 
     const handleImageUpload = async (imageUrl: string) => {
         try {
@@ -105,12 +118,27 @@ const ProfileInfoPage = () => {
                 }}>
                     <Avatar name={userData.name} size="320" src={imageUrl} />
                     <ImageUploadButton setImage={handleImageUpload} />
-                    <Button variant={"secondary"} onClick={handleLogoutClick}>Logout</Button>
+                    <Button variant={"secondary"} onClick={handleEditProfile}>Edit Profile</Button>
                 </div>
                 <div className="info" style={{ marginLeft: 30 }}>
-                    <h1>{userData.name}</h1>
-                    <h1>{userData.phone}</h1>
-                    <h1>{userData.email}</h1>
+                    <div>
+                        <h1>Name:</h1>
+
+                        <h2>{userData.name}</h2>
+                    </div>
+                    <div>
+                        <h1>Phone number:</h1>
+                        <h2>{userData.phone}</h2>
+                    </div>
+                    <div>
+                        <h1>Email:</h1>
+                        <h2>{userData.email}</h2>
+                    </div>
+                    <TextField value={username} placeholder={"Username"} onChange={setUsername} isError={usernameError}/>
+                    <TextField value={email} placeholder={"Email"} onChange={setEmail} isError={emailError}/>
+                    <PasswordField value={password} placeholder={"Password"} onChange={setPassword} isError={passwordError}/>
+                    <PasswordField value={confirmPassword} placeholder={"Confirm password"} onChange={setConfirmPassword} isError={passwordError}/>
+                    <PhoneNumberField value={phoneNumber} placeholder={"Phone number"}  onChange={setPhoneNumber} isError={numberError}/>
                 </div>
             </div>
         </div>
