@@ -7,6 +7,7 @@ import RegisterPage from "./pages/register";
 import LoginPage from "./pages/login";
 import ProfilePage from "./pages/profile";
 import ListingPage from "./pages/listing";
+import ProfileInfoPage from "./pages/profile/info";
 
 
 function App() {
@@ -28,6 +29,9 @@ function App() {
             <Routes>
                 <Route path={'/profile'} element={<ProfilePage/>}/>
                 <Route path={'/listing/:listingId'} element={<ListingPage/>}/>
+            </Routes>
+            <Routes>
+                <Route path={'/profile/info'} element={<ProfileInfoPage/>}/>
             </Routes>
         </BrowserRouter>
       </>
