@@ -48,8 +48,8 @@ const ExtraInfoPopUp: React.FC<ExtraInfoPopUpProps> = ({title, client, rate,fina
 
                     {/* Second Row */}
                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
-                        <div style={{ flexBasis: '50%' }}>Rate:{rate} Final price:{finalPrice}</div>
-                        <div style={{ flexBasis: '50%' }}>Date of reservation:{dateOfReservation}</div>
+                        <div style={{ flexBasis: '50%' }}>Rate: {rate} Final price: {finalPrice}</div>
+                        <div style={{ flexBasis: '50%' }}>Date of reservation: {dateOfReservation}</div>
                     </div>
 
                     {/* Third Row */}

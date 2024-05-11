@@ -14,7 +14,7 @@ const ProfilePage = () => {
     const navigate = useNavigate();
 
     const [userListings, setUserListings] = useState({listings: []})
-    const [userData, setUserData] = useState({ name: '', profilePic: null,  bookings: [] });
+    const [userData, setUserData] = useState({ name: '', profilePic: null,  bookings: [], rents: [] });
     const [imageUrl, setImageUrl] = useState('');
 
     const handleLogoutClick = () => {
@@ -84,8 +84,8 @@ const ProfilePage = () => {
                 }
 
                 setUserListings(listingRes.data.data)
-                const { name, profile_pic, bookings } = res.data.data;
-                setUserData({ name, profilePic: profile_pic, bookings });
+                const { name, profile_pic, bookings, rents } = res.data.data;
+                setUserData({ name, profilePic: profile_pic, bookings , rents});
 
                 if (profile_pic && profile_pic.data) {
                     setImageUrl(bufferToUrl(profile_pic));
@@ -111,9 +111,11 @@ const ProfilePage = () => {
                            price={e.price} title={e.title} listing_id={e.id} description={e.description}/>)
     })
 
+    const rentHistory: any[] = [];
+    userData.rents.forEach((e: any) => rentHistory.push(<ListingHistory listingId={e.listing_id} startDate={e.start_date} endDate={e.end_date} clientId={e.user_id} dateOfReservation={e.createdAt}/>))
 
     const bookingHistory: any[] = [];
-    userData.bookings.forEach((e: any) => bookingHistory.push(<ListingHistory listingId={e.listing_id} startDate={e.start_date} endDate={e.end_date} client={"You"}/>))
+    userData.bookings.forEach((e: any) => bookingHistory.push(<ListingHistory listingId={e.listing_id} startDate={e.start_date} endDate={e.end_date} clientId={e.user_id} dateOfReservation={e.createdAt}/>))
 
 
     return (
@@ -154,6 +156,7 @@ const ProfilePage = () => {
                                 <Button style={{ width: 240, height: 40 }}>Register return</Button>
                             </div>
                         </div>
+                        {rentHistory}
                     </div>
                     <div className="booking-history">
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>

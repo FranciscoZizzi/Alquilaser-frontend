@@ -4,19 +4,27 @@ import ExtraInfoPopUp from "../popUp/ExtraInfoPopUp";
 import axios from "axios";
 import {BASE_URL, PORT} from "../../utils/constants";
 
-const ListingHistory = ({listingId, startDate, endDate, client} : {
+const ListingHistory = ({listingId, startDate, endDate, clientId, dateOfReservation} : {
     listingId: number,
     startDate: string,
     endDate: string,
-    client: string
+    clientId: number,
+    dateOfReservation: string,
 }) => {
     const [listingData, setListingData] = useState(Object);
+    const [client, setClientName] = useState("");
 
     useEffect(() => {
         axios.get(BASE_URL + ':' + PORT + `/api/listings/get/${listingId}`)
             .then(res => setListingData(res.data))
             .catch(e => alert(e.response.data.message));
     }, []);
+
+    useEffect(() => {
+        axios.get(BASE_URL + ':' + PORT + `/api/users/get/${clientId}`)
+            .then(res => setClientName(res.data.name))
+            .catch(e => alert(e.response.data.message));
+    })
 
     return(
         <div style={{
@@ -42,7 +50,7 @@ const ListingHistory = ({listingId, startDate, endDate, client} : {
                 </p>
             </div>
             <div style={{display:"flex", flexDirection:"column", justifyContent:"center"}}>
-                <ExtraInfoPopUp title={listingData.title} rate={listingData.price} client={client} dateOfReservation={"placeholder"} prevDamage={listingData.damage} finalPrice={"placeholder"} additionalDamage={"placeholder"} />
+                <ExtraInfoPopUp title={listingData.title} rate={listingData.price} client={client} dateOfReservation={dateOfReservation.split('T')[0]} prevDamage={listingData.damage} finalPrice={"placeholder"} additionalDamage={"placeholder"} />
             </div>
         </div>
     );
