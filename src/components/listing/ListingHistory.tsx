@@ -3,13 +3,21 @@ import Button from "../button/Button";
 import ExtraInfoPopUp from "../popUp/ExtraInfoPopUp";
 import axios from "axios";
 import {BASE_URL, PORT} from "../../utils/constants";
+import dayjs from "dayjs";
 
-const ListingHistory = ({listingId, startDate, endDate, clientId, dateOfReservation} : {
+const ListingHistory = ({listingId, booking} : {
     listingId: number,
-    startDate: string,
-    endDate: string,
-    clientId: number,
-    dateOfReservation: string,
+    booking: {
+        id: number,
+        user_id: number,
+        start_date: string,
+        end_date: string,
+        initial_damage: string,
+        final_damage: string,
+        price: number,
+        extra_fees: number,
+        createdAt: string
+    }
 }) => {
     const [listingData, setListingData] = useState(Object);
     const [client, setClientName] = useState("");
@@ -21,10 +29,13 @@ const ListingHistory = ({listingId, startDate, endDate, clientId, dateOfReservat
     }, []);
 
     useEffect(() => {
-        axios.get(BASE_URL + ':' + PORT + `/api/users/get/${clientId}`)
+        axios.get(BASE_URL + ':' + PORT + `/api/users/get/${booking.user_id}`)
             .then(res => setClientName(res.data.name))
             .catch(e => alert(e.response.data.message));
     })
+
+    let additionalDamage = booking.initial_damage === booking.final_damage ? "none" : booking.final_damage;
+    let bookedDays = dayjs(booking.end_date).diff(dayjs(booking.start_date),"day")
 
     return(
         <div style={{
@@ -41,16 +52,16 @@ const ListingHistory = ({listingId, startDate, endDate, clientId, dateOfReservat
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
                 <p>
-                    {startDate.split('T')[0]} to {endDate.split('T')[0]}
+                    {booking.start_date.split('T')[0]} to {booking.end_date.split('T')[0]}
                 </p>
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
                 <p>
-                    Total cost: {"placeholder"}
+                    Total cost: {booking.price * bookedDays + booking.extra_fees}
                 </p>
             </div>
             <div style={{display:"flex", flexDirection:"column", justifyContent:"center"}}>
-                <ExtraInfoPopUp title={listingData.title} rate={listingData.price} client={client} dateOfReservation={dateOfReservation.split('T')[0]} prevDamage={listingData.damage} finalPrice={"placeholder"} additionalDamage={"placeholder"} />
+                <ExtraInfoPopUp title={listingData.title} rate={listingData.price} client={client} dateOfReservation={booking.createdAt.split('T')[0]} prevDamage={listingData.damage} finalPrice={booking.price * bookedDays + booking.extra_fees} additionalDamage={additionalDamage} />
             </div>
         </div>
     );

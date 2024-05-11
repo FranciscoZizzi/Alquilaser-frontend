@@ -95,10 +95,10 @@ const ProfilePage = () => {
     })
 
     const rentHistory: any[] = [];
-    userData.rents.forEach((e: any) => rentHistory.push(<ListingHistory listingId={e.listing_id} startDate={e.start_date} endDate={e.end_date} clientId={e.user_id} dateOfReservation={e.createdAt}/>))
+    userData.rents.forEach((e: any) => rentHistory.push(<ListingHistory listingId={e.listing_id} booking={e}/>))
 
     const bookingHistory: any[] = [];
-    userData.bookings.forEach((e: any) => bookingHistory.push(<ListingHistory listingId={e.listing_id} startDate={e.start_date} endDate={e.end_date} clientId={e.user_id} dateOfReservation={e.createdAt}/>))
+    userData.bookings.forEach((e: any) => bookingHistory.push(<ListingHistory listingId={e.listing_id} booking={e}/>))
 
 
     return (

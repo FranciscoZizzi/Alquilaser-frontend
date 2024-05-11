@@ -11,8 +11,8 @@ import ExtendedTextField from "../extendedTextField/ExtendedTextField";
 interface ExtraInfoPopUpProps{
     title: string;
     client: string;
-    rate: string;
-    finalPrice: string;
+    rate: number;
+    finalPrice: number;
     dateOfReservation: string;
     prevDamage: string;
     additionalDamage?: string;
