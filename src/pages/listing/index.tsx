@@ -8,6 +8,7 @@ import Button from "../../components/button/Button";
 import {Dayjs} from "dayjs";
 import {theme} from "../../utils/theme";
 import { Slider } from "reactjs-simple-slider";
+import ListingNotFoundPage from "./error";
 
 
 const ListingPage = () => {
@@ -17,6 +18,7 @@ const ListingPage = () => {
     const [imageUrls, setImageUrls] = useState<any>([]);
     const [additionalInfo, setInfo] = useState("");
     const [isLoading, setLoading] = useState(false);
+    const [listingNotFound, set404] = useState(false);
 
     const {listingId} = useParams();
 
@@ -26,7 +28,7 @@ const ListingPage = () => {
             setListingData(res.data);
         };
 
-        fetchListingData();
+        fetchListingData().catch(() => set404(true));
     }, []);
 
     useEffect(() => {
@@ -66,6 +68,9 @@ const ListingPage = () => {
             })
     }
 
+    if (listingNotFound) {
+        return(<ListingNotFoundPage/>)
+    }
     return(
         <div className="body">
             <Header showBackButton={true} showSearchBar={true} showProfileIcon={true}/>
