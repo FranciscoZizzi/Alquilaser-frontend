@@ -8,19 +8,22 @@ import Button from "../button/Button";
 import NumberField from "../numberField/NumberField";
 import Dropdown from "../dropdown/Dropdown";
 import dayjs from "dayjs";
+import {BASE_URL, PORT} from "../../utils/constants";
 
 const RegisterReturnPopUp = forwardRef((props, ref) => {
     const [open, setOpen] = useState(false);
     const [bookingTitles, setBookingTitles] = useState([""]);
-    const [selectedOption, setSelected] = useState<string>(bookingTitles[0]);
+    const [selectedOption, setSelected] = useState<string>("");
     const [activeBookings, setBookings] = useState<any[]>([]);
     const [price, setPrice] = useState(0);
     const [userRating, setUserRating] = useState();
     const [extraFees, setFees] = useState();
     const [damage, setDamage] = useState("");
+    const [disableSubmit, setDisableSubmit] = useState(false);
 
     useEffect(() => {
         const getActiveBookings = async () => {
+            setDisableSubmit(true);
             const token = localStorage.getItem('token');
             if (!token) {
                 throw new Error('No JWT token available');
@@ -62,16 +65,29 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
             setBookingTitles(bookingTitles);
             setSelected(bookingTitles[0]);
             setBookings(activeBookings);
+            if (bookingTitles[0] === "") {
+                setDisableSubmit(true);
+            } else {
+                setDisableSubmit(false);
+            }
+
         }
-        getActiveBookings();
+        getActiveBookings().catch((e:any) => {
+            console.log(e);
+            setDisableSubmit(false);
+        });
     }, []);
 
     const calculatePrice = (bookingTitle: string, activeBookings: any[]) => {
+        // TODO calculate price using also current date
         let selectedBooking: any = activeBookings[0];
         for (let i = 0; i < bookingTitles.length; i++) {
             if (bookingTitles[i] === bookingTitle) {
                 selectedBooking = activeBookings[i];
             }
+        }
+        if (!selectedBooking) {
+            return null;
         }
         let rate = selectedBooking.price;
         let bookedDays = dayjs(selectedBooking.end_date).diff(selectedBooking.start_date, "day");
@@ -90,13 +106,27 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
     }
 
     const handleSubmit = async () => {
+        setDisableSubmit(true);
+        if (!userRating) {
+            alert("user rating missing"); // TODO handle error
+            return;
+        }
         try {
-            // TODO
+            let selectedBooking: any = activeBookings[bookingTitles.indexOf(selectedOption)];
+            let data = {
+                bookingId: selectedBooking.id,
+                extraFees: extraFees,
+                finalDamage: damage,
+                userRating: userRating
+            }
+            await axios.post(BASE_URL + ':' + PORT + "/api/bookings/return", data);
+            setDisableSubmit(false);
         } catch (e: any) {
+            setDisableSubmit(false);
             if (e.response && e.response.data && e.response.data.message) {
-                alert(e.response.data.message);
+                console.log(e.response.data.message);
             } else {
-                alert("An error occurred while registering the return");
+                console.log("An error occurred while registering the return");
             }
         }
     };
@@ -117,9 +147,6 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
                     <button className="close" onClick={() => setOpen(!open)}>
                         &times;
                     </button>
-                    {/*<h1 style={{*/}
-                    {/*    textAlign: "center"*/}
-                    {/*}}>Register Return</h1>*/}
                     <div className="actions">
                         <div style={{
                             display: "flex",
@@ -173,7 +200,7 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
                             flexDirection: "column",
                             gap: 10
                         }}>
-                            <Button onClick={handleSubmit}>Register return</Button>
+                            <Button onClick={handleSubmit} disabled={disableSubmit}>Register return</Button>
                         </div>
                     </div>
                 </div>
