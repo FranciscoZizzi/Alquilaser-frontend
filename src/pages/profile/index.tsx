@@ -9,6 +9,8 @@ import { theme } from '../../utils/theme';
 import ImageUploadButton from "../../components/imageUploadButton/ImageUploadButton";
 import Header from "../../components/header/Header";
 import axios from "axios";
+import Dropdown from "../../components/dropdown/Dropdown";
+import RegisterReturnPopUp from "../../components/popUp/RegisterReturnPupUp";
 
 const ProfilePage = () => {
     const navigate = useNavigate();
@@ -46,7 +48,7 @@ const ProfilePage = () => {
 
     useEffect(() => {
         const fetchUserProfile = async () => {
-            try {
+            try { // TODO move try catch outside method declaration to avoid showing react error
                 const token = localStorage.getItem('token');
                 if (!token) {
                     throw new Error('No JWT token available');
@@ -136,7 +138,7 @@ const ProfilePage = () => {
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                             <h1>Rent History:</h1>
                             <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center" }}>
-                                <Button style={{ width: 240, height: 40 }}>Register return</Button>
+                                <RegisterReturnPopUp/>
                             </div>
                         </div>
                         {rentHistory}
