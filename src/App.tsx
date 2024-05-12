@@ -16,23 +16,13 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path={'/'} element={<HomePage/>}/>
-          </Routes>
-          <Routes>
             <Route path={'/search-results'} element={<ResultPage/>}/>
+            <Route path={'/register'} element={<RegisterPage/>}/>
+            <Route path={'/login'} element={<LoginPage/>}/>
+            <Route path={'/profile'} element={<ProfilePage/>}/>
+            <Route path={'/listing/:listingId'} element={<ListingPage/>}/>
+            <Route path={'/profile/info'} element={<ProfileInfoPage/>}/>
           </Routes>
-            <Routes>
-                <Route path={'/register'} element={<RegisterPage/>}/>
-            </Routes>
-            <Routes>
-                <Route path={'/login'} element={<LoginPage/>}/>
-            </Routes>
-            <Routes>
-                <Route path={'/profile'} element={<ProfilePage/>}/>
-                <Route path={'/listing/:listingId'} element={<ListingPage/>}/>
-            </Routes>
-            <Routes>
-                <Route path={'/profile/info'} element={<ProfileInfoPage/>}/>
-            </Routes>
         </BrowserRouter>
       </>
   );
