@@ -106,7 +106,15 @@ const ProfilePage = () => {
     return (
         <div style={{display: 'flex', flexDirection: 'column', justifyContent:'center'}}>
             <Header showSearchBar={false} showProfileIcon={true} showBackButton={true} />
-            <div style={{ borderRadius: 25, background: theme.primary300, display: "flex", flexDirection: "row", marginTop: 53, marginLeft: "8%", width: "80%", padding: "2.5%" }}>
+            <div style={{ borderRadius: 25, background: theme.primary300,
+                display: "flex",
+                flexDirection: "row",
+                marginTop: 53,
+                marginLeft: "8%",
+                width: "80%",
+                padding: "2.5%",
+            }}>
+
                 <div style={{
                     width: 320,
                     display: 'flex',
@@ -117,10 +125,10 @@ const ProfilePage = () => {
                     <Button variant={"empty"} onClick={handleInfoClick}>Profile Info</Button>
                     <Button variant={"secondary"} onClick={handleLogoutClick}>Logout</Button>
                 </div>
-                <div className="info" style={{ marginLeft: 30 }}>
+                <div className="info" style={{ marginLeft: "5%", width: "80%"}}>
                     <h1>{userData.name}</h1>
                     <div className="listed-parts">
-                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                             <h1>Listed Parts:</h1>
                             <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center" }}>
                                 <AddNewListingPopUp />

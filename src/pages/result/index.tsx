@@ -69,6 +69,7 @@ const ResultPage = () => {
                         marginTop: '20px',
                         marginLeft: '50px',
                         alignItems: 'center',
+                        width: "70%"
                     }}>
                         <div style={{
                             display: 'flex',
@@ -86,6 +87,7 @@ const ResultPage = () => {
                             <div style={{
                                 display: 'flex',
                                 flexDirection: "column",
+                                width: "100%",
                                 gap: '30px',
                             }}>
                                 {rows}
