@@ -22,16 +22,34 @@ const ProfileInfoPage = () => {
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
 
     const handleEditProfile = () => {
         setEditMode(!editMode)
     };
 
-    const handleSaveChanges = () => {
-
+    const handleSaveChanges = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No JWT token available');
+            }
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            };
+            const res = await axios.put('http://localhost:3001/api/users/edit', {
+                name: username,
+                email,
+                phoneNumber
+            }, config);
+            setEditMode(!editMode)
+            window.location.reload()
+        }
+        catch(error){
+            console.error('Error updating profile data:', error);
+        }
     }
 
     const handleImageUpload = async (imageUrl: string) => {
@@ -92,6 +110,9 @@ const ProfileInfoPage = () => {
                 }
                 const { name, profile_pic, phone, email } = res.data.data;
                 setUserData({ name, phone, email, profilePic: profile_pic });
+                setUsername(name)
+                setEmail(email)
+                setPhoneNumber(phone)
 
                 if (profile_pic && profile_pic.data) {
                     setImageUrl(bufferToUrl(profile_pic));
@@ -118,27 +139,41 @@ const ProfileInfoPage = () => {
                 }}>
                     <Avatar name={userData.name} size="320" src={imageUrl} />
                     <ImageUploadButton setImage={handleImageUpload} />
-                    <Button variant={"secondary"} onClick={handleEditProfile}>Edit Profile</Button>
+                    {editMode ? (
+                        <Button variant={"primary"} onClick={handleSaveChanges}>Edit Profile</Button>
+                    ) : (
+                        <Button variant={"secondary"} onClick={handleEditProfile}>Edit Profile</Button>
+                    )}
+
                 </div>
-                <div className="info" style={{ marginLeft: 30 }}>
+                <div style={{ marginLeft: 30, width: 300 }}>
                     <div>
                         <h1>Name:</h1>
+                        {editMode ? (
+                            <TextField value={username} placeholder={"Username"} onChange={setUsername}/>
+                        ) : (
+                            <div>
 
-                        <h2>{userData.name}</h2>
-                    </div>
-                    <div>
-                        <h1>Phone number:</h1>
-                        <h2>{userData.phone}</h2>
-                    </div>
-                    <div>
+                                <h2>{userData.name}</h2>
+                            </div>
+                        )}
                         <h1>Email:</h1>
-                        <h2>{userData.email}</h2>
+                        {editMode ? (
+                            <TextField value={email} placeholder={"Email"} onChange={setEmail}/>
+                        ) : (
+                            <div>
+                                <h2>{userData.email}</h2>
+                            </div>
+                        )}
+                        <h1>Phone Number:</h1>
+                        {editMode ? (
+                            <PhoneNumberField value={phoneNumber} placeholder={"Phone number"}  onChange={setPhoneNumber}/>
+                        ) : (
+                            <div>
+                                <h2>{userData.phone}</h2>
+                            </div>
+                        )}
                     </div>
-                    <TextField value={username} placeholder={"Username"} onChange={setUsername} isError={usernameError}/>
-                    <TextField value={email} placeholder={"Email"} onChange={setEmail} isError={emailError}/>
-                    <PasswordField value={password} placeholder={"Password"} onChange={setPassword} isError={passwordError}/>
-                    <PasswordField value={confirmPassword} placeholder={"Confirm password"} onChange={setConfirmPassword} isError={passwordError}/>
-                    <PhoneNumberField value={phoneNumber} placeholder={"Phone number"}  onChange={setPhoneNumber} isError={numberError}/>
                 </div>
             </div>
         </div>
