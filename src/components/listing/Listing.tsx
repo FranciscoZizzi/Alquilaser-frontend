@@ -20,7 +20,7 @@ const Listing = ({showEditButton, listing_id, image, title, price, availability,
 
     return(
         <div style={{
-            background: "white",
+            backgroundColor: "white",
             height: 168,
             display: "flex",
             flexDirection: "row",
@@ -36,7 +36,8 @@ const Listing = ({showEditButton, listing_id, image, title, price, availability,
                 }} src={image} alt="Product picture"/>
             </div>
             <div style={{
-                width: 800,
+                width: "auto",
+                maxWidth: "280px" ,
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: 'center'
@@ -58,14 +59,12 @@ const Listing = ({showEditButton, listing_id, image, title, price, availability,
                         Price: ${price}/day
                     </p>
                     <div style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-around",
+                        justifyContent: "space-between",
+                        marginLeft:"100%",
                         paddingBottom: 20
                     }}>
                         <p style={{
                             fontSize:20,
-                            textAlign:"center",
                         }}>
                             Status: {availability}
                         </p>
