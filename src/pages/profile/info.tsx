@@ -12,6 +12,7 @@ import axios from "axios";
 import TextField from "../../components/textField/TextField";
 import PasswordField from "../../components/textField/PasswordField";
 import PhoneNumberField from "../../components/phoneNumberField/PhoneNumberField";
+import ChangePasswordPopUp from "../../components/popUp/ChangePasswordPopUp";
 
 const ProfileInfoPage = () => {
     const navigate = useNavigate();
@@ -173,6 +174,7 @@ const ProfileInfoPage = () => {
                                 <h2>{userData.phone}</h2>
                             </div>
                         )}
+                        <ChangePasswordPopUp/>
                     </div>
                 </div>
             </div>
