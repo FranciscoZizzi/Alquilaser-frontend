@@ -52,7 +52,7 @@ const ListingHistory = ({listingId, booking} : {
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
                 <p>
-                    {booking.start_date.split('T')[0]} to {booking.end_date.split('T')[0]}
+                    <strong>{booking.start_date.split('T')[0]}</strong> to <strong>{booking.end_date.split('T')[0]}</strong>
                 </p>
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
