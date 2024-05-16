@@ -49,7 +49,7 @@ const AddNewListingPopUp = forwardRef((props, ref) => {
                 formData.append(`listing_pic_${i}`, file, fileName);
             }
 
-            setPostUrl(`http://localhost:3002/listing/${listingRes.data.data.listing_id}`)
+            setPostUrl(`http://localhost:3002/listing/info/${listingRes.data.data.listing_id}`);
 
             const imageRes = await axios.put(`http://localhost:3001/api/listings/addImages/${listingRes.data.data.listing_id}`, formData, {
                 headers: {
