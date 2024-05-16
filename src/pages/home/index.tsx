@@ -31,11 +31,11 @@ const HomePage = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            height: '100vh'
+            // height: '100vh'
         }}>
             <div style={{
-                marginTop:'25%',
-                height: 700,
+                marginTop:'15%',
+                // height: 700,
                 width: 360
             }}>
                 <SearchBar value={searchTerm} onChange={handleChange} onKeyUp={handleKeyPress}></SearchBar>
