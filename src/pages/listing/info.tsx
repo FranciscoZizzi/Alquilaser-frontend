@@ -98,7 +98,7 @@ const ListingInfoPage = () => {
                     <div style={{display:"flex", flexDirection:"column"}}>
                         <Avatar name={userData.name} size="320" src={userImageUrl}/>
                         <h1>{userData.name}</h1>
-                        <h1>{(userData.rating_sum / userData.rating_count).toPrecision(2)}</h1>
+                        <h1>Rating: {(userData.rating_sum / userData.rating_count).toPrecision(2)}</h1>
                     </div>
                     <div style={{display:"flex", flexDirection:"column"}}>
                         <Listing availability={listingData.listing_state} image={imageUrls[0]} listing_id={listingData.id} price={listingData.price} showEditButton={false} title={listingData.title}/>
