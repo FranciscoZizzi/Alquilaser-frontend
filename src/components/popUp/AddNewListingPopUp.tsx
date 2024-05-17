@@ -16,6 +16,7 @@ const AddNewListingPopUp = forwardRef((props, ref) => {
     const [showQRPopup, setShowQRPopup] = useState(false); // State for QR code popup
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
+    const [reqRating, setReqRating] = useState(0);
     const [description, setDesc] = useState("");
     const [imageUrls, setImageUrls] = useState<string[]>([]);
     const [postUrl, setPostUrl] = useState('');
@@ -35,6 +36,7 @@ const AddNewListingPopUp = forwardRef((props, ref) => {
             const listingRes = await axios.post(getAddListingURL(), {
                 title,
                 price,
+                req_rating: reqRating,
                 description
             }, config);
 
@@ -73,6 +75,12 @@ const AddNewListingPopUp = forwardRef((props, ref) => {
         setImageUrls(prevUrls => [...prevUrls, ...newUrls]);
     };
 
+    const handleRating = (rating: any) => {
+        if (rating <= 5) {
+            setReqRating(rating);
+        }
+    }
+
     return (
         <div>
             <Popup
@@ -109,6 +117,9 @@ const AddNewListingPopUp = forwardRef((props, ref) => {
                         </div>
                         <div>
                             <ExtendedTextField value={description} placeholder={"Description"} onChange={setDesc} />
+                        </div>
+                        <div>
+                            <NumberField value={reqRating} placeholder={"Required rating"} onChange={handleRating}/>
                         </div>
                         <div style={{
                             display: 'flex',
