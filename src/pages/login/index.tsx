@@ -59,7 +59,7 @@ const LoginPage = () => {
                     <PasswordField value={password} placeholder={"Password"} onChange={setPassword} isError={passwordError}/>
                     <Button onClick={handleSubmit}>Login</Button>
                     <div style={{
-                        marginTop: '10px',
+                        marginTop: '1px',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -67,6 +67,7 @@ const LoginPage = () => {
                         gap: '10px', // Adds some space between the links
                     }}>
                         <p style={{color: 'red'}}>{errorMessage}</p>
+                        <Link to="/forgot_password">Forgot password?</Link>
                     <span>
                         {/*TODO use navigate*/}
                         Don't have an account? <Link to="/register">Register</Link>

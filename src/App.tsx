@@ -9,25 +9,29 @@ import ProfilePage from "./pages/profile";
 import ListingPage from "./pages/listing";
 import ProfileInfoPage from "./pages/profile/info";
 import ListingInfoPage from "./pages/listing/info";
+import ForgotPasswordPage from "./pages/forgotPassword";
+import ResetPasswordPage from "./pages/resetPassword";
 
 
 function App() {
-  return (
-      <>
-          <BrowserRouter>
-            <Routes>
-                <Route path={'/'} element={<HomePage/>}/>
-                <Route path={'/search-results'} element={<ResultPage/>}/>
-                <Route path={'/register'} element={<RegisterPage/>}/>
-                <Route path={'/login'} element={<LoginPage/>}/>
-                <Route path={'/profile'} element={<ProfilePage/>}/>
-                <Route path={'/listing/:listingId'} element={<ListingPage/>}/>
-                <Route path={'/listing/info/:listingId'} element={<ListingInfoPage/>}/>
-                <Route path={'/profile/info'} element={<ProfileInfoPage/>}/>
-            </Routes>
-          </BrowserRouter>
-      </>
-  );
+    return (
+        <>
+            <BrowserRouter>
+                <Routes>
+                    <Route path={'/'} element={<HomePage/>}/>
+                    <Route path={'/search-results'} element={<ResultPage/>}/>
+                    <Route path={'/register'} element={<RegisterPage/>}/>
+                    <Route path={'/login'} element={<LoginPage/>}/>
+                    <Route path={'/profile'} element={<ProfilePage/>}/>
+                    <Route path={'/listing/:listingId'} element={<ListingPage/>}/>
+                    <Route path={'/listing/info/:listingId'} element={<ListingInfoPage/>}/>
+                    <Route path={'/profile/info'} element={<ProfileInfoPage/>}/>
+                    <Route path={'/forgot_password'} element={<ForgotPasswordPage/>}/>
+                    <Route path={'/reset_password/:id/:token'} element={<ResetPasswordPage/>}/>
+                </Routes>
+            </BrowserRouter>
+        </>
+    );
 }
 
 export default App;
