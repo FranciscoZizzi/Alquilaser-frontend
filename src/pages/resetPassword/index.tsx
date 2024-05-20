@@ -9,11 +9,12 @@ const ResetPasswordPage = () => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const {id,token} = useParams()
+    const [hasReset, setHasReset] = useState(false)
 
     const handleSubmit = async () => {
         try {
+            setHasReset(true)
             const res = await axios.put(`http://localhost:3001/api/users/reset_password/${id}/${token}`, { password, confirmPassword });
-
             navigate('/login');
         } catch(e: any) {
             console.log(e)
@@ -40,9 +41,16 @@ const ResetPasswordPage = () => {
                 <div style={{
                     fontSize: '16px',
                 }}>
-                    <TextField value={password} placeholder={"New password"} onChange={setPassword}/>
-                    <TextField value={confirmPassword} placeholder={"Confirm new password"} onChange={setConfirmPassword}/>
-                    <Button onClick={handleSubmit}>Change password</Button>
+                    {hasReset ? (
+                        <p>Password has been reset</p>
+                    ) : (
+                        <div>
+                            <TextField value={password} placeholder={"New password"} onChange={setPassword}/>
+                            <TextField value={confirmPassword} placeholder={"Confirm new password"} onChange={setConfirmPassword}/>
+                            <Button onClick={handleSubmit}>Change password</Button>
+                        </div>
+                    )}
+
                     <div style={{
                         marginTop: '1px',
                         display: 'flex',
