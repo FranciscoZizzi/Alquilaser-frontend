@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
-import TextField from "../../components/textField/TextField";
 import axios from "axios";
 import Button from "../../components/button/Button";
+import PasswordField from "../../components/textField/PasswordField";
 
 const ResetPasswordPage = () => {
     const navigate = useNavigate();
@@ -45,25 +45,11 @@ const ResetPasswordPage = () => {
                         <p>Password has been reset</p>
                     ) : (
                         <div>
-                            <TextField value={password} placeholder={"New password"} onChange={setPassword}/>
-                            <TextField value={confirmPassword} placeholder={"Confirm new password"} onChange={setConfirmPassword}/>
+                            <PasswordField value={password} placeholder={"New password"} onChange={setPassword}/>
+                            <PasswordField value={confirmPassword} placeholder={"Confirm new password"} onChange={setConfirmPassword}/>
                             <Button onClick={handleSubmit}>Change password</Button>
                         </div>
                     )}
-
-                    <div style={{
-                        marginTop: '1px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '10px',
-                    }}>
-                        {/*<p style={{color: 'red'}}>{errorMessage}</p>*/}
-                        <span>
-                            Don't have an account? <Link to="/register">Register</Link>
-                        </span>
-                    </div>
                 </div>
             </div>
         </div>
