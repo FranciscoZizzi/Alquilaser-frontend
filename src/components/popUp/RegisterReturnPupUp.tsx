@@ -20,6 +20,7 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
     const [extraFees, setFees] = useState();
     const [damage, setDamage] = useState("");
     const [disableSubmit, setDisableSubmit] = useState(false);
+    const [showDropDown, setShowDropDown] = useState<boolean>(false);
 
     useEffect(() => {
         const getActiveBookings = async () => {
@@ -130,6 +131,14 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
             }
         }
     };
+    const toggleDropDown = () => {
+        setShowDropDown(!showDropDown);
+    }
+    const dismissHandler = (event: React.FocusEvent<HTMLButtonElement>): void => {
+        if (event.currentTarget === event.target) {
+            setShowDropDown(false);
+        }
+    };
 
     return (
         <div>
@@ -156,7 +165,23 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
                             gap: "10px"
                         }}>
                             <div style={{flex: 1}}>
-                                <Dropdown options={bookingTitles} value={selectedOption} onChange={handleChange}/>
+                                <button
+                                    className={showDropDown ? "active" : undefined}
+                                    onClick={(): void => toggleDropDown()}
+                                    onBlur={(e: React.FocusEvent<HTMLButtonElement>): void =>
+                                        dismissHandler(e)
+                                }
+                                >
+                                    {showDropDown && (
+                                    <Dropdown
+                                        options={bookingTitles}
+                                        value={selectedOption}
+                                        showDropDown={false}
+                                        toggleDropDown={(): void => toggleDropDown()}
+                                        onChange={handleChange}
+                                    />
+                                    )}
+                                </button>
                             </div>
                             <div style={{
                                 display: "flex",
