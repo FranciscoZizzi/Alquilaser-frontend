@@ -52,7 +52,6 @@ const ListingInfoPage = () => {
             if (userData.profile_pic && userData.profile_pic.data) {
                 setUserImageUrl(bufferToUrl(userData.profile_pic));
             }
-
             setListingData(listing);
             setBookingData(activeBooking);
             setUserData(userData);
@@ -91,19 +90,29 @@ const ListingInfoPage = () => {
         return(<ListingNotFoundPage/>);
     } else
     return (
-        <div>
+        <div style={{display: 'flex', flexDirection: 'column', justifyContent:'center'}}>
             <Header showBackButton showSearchBar showProfileIcon/>
-            <div style={{borderRadius:25, marginLeft:'10%', marginTop:53, backgroundColor:theme.primary300}}>
-                <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", padding:'2.5%'}}>
-                    <div style={{display:"flex", flexDirection:"column"}}>
-                        <Avatar name={userData.name} size="320" src={userImageUrl}/>
-                        <h1>{userData.name}</h1>
-                        <h1>Rating: {(userData.rating_avg).toPrecision(2)}</h1>
-                    </div>
-                    <div style={{display:"flex", flexDirection:"column"}}>
+            <div style={{ borderRadius: 25, background: theme.primary300,
+                display: "flex",
+                flexDirection: "row",
+                marginTop: 53,
+                marginLeft: "8%",
+                width: "80%",
+                padding: "2.5%",
+            }}>
+                <div style={{
+                    width: 320,
+                    display: 'flex',
+                    flexDirection: "column",
+                    gap: 10
+                }}>
+                    <Avatar name={userData.name} size="320" src={userImageUrl}/>
+                    <p style={{fontSize:37, margin:0}}>{userData.name}</p>
+                    <p style={{fontSize:20, margin:0}}>Rating: {userData.rating_avg}</p>
+                </div>
+                    <div style={{ marginLeft: "5%", width: "80%"}}>
                         <Listing availability={listingData.listing_state} image={imageUrls[0]} listing_id={listingData.id} price={listingData.price} showEditButton={false} title={listingData.title}/>
                     </div>
-                </div>
             </div>
         </div>
     );
