@@ -17,11 +17,8 @@ const ResultPage = () => {
     const searchTerm = queryParameters.get("searchTerm");
 
     const handleClick = async () => {
-        if (searchTerm){
-            const res = await axios.post(getSearchURL(), {searchTerm}, {params: {priceMinFilter, priceMaxFilter}});
-            return setResult(res.data);
-        }
-        window.location.reload();
+        const res = await axios.post(getSearchURL(), {}, {params: {priceMinFilter, priceMaxFilter, searchTerm}});
+        setResult(res.data);
     }
     console.log(results)
 
@@ -36,7 +33,7 @@ const ResultPage = () => {
     }
 
     useEffect(() => {
-        axios.post(getSearchURL(), {searchTerm})
+        axios.post(getSearchURL(), {}, {params: {searchTerm, priceMaxFilter, priceMinFilter}})
             .then(res => setResult(res.data))
     }, [])
 
