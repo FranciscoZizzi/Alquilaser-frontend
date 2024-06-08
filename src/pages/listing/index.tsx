@@ -9,7 +9,7 @@ import {Dayjs} from "dayjs";
 import {theme} from "../../utils/theme";
 import { Slider } from "reactjs-simple-slider";
 import ListingNotFoundPage from "./error";
-
+import { Rating } from 'react-simple-star-rating';
 
 const ListingPage = () => {
     const [listingData, setListingData] = useState(Object)
@@ -112,6 +112,14 @@ const ListingPage = () => {
                             </div>
                             <div className="availability">
                                 <p>{listingData.listing_state}</p>
+                            </div>
+                            <div>
+                                <p>Required rating:</p>
+                                <Rating
+                                    initialValue={listingData.req_rating}
+                                    readonly={true}
+                                    allowFraction={true}
+                                />
                             </div>
                             <div className="date-picker">
                                 <BookingDatePicker listingId={listingId} maxBookDuration={60} startDate={startDate} endDate={endDate} handleSetStartDate={setStartDate} handleSetEndDate={setEndDate} disabled={isLoading}/>
