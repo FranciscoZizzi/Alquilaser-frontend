@@ -11,12 +11,13 @@ import Header from "../../components/header/Header";
 import axios from "axios";
 import Dropdown from "../../components/dropdown/Dropdown";
 import RegisterReturnPopUp from "../../components/popUp/RegisterReturnPupUp";
+import {Rating} from "react-simple-star-rating";
 
 const ProfilePage = () => {
     const navigate = useNavigate();
 
     const [userListings, setUserListings] = useState({listings: []})
-    const [userData, setUserData] = useState({ name: '', profilePic: null,  bookings: [], rents: [] });
+    const [userData, setUserData] = useState({ name: '', rating: 3, profilePic: null,  bookings: [], rents: [] });
     const [imageUrl, setImageUrl] = useState('');
 
     const handleLogoutClick = () => {
@@ -69,8 +70,8 @@ const ProfilePage = () => {
                 }
 
                 setUserListings(listingRes.data.data)
-                const { name, profile_pic, bookings, rents } = res.data.data;
-                setUserData({ name, profilePic: profile_pic, bookings , rents});
+                const { name, rating, profile_pic, bookings, rents } = res.data.data;
+                setUserData({ name, rating, profilePic: profile_pic, bookings , rents});
 
                 if (profile_pic && profile_pic.data) {
                     setImageUrl(bufferToUrl(profile_pic));
@@ -127,6 +128,11 @@ const ProfilePage = () => {
                 </div>
                 <div className="info" style={{ marginLeft: "5%", width: "80%"}}>
                     <h1>{userData.name}</h1>
+                    <Rating
+                        initialValue={userData.rating}
+                        readonly={true}
+                        allowFraction={true}
+                    />
                     <div className="listed-parts">
                         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                             <h1>Listed Parts:</h1>
