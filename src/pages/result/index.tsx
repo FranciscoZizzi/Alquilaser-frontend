@@ -4,12 +4,14 @@ import Listing from "../../components/listing/Listing";
 import FilterBox from "../../components/filterBox/FilterBox";
 import Header from "../../components/header/Header";
 import {getSearchURL} from "../../utils/url";
+import {Rating} from "react-simple-star-rating";
 
 
 const ResultPage = () => {
 
     const [priceMinFilter, setPriceMinFilter ] = useState<number>()
     const [priceMaxFilter, setPriceMaxFilter ] = useState<number>()
+    const [maxRatingFilter, setRatingFilter] = useState(5)
 
     const [results, setResult] = useState([])
     const queryParameters = new URLSearchParams(window.location.search)
@@ -17,7 +19,7 @@ const ResultPage = () => {
     const searchTerm = queryParameters.get("searchTerm");
 
     const handleClick = async () => {
-        const res = await axios.post(getSearchURL(), {}, {params: {priceMinFilter, priceMaxFilter, searchTerm}});
+        const res = await axios.post(getSearchURL(), {}, {params: {priceMinFilter, priceMaxFilter, maxRatingFilter, searchTerm}});
         setResult(res.data);
     }
     console.log(results)
@@ -33,7 +35,7 @@ const ResultPage = () => {
     }
 
     useEffect(() => {
-        axios.post(getSearchURL(), {}, {params: {searchTerm, priceMaxFilter, priceMinFilter}})
+        axios.post(getSearchURL(), {}, {params: {searchTerm, maxRatingFilter, priceMaxFilter, priceMinFilter}})
             .then(res => setResult(res.data))
     }, [])
 
@@ -77,9 +79,16 @@ const ResultPage = () => {
                                 marginTop: '20px',
                                 marginRight: '20px',
                                 display: "flex",
-                                flexDirection: "row"
+                                flexDirection: "column"
                             }}>
+                                <p>Max required rating:</p>
+                                <Rating
+                                    initialValue={maxRatingFilter}
+                                    allowFraction={true}
+                                    onClick={setRatingFilter}
+                                />
                                 <FilterBox minPrice={priceMinFilter} maxPrice={priceMaxFilter} setMinPrice={setPriceMinFilter} setMaxPrice={setPriceMaxFilter} onClick={handleClick}></FilterBox>
+
                             </div>
                             <div style={{
                                 display: 'flex',
