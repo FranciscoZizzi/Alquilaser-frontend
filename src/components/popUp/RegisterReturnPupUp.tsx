@@ -125,6 +125,7 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
                 finalDamage: damage,
                 userRating: userRating
             }
+            window.location.reload()
             await axios.post(BASE_URL + ':' + PORT + "/api/bookings/return", data);
             setDisableSubmit(false);
         } catch (e: any) {
