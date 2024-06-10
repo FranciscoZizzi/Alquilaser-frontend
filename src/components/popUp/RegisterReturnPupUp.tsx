@@ -187,46 +187,49 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
                                     )}
                                 </button>
                             </div>
-                            <div style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "center",
-                                width: "100%",
-                                gap: "10px"
-                            }}>
-                                <NumberField value={userRating} placeholder={"Rate User"} onChange={handleRating}/>
-                            </div>
+                            {selectedOption ?
                             <div>
                                 <div style={{
                                     display: "flex",
                                     flexDirection: "row",
-                                    justifyContent: "space-around",
+                                    justifyContent: "center",
                                     width: "100%",
                                     gap: "10px"
                                 }}>
-                                    <div style={{flex: 1}}>
-                                        <NumberField value={extraFees} placeholder={"Additional Fees"}
-                                                     onChange={setFees}/>
+                                    <NumberField value={userRating} placeholder={"Rate User"} onChange={handleRating}/>
+                                </div>
+                                <div>
+                                    <div style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "space-around",
+                                        width: "100%",
+                                        gap: "10px"
+                                    }}>
+                                        <div style={{flex: 1}}>
+                                            <NumberField value={extraFees} placeholder={"Additional Fees"}
+                                                         onChange={setFees}/>
+                                        </div>
+                                        <div style={{flex: 3}}>
+                                            <TextField value={damage} placeholder={"Damage Description"}
+                                                       onChange={setDamage}/>
+                                        </div>
                                     </div>
-                                    <div style={{flex: 3}}>
-                                        <TextField value={damage} placeholder={"Damage Description"}
-                                                   onChange={setDamage}/>
+                                    <div style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "space-around",
+                                        width: "100%",
+                                        gap: "10px"
+                                    }}>
+                                        <h3 style={{paddingTop: 10}}>Booking Price: ${price}</h3>
+                                        <h3 style={{paddingTop: 10}}>+</h3>
+                                        <h3 style={{paddingTop: 10}}>Extra Fees: ${extraFees ? extraFees : 0}</h3>
+                                        <h3 style={{paddingTop: 10}}>=</h3>
+                                        <h1>Final Price: ${+price + +(extraFees == null ? 0 : extraFees)}</h1>
                                     </div>
                                 </div>
-                                <div style={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    justifyContent: "space-around",
-                                    width: "100%",
-                                    gap: "10px"
-                                }}>
-                                    <h3 style={{paddingTop: 10}}>Booking Price: ${price}</h3>
-                                    <h3 style={{paddingTop: 10}}>+</h3>
-                                    <h3 style={{paddingTop: 10}}>Extra Fees: ${extraFees ? extraFees : 0}</h3>
-                                    <h3 style={{paddingTop: 10}}>=</h3>
-                                    <h1>Final Price: ${+price + +(extraFees == null ? 0 : extraFees)}</h1>
-                                </div>
-                            </div>
+                            </div> : null }
                         </div>
                         <div style={{
                             display: 'flex',
