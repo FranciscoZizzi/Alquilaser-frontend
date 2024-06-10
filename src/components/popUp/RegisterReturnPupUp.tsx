@@ -13,7 +13,7 @@ import {BASE_URL, PORT} from "../../utils/constants";
 const RegisterReturnPopUp = forwardRef((props, ref) => {
     const [open, setOpen] = useState(false);
     const [bookingTitles, setBookingTitles] = useState([""]);
-    const [selectedOption, setSelected] = useState<string>("");
+    const [selectedOption, setSelected] = useState<string | undefined>(undefined);
     const [activeBookings, setBookings] = useState<any[]>([]);
     const [price, setPrice] = useState(0);
     const [userRating, setUserRating] = useState();
@@ -64,7 +64,7 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
             })
             calculatePrice(bookingTitles[0], activeBookings);
             setBookingTitles(bookingTitles);
-            setSelected(bookingTitles[0]);
+            //setSelected(bookingTitles[0]);
             setBookings(activeBookings);
             if (bookingTitles[0] === "") {
                 setDisableSubmit(true);
@@ -95,9 +95,9 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
         setPrice(rate * bookedDays);
     }
 
-    const handleChange = (newValue: any) => {
-        setSelected(newValue);
-        calculatePrice(newValue, activeBookings);
+    const handleChange = (e: any) => {
+        setSelected(e);
+        calculatePrice(e, activeBookings);
     }
 
     const handleRating = (rating: any) => {
@@ -112,8 +112,13 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
             alert("user rating missing"); // TODO handle error
             return;
         }
+        if (!selectedOption){
+            alert("select a booking")
+            return
+        }
         try {
-            let selectedBooking: any = activeBookings[bookingTitles.indexOf(selectedOption)];
+            let selectedBooking: any;
+            selectedBooking = activeBookings[bookingTitles.indexOf(selectedOption)];
             let data = {
                 bookingId: selectedBooking.id,
                 extraFees: extraFees,
@@ -134,8 +139,8 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
     const toggleDropDown = () => {
         setShowDropDown(!showDropDown);
     }
-    const dismissHandler = (event: React.FocusEvent<HTMLButtonElement>): void => {
-        if (event.currentTarget === event.target) {
+    const dismissHandler = (e: any): void => {
+        if (e.currentTarget === e.target) {
             setShowDropDown(false);
         }
     };
@@ -164,22 +169,21 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
                             width: "100%",
                             gap: "10px"
                         }}>
-                            <div style={{flex: 1}}>
+                            <div>
                                 <button
                                     className={showDropDown ? "active" : undefined}
                                     onClick={(): void => toggleDropDown()}
                                     onBlur={(e: React.FocusEvent<HTMLButtonElement>): void =>
                                         dismissHandler(e)
-                                }
-                                >
+                                    }>
+                                    <div>{selectedOption !== undefined ? selectedOption : "Select Booking"}</div>
                                     {showDropDown && (
-                                    <Dropdown
-                                        options={bookingTitles}
-                                        value={selectedOption}
-                                        showDropDown={false}
-                                        toggleDropDown={(): void => toggleDropDown()}
-                                        onChange={handleChange}
-                                    />
+                                        <Dropdown
+                                            options={bookingTitles}
+                                            showDropDown={false}
+                                            toggleDropDown={(): void => toggleDropDown()}
+                                            onChange={handleChange}
+                                        />
                                     )}
                                 </button>
                             </div>
@@ -192,32 +196,36 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
                             }}>
                                 <NumberField value={userRating} placeholder={"Rate User"} onChange={handleRating}/>
                             </div>
-                            <div style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "space-around",
-                                width: "100%",
-                                gap: "10px"
-                            }}>
-                                <div style={{flex: 1}}>
-                                    <NumberField value={extraFees} placeholder={"Additional Fees"} onChange={setFees}/>
+                            <div>
+                                <div style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "space-around",
+                                    width: "100%",
+                                    gap: "10px"
+                                }}>
+                                    <div style={{flex: 1}}>
+                                        <NumberField value={extraFees} placeholder={"Additional Fees"}
+                                                     onChange={setFees}/>
+                                    </div>
+                                    <div style={{flex: 3}}>
+                                        <TextField value={damage} placeholder={"Damage Description"}
+                                                   onChange={setDamage}/>
+                                    </div>
                                 </div>
-                                <div style={{flex: 3}}>
-                                    <TextField value={damage} placeholder={"Damage Description"} onChange={setDamage}/>
+                                <div style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "space-around",
+                                    width: "100%",
+                                    gap: "10px"
+                                }}>
+                                    <h3 style={{paddingTop: 10}}>Booking Price: ${price}</h3>
+                                    <h3 style={{paddingTop: 10}}>+</h3>
+                                    <h3 style={{paddingTop: 10}}>Extra Fees: ${extraFees ? extraFees : 0}</h3>
+                                    <h3 style={{paddingTop: 10}}>=</h3>
+                                    <h1>Final Price: ${+price + +(extraFees == null ? 0 : extraFees)}</h1>
                                 </div>
-                            </div>
-                            <div style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "space-around",
-                                width: "100%",
-                                gap: "10px"
-                            }}>
-                                <h3 style={{paddingTop:10}}>Booking Price: ${price}</h3>
-                                <h3 style={{paddingTop:10}}>+</h3>
-                                <h3 style={{paddingTop:10}}>Extra Fees: ${extraFees ? extraFees : 0}</h3>
-                                <h3 style={{paddingTop:10}}>=</h3>
-                                <h1>Final Price: ${+price + +(extraFees == null ? 0 : extraFees)}</h1>
                             </div>
                         </div>
                         <div style={{
