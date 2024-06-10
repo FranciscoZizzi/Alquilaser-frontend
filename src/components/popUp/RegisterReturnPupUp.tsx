@@ -170,7 +170,7 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
                             gap: "10px"
                         }}>
                             <div>
-                                <button
+                                <button style={{width: '90%'}}
                                     className={showDropDown ? "active" : undefined}
                                     onClick={(): void => toggleDropDown()}
                                     onBlur={(e: React.FocusEvent<HTMLButtonElement>): void =>
