@@ -33,7 +33,7 @@ const Listing = ({showEditButton, listing_id, image, title, price, availability,
                     width: 152,
                     height: 152,
                     borderRadius: 15
-                }} src={image} alt="Product picture"/>
+                }} src={image? image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9zcd-dwhaQPEzwe_fWYDMtVVze35Ad5nMHkSk7nxMpBrOtH3_C0wVTz_z6qkVjtYdydw&usqp=CAU"} alt="Product picture"/>
             </div>
             <div style={{
                 width: "auto",

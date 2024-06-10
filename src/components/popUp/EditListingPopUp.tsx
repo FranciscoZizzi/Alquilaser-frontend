@@ -8,6 +8,7 @@ import Button from "../button/Button";
 import MultipleImagesUploadButton from "../multipleImagesUploadButton/MultipleImagesUploadButton";
 import ExtendedTextField from "../extendedTextField/ExtendedTextField";
 import NumberField from "../numberField/NumberField";
+import Dropdown from "../dropdown/Dropdown";
 
 interface EditListingPopUpProps {
     listingId: number,
@@ -26,6 +27,8 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
     const [currentDescription, setCurrentDescription] = useState(description);
     const [imageUrls, setImageUrls] = useState<string[]>([]);
     const [open, setOpen] = useState(false);
+    const availabilityOptions = ["available", "booked", "in repair", "damaged"]
+    const [showDropDown, setShowDropDown] = useState<boolean>(false);
 
     const handleSubmit = async () => {
         try {
@@ -58,6 +61,20 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
         openPopup: () => setOpen(true)
     }), []);
 
+    const handleChange = (e: any) => {
+        setCurrentAvailability(e);
+    }
+
+    const toggleDropDown = () => {
+        setShowDropDown(!showDropDown);
+    }
+    const dismissHandler = (e: any): void => {
+        if (e.currentTarget === e.target) {
+            setShowDropDown(false);
+        }
+    };
+
+
     return (
         <Popup
             open={open}
@@ -88,23 +105,42 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
                         gap: "10px",
                     }}>
                         <div style={{ flex: 3 }}>
-                            <TextField value={currentAvailability} placeholder={"Availability"} onChange={setCurrentAvailability} />
+                            {/*<TextField value={currentAvailability} placeholder={"Availability"} onChange={setCurrentAvailability} />*/}
+                            <div>
+                                <button style={{width: '100%',  height: 66 }}
+                                        className={showDropDown ? "active" : undefined}
+                                        onClick={(): void => toggleDropDown()}
+                                        onBlur={(e: React.FocusEvent<HTMLButtonElement>): void =>
+                                            dismissHandler(e)
+                                        }>
+                                    <div>{currentAvailability}</div>
+                                    {showDropDown && (
+                                        <Dropdown
+                                            options={availabilityOptions}
+                                            showDropDown={false}
+                                            toggleDropDown={(): void => toggleDropDown()}
+                                            onChange={handleChange}
+                                        />
+                                    )}
+                                </button>
+                            </div>
                         </div>
-                        <div style={{ flex: 1 }}>
-                            <NumberField value={currentRate} placeholder={"Rate"} onChange={setCurrentRate} />
+                        <div style={{flex: 1}}>
+                            <NumberField value={currentRate} placeholder={"Rate"} onChange={setCurrentRate}/>
                         </div>
                     </div>
                     <div>
-                        <ExtendedTextField value={currentDescription} placeholder={"Description"} onChange={setCurrentDescription} />
+                        <ExtendedTextField value={currentDescription} placeholder={"Description"}
+                                           onChange={setCurrentDescription}/>
                     </div>
-                        <div style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "space-around",
-                            gap: "10px"
-                        }}>
-                            <Button variant={'secondary'} onClick={handleDelete}>Delete Listing</Button>
-                            <Button onClick={handleSubmit}>Edit listing</Button>
+                    <div style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-around",
+                        gap: "10px"
+                    }}>
+                        <Button variant={'secondary'} onClick={handleDelete}>Delete Listing</Button>
+                        <Button onClick={handleSubmit}>Edit listing</Button>
                     </div>
                 </div>
             </div>

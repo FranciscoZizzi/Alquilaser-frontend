@@ -1,30 +1,45 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {type} from "node:os";
+import './dropDownStyle.css';
 
-const Dropdown = ({options, onChange, value}: {
+type DropDownProps = {
     options: any[],
-    value: any,
+    showDropDown: boolean;
+    toggleDropDown: Function;
     onChange: (event: any) => void
-}) => {
+}
 
-    const handleChange = (e: any) => {
-        onChange(e.target.value);
-    }
+const Dropdown: React.FC<DropDownProps> = ({   options,
+                                               onChange,
+}: DropDownProps): React.JSX.Element => {
+    const [showDropDown, setShowDropDown] = useState<boolean>(false);
+
+    useEffect(() => {
+        setShowDropDown(showDropDown)
+    }, [showDropDown]);
 
     let optionComponents: any[] = [];
     options.forEach((option: string) => optionComponents.push(<option>{option}</option>))
 
+    const onClickHandler = (value:any) =>{
+        onChange(value)
+    }
     return (
-        <div>
-            <select style={{
-                width: 'calc(100% - 0.4rem - 4px)',
-                padding: '1rem',
-                position: 'relative',
-                borderWidth: '2px',
-                borderColor: '#0167f8',
-                borderRadius: '0.375rem'
-            }} value={value} onChange={handleChange}>
-                {optionComponents}
-            </select>
+        <div className={showDropDown ? 'dropdown' : 'dropdown active'}>
+            {options.map(
+                (value: any, index): React.JSX.Element => {
+                    return (
+                        <p
+                            key={index}
+                            onClick={(): void =>{
+                                onClickHandler(value)
+                        }}
+                        >
+                            {value}
+                        </p>
+                    )
+                }
+            )}
         </div>
     )
 }
