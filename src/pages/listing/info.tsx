@@ -9,6 +9,7 @@ import Avatar from "react-avatar";
 import dayjs from "dayjs";
 import {start} from "node:repl";
 import ListingNotFoundPage from "./error";
+import {Rating} from "react-simple-star-rating";
 
 const ListingInfoPage = () => {
     const navigate = useNavigate();
@@ -28,6 +29,7 @@ const ListingInfoPage = () => {
             let listingRes = await axios.get(BASE_URL + ':' + PORT + `/api/listings/get/${listingId}`).catch(() => {
                 set404(true);
             });
+            console.log(listingRes)
             const listing = listingRes ? listingRes.data : null;
             // Get current active booking
             const bookingRes = await axios.get(BASE_URL + ':' + PORT + `/api/listings/bookings/${listingId}`);
@@ -108,7 +110,11 @@ const ListingInfoPage = () => {
                 }}>
                     <Avatar name={userData.name} size="320" src={userImageUrl}/>
                     <p style={{fontSize:37, margin:0}}>{userData.name}</p>
-                    <p style={{fontSize:20, margin:0}}>Rating: {userData.rating_avg}</p>
+                    <Rating
+                        initialValue={userData.rating}
+                        readonly={true}
+                        allowFraction={true}
+                    />
                 </div>
                     <div style={{ marginLeft: "5%", width: "80%"}}>
                         <Listing availability={listingData.listing_state} image={imageUrls[0]} listing_id={listingData.id} price={listingData.price} showEditButton={false} title={listingData.title}/>
