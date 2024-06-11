@@ -9,6 +9,7 @@ import NumberField from "../numberField/NumberField";
 import Dropdown from "../dropdown/Dropdown";
 import dayjs from "dayjs";
 import {BASE_URL, PORT} from "../../utils/constants";
+import {Rating} from "react-simple-star-rating";
 
 const RegisterReturnPopUp = forwardRef((props, ref) => {
     const [open, setOpen] = useState(false);
@@ -197,7 +198,12 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
                                     width: "100%",
                                     gap: "10px"
                                 }}>
-                                    <NumberField value={userRating} placeholder={"Rate User"} onChange={handleRating}/>
+                                    <p style={{fontSize:16}}>User rating:</p>
+                                    <Rating
+                                        initialValue={userRating}
+                                        allowFraction={true}
+                                        onClick={handleRating}
+                                    />
                                 </div>
                                 <div>
                                     <div style={{

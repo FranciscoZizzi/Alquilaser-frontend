@@ -45,7 +45,8 @@ const ListingHistory = ({listingId, booking} : {
             background:"white",
             borderRadius:30,
             paddingRight:16,
-            paddingLeft:16
+            paddingLeft:16,
+            marginBottom:16
         }}>
             <div>
                 <h3>{listingData.title}</h3>

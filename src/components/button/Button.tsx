@@ -8,6 +8,7 @@ const BaseButton = css`
   border-radius: 100px;
   padding: 10px 20px;
   cursor: pointer;
+  text-align: center;
 `;
 
 const PrimaryButton = styled.button`
