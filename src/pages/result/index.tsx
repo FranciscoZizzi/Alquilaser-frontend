@@ -13,6 +13,8 @@ const ResultPage = () => {
     const [priceMinFilter, setPriceMinFilter ] = useState<number>()
     const [priceMaxFilter, setPriceMaxFilter ] = useState<number>()
     const [maxRatingFilter, setRatingFilter] = useState(5)
+    const [sortAscending, setSortAscending] = useState(true);
+    const [sortBy, setSortBy] = useState("title");
 
     const [results, setResult] = useState([])
     const queryParameters = new URLSearchParams(window.location.search)
@@ -40,6 +42,34 @@ const ResultPage = () => {
             .then(res => setResult(res.data))
     }, [])
 
+    const handleSortByPrice = () => {
+        let newSortAscending = sortAscending;
+        if (sortBy === "price") {
+            newSortAscending = !sortAscending;
+            setSortAscending(newSortAscending);
+        }
+        setSortBy("price");
+        if (newSortAscending) {
+            results.sort((a: any, b: any) => a.price - b.price);
+        } else {
+            results.sort((a: any, b: any) => b.price - a.price);
+        }
+    }
+
+    const handleSortByTitle = () => {
+        let newSortAscending = sortAscending;
+        if (sortBy === "title") {
+            newSortAscending = !sortAscending;
+            setSortAscending(newSortAscending);
+        }
+        setSortBy("title");
+        if (newSortAscending) {
+            results.sort((a: any, b: any) => a.title > b.title ? 1 : -1);
+        } else {
+            results.sort((a: any, b: any) => a.title < b.title ? 1: -1);
+        }
+    }
+
     const rows: any[] = [];
     results.forEach((e: any) => {
         console.log(e)
@@ -51,6 +81,7 @@ const ResultPage = () => {
                            image={imageUrl}
                            price={e.price} title={e.title} listing_id={e.id}/>)
     })
+
     return(
         <body>
             <div style={{
@@ -83,8 +114,8 @@ const ResultPage = () => {
                                 flexDirection: "column"
                             }}>
                                 <p>Sort by: (temporal)</p>
-                                <Button>Price</Button>
-                                <Button>Title</Button>
+                                <Button onClick={handleSortByPrice}>Price</Button>
+                                <Button onClick={handleSortByTitle}>Title</Button>
                                 <p>Max required rating:</p>
                                 <Rating
                                     initialValue={maxRatingFilter}
