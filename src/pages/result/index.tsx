@@ -6,6 +6,8 @@ import Header from "../../components/header/Header";
 import {getSearchURL} from "../../utils/url";
 import {Rating} from "react-simple-star-rating";
 import Button from "../../components/button/Button";
+import {SortAscendingIcon} from "../../components/icons/SortAscendingIcon";
+import {SortDescendingIcon} from "../../components/icons/SortDescendingIcon";
 
 
 const ResultPage = () => {
@@ -64,9 +66,9 @@ const ResultPage = () => {
         }
         setSortBy("title");
         if (newSortAscending) {
-            results.sort((a: any, b: any) => a.title > b.title ? 1 : -1);
+            results.sort((a: any, b: any) => a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1);
         } else {
-            results.sort((a: any, b: any) => a.title < b.title ? 1: -1);
+            results.sort((a: any, b: any) => a.title.toLowerCase() < b.title.toLowerCase() ? 1: -1);
         }
     }
 
@@ -114,6 +116,7 @@ const ResultPage = () => {
                                 flexDirection: "column"
                             }}>
                                 <p>Sort by: (temporal)</p>
+                                {sortAscending ? <SortAscendingIcon width={"1"} height={"1"}/> : <SortDescendingIcon width={"30"} height={"30"}/>}
                                 <Button onClick={handleSortByPrice}>Price</Button>
                                 <Button onClick={handleSortByTitle}>Title</Button>
                                 <p>Max required rating:</p>
