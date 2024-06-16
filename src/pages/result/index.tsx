@@ -5,6 +5,7 @@ import FilterBox from "../../components/filterBox/FilterBox";
 import Header from "../../components/header/Header";
 import {getSearchURL} from "../../utils/url";
 import {Rating} from "react-simple-star-rating";
+import Button from "../../components/button/Button";
 
 
 const ResultPage = () => {
@@ -81,6 +82,9 @@ const ResultPage = () => {
                                 display: "flex",
                                 flexDirection: "column"
                             }}>
+                                <p>Sort by: (temporal)</p>
+                                <Button>Price</Button>
+                                <Button>Title</Button>
                                 <p>Max required rating:</p>
                                 <Rating
                                     initialValue={maxRatingFilter}
