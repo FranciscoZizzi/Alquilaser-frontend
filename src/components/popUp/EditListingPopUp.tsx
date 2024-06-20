@@ -56,6 +56,10 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
     const handleDelete = async () => {
         let token = localStorage.getItem('token');
         const res = await axios.put(`http://localhost:3001/api/listings/edit/${listingId}`, {
+            listingId,
+            title,
+            rate,
+            description,
             availability: 'deleted',
         }, { headers: { authorization: "Bearer " + token } });
         console.log("Listing deleted successfully");
