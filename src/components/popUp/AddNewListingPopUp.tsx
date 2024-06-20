@@ -10,6 +10,7 @@ import ExtendedTextField from "../extendedTextField/ExtendedTextField";
 import { QRCode } from 'react-qrcode-logo';
 import { getAddListingURL } from "../../utils/url";
 import NumberField from "../numberField/NumberField";
+import {Rating} from "react-simple-star-rating";
 
 const AddNewListingPopUp = forwardRef((props, ref) => {
     const [open, setOpen] = useState(false);
@@ -118,15 +119,20 @@ const AddNewListingPopUp = forwardRef((props, ref) => {
                         <div>
                             <ExtendedTextField value={description} placeholder={"Description"} onChange={setDesc} />
                         </div>
-                        <div>
-                            <NumberField value={reqRating} placeholder={"Required rating"} onChange={handleRating}/>
+                        <div >
+                            <p style={{marginTop:0}}>Required rating:</p>
+                            <Rating
+                                initialValue={reqRating}
+                                allowFraction={true}
+                                onClick={handleRating}
+                            />
                         </div>
                         <div style={{
                             display: 'flex',
                             flexDirection: "column",
                             gap: 10
                         }}>
-                            <MultipleImagesUploadButton setImages={handleSetImages} />
+                            <MultipleImagesUploadButton setImages={handleSetImages}/>
                             <Button onClick={handleSubmit}>Create listing</Button>
                         </div>
                     </div>
