@@ -65,7 +65,7 @@ const AddNewListingPopUp = forwardRef((props, ref) => {
             setShowQRPopup(true);
         } catch (e: any) {
             if (e.response && e.response.data && e.response.data.message) {
-                toast(e.response.data.message); // TODO handle error
+                toast(e.response.data.message);
             } else {
                 toast("An error occurred while creating the listing");
             }
