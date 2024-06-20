@@ -10,6 +10,8 @@ import Dropdown from "../dropdown/Dropdown";
 import dayjs from "dayjs";
 import {BASE_URL, PORT} from "../../utils/constants";
 import {Rating} from "react-simple-star-rating";
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const RegisterReturnPopUp = forwardRef((props, ref) => {
     const [open, setOpen] = useState(false);
@@ -24,61 +26,57 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
     const [showDropDown, setShowDropDown] = useState<boolean>(false);
 
     useEffect(() => {
-        const getActiveBookings = async () => {
-            setDisableSubmit(true);
-            const token = localStorage.getItem('token');
-            if (!token) {
-                throw new Error('No JWT token available');
-            }
-
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            };
-            const rentsRes = await axios.get("http://localhost:3001/api/users/rents", config);
-            if (!rentsRes.data || !rentsRes.data.data) {
-                throw new Error('No user profile data available');
-            }
-            let bookings: any[] = rentsRes.data.data.rents;
-            let activeBookings: any[] = [];
-            let currentDate = dayjs();
-            bookings.forEach((booking: any) => {
-                if (dayjs(booking.start_date).isBefore(currentDate) && !booking.returned) {
-                    activeBookings.push(booking);
-                }
-            });
-
-            const listingRes = await axios.get("http://localhost:3001/api/users/listings", config);
-            if (!listingRes.data || !listingRes.data.data) {
-                throw new Error('No user listing data available');
-            }
-            let listings: any[] = listingRes.data.data.listings;
-
-            let bookingTitles: string[] = [];
-            activeBookings.forEach((booking: any) => {
-                listings.forEach((listing: any) => {
-                    if (listing.id == booking.listing_id) {
-                        bookingTitles.push(listing.title);
-                    }
-                })
-            })
-            calculatePrice(bookingTitles[0], activeBookings);
-            setBookingTitles(bookingTitles);
-            //setSelected(bookingTitles[0]);
-            setBookings(activeBookings);
-            if (bookingTitles[0] === "") {
-                setDisableSubmit(true);
-            } else {
-                setDisableSubmit(false);
-            }
-
-        }
         getActiveBookings().catch((e:any) => {
             console.log(e);
             setDisableSubmit(false);
         });
     }, []);
+
+    const getActiveBookings = async () => {
+        setDisableSubmit(false);
+        const token = localStorage.getItem('token');
+        if (!token) {
+            throw new Error('No JWT token available');
+        }
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
+        const rentsRes = await axios.get("http://localhost:3001/api/users/rents", config);
+        if (!rentsRes.data || !rentsRes.data.data) {
+            throw new Error('No user profile data available');
+        }
+        let bookings: any[] = rentsRes.data.data.rents;
+        let activeBookings: any[] = [];
+        let currentDate = dayjs();
+        bookings.forEach((booking: any) => {
+            if (dayjs(booking.start_date).isBefore(currentDate) && !booking.returned) {
+                activeBookings.push(booking);
+            }
+        });
+
+        const listingRes = await axios.get("http://localhost:3001/api/users/listings", config);
+        if (!listingRes.data || !listingRes.data.data) {
+            throw new Error('No user listing data available');
+        }
+        let listings: any[] = listingRes.data.data.listings;
+
+        let bookingTitles: string[] = [];
+        activeBookings.forEach((booking: any) => {
+            listings.forEach((listing: any) => {
+                if (listing.id == booking.listing_id) {
+                    bookingTitles.push(listing.title);
+                }
+            })
+        })
+        calculatePrice(bookingTitles[0], activeBookings);
+        setBookingTitles(bookingTitles);
+        //setSelected(bookingTitles[0]);
+        setBookings(activeBookings);
+        setDisableSubmit(false);
+    }
 
     const calculatePrice = (bookingTitle: string, activeBookings: any[]) => {
         // TODO calculate price using also current date
@@ -109,14 +107,15 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
 
     const handleSubmit = async () => {
         setDisableSubmit(true);
-        if (!userRating) {
-            alert("user rating missing"); // TODO handle error
-            return;
-        }
-        if (!selectedOption){
-            alert("select a booking")
+        if (!selectedOption) {
+            toast("Select a booking first")
             return
         }
+        if (!userRating) {
+            toast("Rate the user");
+            return;
+        }
+        let success = false;
         try {
             let selectedBooking: any;
             selectedBooking = activeBookings[bookingTitles.indexOf(selectedOption)];
@@ -126,17 +125,26 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
                 finalDamage: damage,
                 userRating: userRating
             }
-            window.location.reload()
             await axios.post(BASE_URL + ':' + PORT + "/api/bookings/return", data);
-            setDisableSubmit(false);
+            success = true;
         } catch (e: any) {
-            setDisableSubmit(false);
+            success = false;
+            toast("error")
             if (e.response && e.response.data && e.response.data.message) {
                 console.log(e.response.data.message);
             } else {
+                toast("An error occurred while registering the return, try again later")
                 console.log("An error occurred while registering the return");
             }
         }
+        if (success) {
+            setSelected(undefined);
+            toast("Booking successfully returned");
+            getActiveBookings().catch((e:any) => {
+                console.log(e);
+            });
+        }
+        setDisableSubmit(false);
     };
     const toggleDropDown = () => {
         setShowDropDown(!showDropDown);
@@ -243,7 +251,8 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
                             flexDirection: "column",
                             gap: 10
                         }}>
-                            <Button onClick={handleSubmit} disabled={disableSubmit}>Register return</Button>
+                            <Button onClick={handleSubmit}>Register return</Button>
+                            <ToastContainer/>
                         </div>
                     </div>
                 </div>
