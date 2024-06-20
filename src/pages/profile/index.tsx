@@ -6,10 +6,8 @@ import Button from "../../components/button/Button";
 import { useNavigate } from "react-router-dom";
 import AddNewListingPopUp from "../../components/popUp/AddNewListingPopUp";
 import { theme } from '../../utils/theme';
-import ImageUploadButton from "../../components/imageUploadButton/ImageUploadButton";
 import Header from "../../components/header/Header";
 import axios from "axios";
-import Dropdown from "../../components/dropdown/Dropdown";
 import RegisterReturnPopUp from "../../components/popUp/RegisterReturnPupUp";
 import {Rating} from "react-simple-star-rating";
 

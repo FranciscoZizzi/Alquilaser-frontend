@@ -79,7 +79,6 @@ const RegisterReturnPopUp = forwardRef((props, ref) => {
     }
 
     const calculatePrice = (bookingTitle: string, activeBookings: any[]) => {
-        // TODO calculate price using also current date
         let selectedBooking: any = activeBookings[0];
         for (let i = 0; i < bookingTitles.length; i++) {
             if (bookingTitles[i] === bookingTitle) {

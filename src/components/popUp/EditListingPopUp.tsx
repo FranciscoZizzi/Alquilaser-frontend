@@ -9,6 +9,7 @@ import MultipleImagesUploadButton from "../multipleImagesUploadButton/MultipleIm
 import ExtendedTextField from "../extendedTextField/ExtendedTextField";
 import NumberField from "../numberField/NumberField";
 import Dropdown from "../dropdown/Dropdown";
+import {toast, ToastContainer} from "react-toastify";
 
 interface EditListingPopUpProps {
     listingId: number,
@@ -33,6 +34,10 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
     const handleSubmit = async () => {
         try {
             let token = localStorage.getItem('token');
+            if (!currentTitle) {
+                toast("Missing title");
+                return;
+            }
             const res = await axios.put(`http://localhost:3001/api/listings/edit/${listingId}`, {
                 listingId: listingId,
                 title: currentTitle,
@@ -43,7 +48,7 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
             console.log("Listing edited successfully");
             window.location.reload();
         } catch (error:any) {
-            alert(error.response.data.message)
+            toast(error.response.data.message)
             console.error("Error editing listing:", error);
         }
     };
@@ -95,7 +100,7 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
                 }}>Edit listing</h1>
                 <div className="actions">
                     <div>
-                        <TextField value={currentTitle} placeholder={title} onChange={setCurrentTitle} />
+                        <TextField value={currentTitle} placeholder={"Post title"} onChange={setCurrentTitle} />
                     </div>
                     <div style={{
                         display: "flex",
@@ -141,6 +146,7 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
                     }}>
                         <Button variant={'secondary'} onClick={handleDelete}>Delete Listing</Button>
                         <Button onClick={handleSubmit}>Edit listing</Button>
+                        <ToastContainer/>
                     </div>
                 </div>
             </div>
