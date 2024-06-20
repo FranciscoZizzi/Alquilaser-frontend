@@ -11,6 +11,7 @@ import { QRCode } from 'react-qrcode-logo';
 import { getAddListingURL } from "../../utils/url";
 import NumberField from "../numberField/NumberField";
 import {Rating} from "react-simple-star-rating";
+import {toast, ToastContainer} from "react-toastify";
 
 const AddNewListingPopUp = forwardRef((props, ref) => {
     const [open, setOpen] = useState(false);
@@ -132,8 +133,9 @@ const AddNewListingPopUp = forwardRef((props, ref) => {
                             flexDirection: "column",
                             gap: 10
                         }}>
-                            <MultipleImagesUploadButton setImages={handleSetImages}/>
+                            <MultipleImagesUploadButton setImages={handleSetImages} />
                             <Button onClick={handleSubmit}>Create listing</Button>
+                            <ToastContainer />
                         </div>
                     </div>
                 </div>
