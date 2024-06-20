@@ -10,6 +10,7 @@ import ExtendedTextField from "../extendedTextField/ExtendedTextField";
 import { QRCode } from 'react-qrcode-logo';
 import { getAddListingURL } from "../../utils/url";
 import NumberField from "../numberField/NumberField";
+import {toast, ToastContainer} from "react-toastify";
 
 const AddNewListingPopUp = forwardRef((props, ref) => {
     const [open, setOpen] = useState(false);
@@ -64,9 +65,9 @@ const AddNewListingPopUp = forwardRef((props, ref) => {
             setShowQRPopup(true);
         } catch (e: any) {
             if (e.response && e.response.data && e.response.data.message) {
-                alert(e.response.data.message); // TODO handle error
+                toast(e.response.data.message); // TODO handle error
             } else {
-                alert("An error occurred while creating the listing");
+                toast("An error occurred while creating the listing");
             }
         }
     };
@@ -128,6 +129,7 @@ const AddNewListingPopUp = forwardRef((props, ref) => {
                         }}>
                             <MultipleImagesUploadButton setImages={handleSetImages} />
                             <Button onClick={handleSubmit}>Create listing</Button>
+                            <ToastContainer/>
                         </div>
                     </div>
                 </div>
