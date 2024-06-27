@@ -5,7 +5,7 @@ import axios from "axios";
 import {BASE_URL, PORT} from "../../utils/constants";
 import dayjs from "dayjs";
 
-const ListingHistory = ({listingId, booking} : {
+const ListingHistory = ({listingId, booking, isClient} : {
     listingId: number,
     booking: {
         id: number,
@@ -16,8 +16,10 @@ const ListingHistory = ({listingId, booking} : {
         final_damage: string,
         price: number,
         extra_fees: number,
+        owner: string,
         createdAt: string
-    }
+    },
+    isClient?: Boolean
 }) => {
     const [listingData, setListingData] = useState(Object);
     const [client, setClientName] = useState("");
@@ -62,7 +64,13 @@ const ListingHistory = ({listingId, booking} : {
                 </p>
             </div>
             <div style={{display:"flex", flexDirection:"column", justifyContent:"center"}}>
-                <ExtraInfoPopUp title={listingData.title} rate={listingData.price} client={client} dateOfReservation={booking.createdAt.split('T')[0]} prevDamage={listingData.damage} finalPrice={booking.price * bookedDays + booking.extra_fees} additionalDamage={additionalDamage} />
+                {isClient ? (
+                    <ExtraInfoPopUp title={listingData.title} rate={listingData.price} owner={booking.owner} dateOfReservation={booking.createdAt.split('T')[0]} prevDamage={listingData.damage} finalPrice={booking.price * bookedDays + booking.extra_fees} additionalDamage={additionalDamage} />
+                ) : (
+                    <div>
+                        <ExtraInfoPopUp title={listingData.title} rate={listingData.price} client={client} dateOfReservation={booking.createdAt.split('T')[0]} prevDamage={listingData.damage} finalPrice={booking.price * bookedDays + booking.extra_fees} additionalDamage={additionalDamage} />
+                    </div>
+                )}
             </div>
         </div>
     );
