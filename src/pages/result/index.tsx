@@ -27,6 +27,7 @@ const ResultPage = () => {
 
     const handleClick = async () => {
         const res = await axios.post(getSearchURL(), {}, {params: {priceMinFilter, priceMaxFilter, maxRatingFilter, searchTerm}});
+        sortResult(res.data);
         setResult(res.data);
     }
     console.log(results)
@@ -43,7 +44,10 @@ const ResultPage = () => {
 
     useEffect(() => {
         axios.post(getSearchURL(), {}, {params: {searchTerm, maxRatingFilter, priceMaxFilter, priceMinFilter}})
-            .then(res => setResult(res.data))
+            .then(res => {
+                res.data.sort((a: any, b: any) => a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1);
+                setResult(res.data)
+            })
     }, [])
 
     const handleSortByPrice = () => {
@@ -71,6 +75,22 @@ const ResultPage = () => {
             results.sort((a: any, b: any) => a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1);
         } else {
             results.sort((a: any, b: any) => a.title.toLowerCase() < b.title.toLowerCase() ? 1: -1);
+        }
+    }
+
+    const sortResult = (result : any[]) => {
+        if (sortBy === "title") {
+            if (sortAscending) {
+                result.sort((a: any, b: any) => a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1);
+            } else {
+                result.sort((a: any, b: any) => a.title.toLowerCase() < b.title.toLowerCase() ? 1: -1);
+            }
+        } else if (sortBy === "price") {
+            if (sortAscending) {
+                result.sort((a: any, b: any) => a.price - b.price);
+            } else {
+                result.sort((a: any, b: any) => b.price - a.price);
+            }
         }
     }
 
