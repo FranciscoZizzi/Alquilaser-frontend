@@ -18,7 +18,6 @@ const ResultPage = () => {
     const [maxRatingFilter, setRatingFilter] = useState(5)
     const [sortAscending, setSortAscending] = useState(true);
     const [sortBy, setSortBy] = useState("title");
-    const [sortIcon, setSortIcon] = useState(<SortAscendingIcon width="30" height="30"/>)
 
     const [results, setResult] = useState([])
     const queryParameters = new URLSearchParams(window.location.search)
