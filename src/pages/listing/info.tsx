@@ -39,8 +39,10 @@ const ListingInfoPage = () => {
                 let startDate = dayjs(booking.start_date);
                 let endDate = dayjs(booking.end_date);
                 let currentDate = dayjs();
-                if ((startDate.isBefore(currentDate) || startDate.isSame(currentDate)) && (endDate.isAfter(currentDate) || endDate.isSame(currentDate))) {
-                    activeBooking = booking;
+                if (!booking.hidden) {
+                    if ((startDate.isBefore(currentDate) || startDate.isSame(currentDate)) && (endDate.isAfter(currentDate) || endDate.isSame(currentDate))) {
+                        activeBooking = booking;
+                    }
                 }
             });
             // If listing is not booked redirect to listing page
