@@ -12,6 +12,7 @@ import Dropdown from "../dropdown/Dropdown";
 import {toast, ToastContainer} from "react-toastify";
 import BookingDatePicker from "../datePicker/BookingDatePicker";
 import {Dayjs} from "dayjs";
+import RepairDatePicker from "../datePicker/RepairDatePicker";
 
 interface EditListingPopUpProps {
     listingId: number,
@@ -142,7 +143,7 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
                                         />
                                     )}
                                 </button>
-                                {currentAvailability === "in repair" ? <BookingDatePicker listingId={listingId.toString()} maxBookDuration={60} startDate={startDate} endDate={endDate} handleSetStartDate={setStartDate} handleSetEndDate={setEndDate} disabled={false}/> : null}
+                                {currentAvailability === "in repair" ? <RepairDatePicker listingId={listingId.toString()} maxBookDuration={60} startDate={startDate} endDate={endDate} handleSetStartDate={setStartDate} handleSetEndDate={setEndDate} disabled={false}/> : null}
                             </div>
                         </div>
                         <div style={{flex: 1}}>
