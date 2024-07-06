@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import './popUpStyle.css';
@@ -31,7 +31,7 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
     const [currentDescription, setCurrentDescription] = useState(description);
     const [imageUrls, setImageUrls] = useState<string[]>([]);
     const [open, setOpen] = useState(false);
-    const availabilityOptions = ["available", "booked", "in repair", "damaged"]
+    const availabilityOptions = ["available", "in repair", "damaged"];
     const [showDropDown, setShowDropDown] = useState<boolean>(false);
 
     const [startDate, setStartDate] = useState<Dayjs | null>();
@@ -115,7 +115,7 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
                 }}>Edit listing</h1>
                 <div className="actions">
                     <div>
-                        <TextField value={currentTitle} placeholder={"Post title"} onChange={setCurrentTitle} />
+                        <TextField value={currentTitle} placeholder={"Listing title"} onChange={setCurrentTitle} />
                     </div>
                     <div style={{
                         display: "flex",
