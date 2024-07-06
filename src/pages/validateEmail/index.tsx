@@ -12,7 +12,7 @@ const ValidateEmail = () => {
     const handleSubmit = async () => {
         try {
             const res = await axios.put(`http://localhost:3001/api/users/validate_email`, {});
-            const id = await axios.get('http://localhost:3001/api/users/get/:id/');
+            //const id = await axios.get('http://localhost:3001/api/users/get/:id/');
             navigate('/validate_email/' + '1');
         } catch(e: any) {
             console.log(e)
@@ -39,7 +39,7 @@ const ValidateEmail = () => {
                 <div style={{
                     fontSize: '16px',
                 }}>
-                    <Button>Validate </Button>
+                    <Button>Validate</Button>
                 </div>
             </div>
         </div>
