@@ -10,6 +10,7 @@ import Header from "../../components/header/Header";
 import axios from "axios";
 import RegisterReturnPopUp from "../../components/popUp/RegisterReturnPupUp";
 import {Rating} from "react-simple-star-rating";
+import SearchBar from "../../components/searchBar/SearchBar";
 
 const ProfilePage = () => {
     const navigate = useNavigate();
@@ -17,9 +18,13 @@ const ProfilePage = () => {
     const [userListings, setUserListings] = useState({listings: []})
     const [userData, setUserData] = useState({ name: '', rating: 3, profilePic: null,  bookings: [], rents: [] });
     const [imageUrl, setImageUrl] = useState('');
+    const [isGoogleSession, setIsGoogleSession] = useState(false);
 
     const handleLogoutClick = () => {
         localStorage.removeItem("token");
+        if(localStorage.getItem("isGoogleSession") != null){
+            localStorage.removeItem("isGoogleSession");
+        }
         navigate('/');
     };
 
@@ -49,6 +54,10 @@ const ProfilePage = () => {
         const fetchUserProfile = async () => {
             try { // TODO move try catch outside method declaration to avoid showing react error
                 const token = localStorage.getItem('token');
+
+                if(localStorage.getItem('isGoogleSession') == "true"){
+                    setIsGoogleSession(true)
+                }
                 if (!token) {
                     throw new Error('No JWT token available');
                 }
@@ -121,7 +130,7 @@ const ProfilePage = () => {
                     gap: 10
                 }}>
                     <Avatar name={userData.name} size="320" src={imageUrl} />
-                    <Button variant={"empty"} onClick={handleInfoClick}>Profile Info</Button>
+                    {isGoogleSession ? null : <Button variant={"empty"} onClick={handleInfoClick}>Profile Info</Button>}
                     <Button variant={"secondary"} onClick={handleLogoutClick}>Logout</Button>
                 </div>
                 <div className="info" style={{ marginLeft: "5%", width: "80%"}}>

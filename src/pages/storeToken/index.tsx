@@ -8,8 +8,8 @@ const StoreTokenPage = () => {
     useEffect(() => {
         console.log(token)
         if (token) {
-
             localStorage.setItem("token", token);
+            localStorage.setItem("isGoogleSession", "true");
             window.location.href = 'http://localhost:3002/'
         } else {
             console.error('No token found in the URL');
