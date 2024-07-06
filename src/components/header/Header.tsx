@@ -48,7 +48,7 @@ const Header = ({showBackButton, showSearchBar, showProfileIcon}:{
                     }
                 };
 
-                const res = await axios.get("http://localhost:3001/api/users/profile", config);
+                    const res = await axios.get("http://localhost:3001/api/users/profile", config);
                 if (!res.data || !res.data.data) {
                     throw new Error('No user profile data available');
                 }
