@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import './popUpStyle.css';
@@ -10,6 +10,9 @@ import ExtendedTextField from "../extendedTextField/ExtendedTextField";
 import NumberField from "../numberField/NumberField";
 import Dropdown from "../dropdown/Dropdown";
 import {toast, ToastContainer} from "react-toastify";
+import BookingDatePicker from "../datePicker/BookingDatePicker";
+import {Dayjs} from "dayjs";
+import RepairDatePicker from "../datePicker/RepairDatePicker";
 
 interface EditListingPopUpProps {
     listingId: number,
@@ -28,8 +31,11 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
     const [currentDescription, setCurrentDescription] = useState(description);
     const [imageUrls, setImageUrls] = useState<string[]>([]);
     const [open, setOpen] = useState(false);
-    const availabilityOptions = ["available", "booked", "in repair", "damaged"]
+    const availabilityOptions = ["available", "in repair", "damaged"];
     const [showDropDown, setShowDropDown] = useState<boolean>(false);
+
+    const [startDate, setStartDate] = useState<Dayjs | null>();
+    const [endDate, setEndDate] = useState<Dayjs | null>();
 
     const handleSubmit = async () => {
         try {
@@ -38,12 +44,17 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
                 toast("Missing title");
                 return;
             }
-            const res = await axios.put(`http://localhost:3001/api/listings/edit/${listingId}`, {
+            let res;
+            if (currentAvailability === "in repair") {
+                res = await axios.put(`http://localhost:3001/api/listings/block/${listingId}`, {startDate, endDate, reason: currentAvailability}, { headers: { authorization: "Bearer " + token } });
+            }
+            let availability = res ? res.data.listing_state : currentAvailability;
+            await axios.put(`http://localhost:3001/api/listings/edit/${listingId}`, {
                 listingId: listingId,
                 title: currentTitle,
                 rate: currentRate,
                 description: currentDescription,
-                availability: currentAvailability,
+                availability: availability,
             }, { headers: { authorization: "Bearer " + token } });
             console.log("Listing edited successfully");
             window.location.reload();
@@ -104,7 +115,7 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
                 }}>Edit listing</h1>
                 <div className="actions">
                     <div>
-                        <TextField value={currentTitle} placeholder={"Post title"} onChange={setCurrentTitle} />
+                        <TextField value={currentTitle} placeholder={"Listing title"} onChange={setCurrentTitle} />
                     </div>
                     <div style={{
                         display: "flex",
@@ -115,7 +126,7 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
                     }}>
                         <div style={{ flex: 3 }}>
                             {/*<TextField value={currentAvailability} placeholder={"Availability"} onChange={setCurrentAvailability} />*/}
-                            <div>
+                            <div style={{display:"flex", flexDirection:"row", gap: 10}}>
                                 <button style={{width: '100%',  height: 66 }}
                                         className={showDropDown ? "active" : undefined}
                                         onClick={(): void => toggleDropDown()}
@@ -132,6 +143,7 @@ const EditListingPopUp = forwardRef((props: EditListingPopUpProps, ref) => {
                                         />
                                     )}
                                 </button>
+                                {currentAvailability === "in repair" ? <RepairDatePicker listingId={listingId.toString()} maxBookDuration={60} startDate={startDate} endDate={endDate} handleSetStartDate={setStartDate} handleSetEndDate={setEndDate} disabled={false}/> : null}
                             </div>
                         </div>
                         <div style={{flex: 1}}>

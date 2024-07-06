@@ -111,7 +111,7 @@ const AddNewListingPopUp = forwardRef((props, ref) => {
                             gap: "10px"
                         }}>
                             <div style={{ flex: 3 }}>
-                                <TextField value={title} placeholder={"Post title"} onChange={setTitle} />
+                                <TextField value={title} placeholder={"Listing title"} onChange={setTitle} />
                             </div>
                             <div style={{ flex: 1 }}>
                                 <NumberField value={price} placeholder={"Price"} onChange={setPrice} />

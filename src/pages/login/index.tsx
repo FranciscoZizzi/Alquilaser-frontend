@@ -2,7 +2,8 @@ import React, {useState} from "react";
 import TextField from "../../components/textField/TextField";
 import PasswordField from "../../components/textField/PasswordField";
 import Button from "../../components/button/Button";
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, Navigate, redirect, useHref, useNavigate} from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
 import axios from "axios";
 
 const LoginPage = () => {
@@ -14,6 +15,23 @@ const LoginPage = () => {
     const [errorMessage, setErrorMessage] = useState("");
 
     const navigate = useNavigate();
+
+
+
+    const config = {
+        clientId: '600400561126-hcggrf586pv642rdf4cv164rk6qcj8p0.apps.googleusercontent.com',
+        buttonText: 'Login with Google',
+        onSuccess: (response: any) => {
+            handleGoogleLogin()
+            console.log(response)
+        },
+        onFailure: (error: any) => {
+            console.error(error);
+        },
+    };
+    const handleGoogleLogin = async () => {
+        window.location.href = 'http://localhost:3001/api/users/google'
+    }
 
     const handleSubmit = async () => {
         try {
@@ -78,6 +96,11 @@ const LoginPage = () => {
                         <span>
                     <Link to="/">Continue without signing in</Link>
                     </span>
+                        <span>
+                            <div>
+                                <Button onClick={handleGoogleLogin}>Google Login</Button>
+                            </div>
+                        </span>
                     </div>
                 </div>
             </div>

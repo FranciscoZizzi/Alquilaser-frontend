@@ -8,6 +8,7 @@ import {Rating} from "react-simple-star-rating";
 import Button from "../../components/button/Button";
 import {SortAscendingIcon} from "../../components/icons/SortAscendingIcon";
 import {SortDescendingIcon} from "../../components/icons/SortDescendingIcon";
+import Dropdown from "../../components/dropdown/Dropdown";
 
 
 const ResultPage = () => {
@@ -25,6 +26,7 @@ const ResultPage = () => {
 
     const handleClick = async () => {
         const res = await axios.post(getSearchURL(), {}, {params: {priceMinFilter, priceMaxFilter, maxRatingFilter, searchTerm}});
+        sortResult(res.data);
         setResult(res.data);
     }
     console.log(results)
@@ -41,7 +43,10 @@ const ResultPage = () => {
 
     useEffect(() => {
         axios.post(getSearchURL(), {}, {params: {searchTerm, maxRatingFilter, priceMaxFilter, priceMinFilter}})
-            .then(res => setResult(res.data))
+            .then(res => {
+                res.data.sort((a: any, b: any) => a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1);
+                setResult(res.data)
+            })
     }, [])
 
     const handleSortByPrice = () => {
@@ -69,6 +74,22 @@ const ResultPage = () => {
             results.sort((a: any, b: any) => a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1);
         } else {
             results.sort((a: any, b: any) => a.title.toLowerCase() < b.title.toLowerCase() ? 1: -1);
+        }
+    }
+
+    const sortResult = (result : any[]) => {
+        if (sortBy === "title") {
+            if (sortAscending) {
+                result.sort((a: any, b: any) => a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1);
+            } else {
+                result.sort((a: any, b: any) => a.title.toLowerCase() < b.title.toLowerCase() ? 1: -1);
+            }
+        } else if (sortBy === "price") {
+            if (sortAscending) {
+                result.sort((a: any, b: any) => a.price - b.price);
+            } else {
+                result.sort((a: any, b: any) => b.price - a.price);
+            }
         }
     }
 
@@ -113,12 +134,12 @@ const ResultPage = () => {
                                 marginTop: '20px',
                                 marginRight: '20px',
                                 display: "flex",
-                                flexDirection: "column"
+                                flexDirection: "column",
+                                gap:5
                             }}>
-                                <p>Sort by: (temporal)</p>
-                                {sortAscending ? <SortAscendingIcon width={"1"} height={"1"}/> : <SortDescendingIcon width={"30"} height={"30"}/>}
-                                <Button onClick={handleSortByPrice}>Price</Button>
-                                <Button onClick={handleSortByTitle}>Title</Button>
+                                <p>Sort by: <strong>{sortBy === "price" ? "Price" : "Title"} {sortAscending ? "(asc)" : "(desc)"}</strong></p>
+                                {sortBy === "price" ? <Button style={{backgroundColor: '#003bb3'}} onClick={handleSortByPrice}>Price</Button> : <Button style={{backgroundColor: '#0167f8'}} onClick={handleSortByPrice}>Price</Button>}
+                                {sortBy === "title" ? <Button style={{backgroundColor: '#003bb3'}} onClick={handleSortByTitle}>Title</Button> : <Button style={{backgroundColor: '#0167f8'}} onClick={handleSortByTitle}>Title</Button>}
                                 <p>Max required rating:</p>
                                 <Rating
                                     initialValue={maxRatingFilter}
