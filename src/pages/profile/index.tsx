@@ -99,7 +99,7 @@ const ProfilePage = () => {
     userData.rents.forEach((e: any) => rentHistory.push(<ListingHistory listingId={e.listing_id} booking={e}/>))
 
     const bookingHistory: any[] = [];
-    userData.bookings.forEach((e: any) => bookingHistory.push(<ListingHistory listingId={e.listing_id} booking={e}/>))
+    userData.bookings.forEach((e: any) => bookingHistory.push(<ListingHistory listingId={e.listing_id} booking={e} isClient={true}/>))
 
 
     return (

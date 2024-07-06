@@ -11,6 +11,7 @@ import ProfileInfoPage from "./pages/profile/info";
 import ListingInfoPage from "./pages/listing/info";
 import ForgotPasswordPage from "./pages/forgotPassword";
 import ResetPasswordPage from "./pages/resetPassword";
+import StoreTokenPage from "./pages/storeToken";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
                     <Route path={'/profile/info'} element={<ProfileInfoPage/>}/>
                     <Route path={'/forgot_password'} element={<ForgotPasswordPage/>}/>
                     <Route path={'/reset_password/:id/:token'} element={<ResetPasswordPage/>}/>
+                    <Route path={'/store-token/:token'} element={<StoreTokenPage/>}/>
                 </Routes>
             </BrowserRouter>
         </>

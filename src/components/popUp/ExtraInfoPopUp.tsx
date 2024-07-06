@@ -2,15 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import './popUpStyle.css'
-import axios from "axios";
-import TextField from "../textField/TextField";
 import Button from "../button/Button";
-import MultipleImagesUploadButton from "../multipleImagesUploadButton/MultipleImagesUploadButton";
-import ExtendedTextField from "../extendedTextField/ExtendedTextField";
 
 interface ExtraInfoPopUpProps{
     title: string;
-    client: string;
+    client?: string;
+    owner?: string;
     rate: number;
     finalPrice: number;
     dateOfReservation: string;
@@ -18,7 +15,7 @@ interface ExtraInfoPopUpProps{
     additionalDamage?: string;
 }
 
-const ExtraInfoPopUp: React.FC<ExtraInfoPopUpProps> = ({title, client, rate,finalPrice, dateOfReservation,prevDamage, additionalDamage}) => {
+const ExtraInfoPopUp: React.FC<ExtraInfoPopUpProps> = ({title, client , owner, rate,finalPrice, dateOfReservation,prevDamage, additionalDamage}) => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -43,7 +40,13 @@ const ExtraInfoPopUp: React.FC<ExtraInfoPopUpProps> = ({title, client, rate,fina
                     {/* First Row */}
                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
                         <div style={{ flexBasis: '50%' }}>{title}</div>
-                        <div style={{ flexBasis: '50%' }}>Client: {client}</div>
+                        {client ? (
+                            <div style={{ flexBasis: '50%' }}>Client: {client}</div>
+                        ) : (
+                            <div>
+                                <div style={{ flexBasis: '50%' }}>Owner: {owner}</div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Second Row */}
