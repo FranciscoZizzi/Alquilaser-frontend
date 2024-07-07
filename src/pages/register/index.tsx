@@ -26,6 +26,11 @@ const RegisterPage = () => {
         try {
             const res = await axios.post("http://localhost:3001/api/users/register", {name: username, email, password, confirmPassword, phoneNumber});
             localStorage.setItem("token", res.data.data.token);// Queda guardado en localstorage, se puede acceder desde toda la app
+            try {
+                const resEmail = await axios.put(`http://localhost:3001/api/users/validate_email/${res.data.data.userId}`, {email})
+            } catch (e: any){
+                console.log(e)
+            }
 
         } catch(e: any) {
             setUsernameError(e.response.data.usernameError);
@@ -35,6 +40,7 @@ const RegisterPage = () => {
             setErrorMessage(e.response.data.message);
         }
     }
+
 
     return (
         <div style={{
