@@ -28,9 +28,7 @@ const ExtraInfoPopUp: React.FC<ExtraInfoPopUpProps> = ({title, client , owner, r
             toast(res.data.message);
             }
         ).catch((e) => {
-            toast("alo")
             console.log(e)
-            console.log("message: " + e.response.data)
             toast(e.response.data.message)
         });
     }

@@ -45,9 +45,6 @@ const ListingPage = () => {
         }
     }, [listingData, additionalInfo]);
 
-
-    console.log(imageUrls)
-
     const handleClick = (event: any) => {
         setLoading(true)
         let token = localStorage.getItem('token');
