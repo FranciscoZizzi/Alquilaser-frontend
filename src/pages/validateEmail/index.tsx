@@ -9,10 +9,14 @@ import {useNavigate, useParams} from "react-router-dom";
 const ValidateEmail = () => {
     const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
-    const user_id = 1
+    const queryString = window.location.search;
+    const urlParams : URLSearchParams = new URLSearchParams(queryString);
+
     const handleSubmit = async () => {
         try {
-            const res = await axios.put("http://localhost:3001/api/users/validate_user_email", {user_id})
+            const userId = parseInt(urlParams.get('userId')?? '0')
+            console.log("aaaaa", userId)
+            const res = await axios.put("http://localhost:3001/api/users/validate_user_email", {user_id: userId})
             if(res.data.success){
                 setValidated(true)
             }

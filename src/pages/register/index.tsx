@@ -16,8 +16,7 @@ const RegisterPage = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [userCreated, setUserCreated] = useState<boolean>(false)
     const [sentEmail , setSentEmail] = useState<boolean>(false)
-    let [currentUserId] = useState(0)
-
+    const [currentUserId, setStateUserId] = useState<number>(0)
     const [usernameError, setUsernameError] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
@@ -29,7 +28,7 @@ const RegisterPage = () => {
         try {
             const res = await axios.post("http://localhost:3001/api/users/register", {name: username, email, password, confirmPassword, phoneNumber});
             localStorage.setItem("token", res.data.data.token);// Queda guardado en localstorage, se puede acceder desde toda la app
-            currentUserId = res.data.data.userId
+            setStateUserId(res.data.data.userId)
             setUserCreated(true)
             try {
                 setSentEmail(true)
@@ -47,41 +46,36 @@ const RegisterPage = () => {
         }
     }
     const sendEmail = async (id : any)=> {
-        const resEmail = await axios.post(`http://localhost:3001/api/users/validate_email/${id}`, {email})
-        navigate("/")
+        await axios.post(`http://localhost:3001/api/users/validate_email/${id}`, {email})
     }
-
     const handleClick = async () => {
         sendEmail(currentUserId)
         setSentEmail(true)
     }
+    let intervalId: string | number | NodeJS.Timeout | undefined;
 
-
-
-    // useEffect(() => {
-    //     const validatedEmail = async () => {
-    //         try {
-    //             if(sentEmail) {
-    //             //const user = await axios.get(`http://localhost:3001/api/users/get/${currentUserId}`)
-    //             //     console.log(currentUserId)
-    //                 if(user.data.data.email_validated){
-    //                     navigate("/")
-    //                 }
-    //             }
-    //         } catch (error){
-    //             console.log(error)
-    //         }
-    //     };
-    //     let intervalId: NodeJS.Timeout | undefined;
-    //     if (sentEmail) {
-    //         intervalId = setInterval(validatedEmail, 1000);
-    //     }
-    //     return () => {
-    //         if (intervalId) {
-    //             clearInterval(intervalId);
-    //         }
-    //     };
-    // }, [currentUserId, navigate, sentEmail]);
+    const  checkValidatedEmail  = async(timeOutDuration: number | undefined) => {
+        clearInterval(intervalId);
+        intervalId = setInterval(async () => {
+            try {
+                if (sentEmail && currentUserId !== 0) {
+                    if (currentUserId) {
+                        const user = await axios.get(`http://localhost:3001/api/users/get/${currentUserId}`)
+                        if (user.data.email_validated) {
+                            navigate("/")
+                            clearInterval(intervalId)
+                        }
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }, 5000);
+        setTimeout(() => {
+            clearInterval(intervalId)
+        }, timeOutDuration)
+    }
+    checkValidatedEmail(200000)
 
     return (
         <div style={{

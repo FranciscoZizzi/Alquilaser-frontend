@@ -31,7 +31,7 @@ function App() {
                     <Route path={'/forgot_password'} element={<ForgotPasswordPage/>}/>
                     <Route path={'/reset_password/:id/:token'} element={<ResetPasswordPage/>}/>
                     <Route path={'/store-token/:token'} element={<StoreTokenPage/>}/>
-                    <Route path={'/validate_email/:id'} element={<ValidateEmail/>}/>
+                    <Route path={'/validate_email'} element={<ValidateEmail/>}/>
                 </Routes>
             </BrowserRouter>
         </>
