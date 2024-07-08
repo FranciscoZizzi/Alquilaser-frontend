@@ -29,7 +29,6 @@ const ResultPage = () => {
         sortResult(res.data);
         setResult(res.data);
     }
-    console.log(results)
 
     const bufferToUrl = (image: any) => {
         const buffer = new ArrayBuffer(image.data.length);

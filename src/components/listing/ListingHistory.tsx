@@ -65,10 +65,10 @@ const ListingHistory = ({listingId, booking, isClient} : {
             </div>
             <div style={{display:"flex", flexDirection:"column", justifyContent:"center"}}>
                 {isClient ? (
-                    <ExtraInfoPopUp title={listingData.title} rate={listingData.price} owner={booking.owner} dateOfReservation={booking.createdAt.split('T')[0]} prevDamage={listingData.damage} finalPrice={booking.price * bookedDays + booking.extra_fees} additionalDamage={additionalDamage} />
+                    <ExtraInfoPopUp title={listingData.title} rate={listingData.price} owner={booking.owner} dateOfReservation={booking.createdAt.split('T')[0]} prevDamage={listingData.damage} finalPrice={booking.price * bookedDays + booking.extra_fees} additionalDamage={additionalDamage} isClient={true} bookingId={booking.id}/>
                 ) : (
                     <div>
-                        <ExtraInfoPopUp title={listingData.title} rate={listingData.price} client={client} dateOfReservation={booking.createdAt.split('T')[0]} prevDamage={listingData.damage} finalPrice={booking.price * bookedDays + booking.extra_fees} additionalDamage={additionalDamage} />
+                        <ExtraInfoPopUp title={listingData.title} rate={listingData.price} client={client} dateOfReservation={booking.createdAt.split('T')[0]} prevDamage={listingData.damage} finalPrice={booking.price * bookedDays + booking.extra_fees} additionalDamage={additionalDamage} isClient={false} bookingId={booking.id}/>
                     </div>
                 )}
             </div>
