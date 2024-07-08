@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import TextField from "../../components/textField/TextField";
 import PasswordField from "../../components/textField/PasswordField";
 import Button from "../../components/button/Button";
@@ -14,6 +14,9 @@ const RegisterPage = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
+    const [userCreated, setUserCreated] = useState<boolean>(false)
+    const [sentEmail , setSentEmail] = useState<boolean>(false)
+    let [currentUserId] = useState(0)
 
     const [usernameError, setUsernameError] = useState(false);
     const [emailError, setEmailError] = useState(false);
@@ -26,12 +29,15 @@ const RegisterPage = () => {
         try {
             const res = await axios.post("http://localhost:3001/api/users/register", {name: username, email, password, confirmPassword, phoneNumber});
             localStorage.setItem("token", res.data.data.token);// Queda guardado en localstorage, se puede acceder desde toda la app
+            currentUserId = res.data.data.userId
+            setUserCreated(true)
             try {
-                const resEmail = await axios.put(`http://localhost:3001/api/users/validate_email/${res.data.data.userId}`, {email})
+                setSentEmail(true)
+                await sendEmail(res.data.data.userId)
+                window.location.reload()
             } catch (e: any){
                 console.log(e)
             }
-
         } catch(e: any) {
             setUsernameError(e.response.data.usernameError);
             setEmailError(e.response.data.emailError);
@@ -40,7 +46,42 @@ const RegisterPage = () => {
             setErrorMessage(e.response.data.message);
         }
     }
+    const sendEmail = async (id : any)=> {
+        const resEmail = await axios.post(`http://localhost:3001/api/users/validate_email/${id}`, {email})
+        navigate("/")
+    }
 
+    const handleClick = async () => {
+        sendEmail(currentUserId)
+        setSentEmail(true)
+    }
+
+
+
+    // useEffect(() => {
+    //     const validatedEmail = async () => {
+    //         try {
+    //             if(sentEmail) {
+    //             //const user = await axios.get(`http://localhost:3001/api/users/get/${currentUserId}`)
+    //             //     console.log(currentUserId)
+    //                 if(user.data.data.email_validated){
+    //                     navigate("/")
+    //                 }
+    //             }
+    //         } catch (error){
+    //             console.log(error)
+    //         }
+    //     };
+    //     let intervalId: NodeJS.Timeout | undefined;
+    //     if (sentEmail) {
+    //         intervalId = setInterval(validatedEmail, 1000);
+    //     }
+    //     return () => {
+    //         if (intervalId) {
+    //             clearInterval(intervalId);
+    //         }
+    //     };
+    // }, [currentUserId, navigate, sentEmail]);
 
     return (
         <div style={{
@@ -50,7 +91,7 @@ const RegisterPage = () => {
             justifyContent: 'center',
             height: '100vh',
             fontSize: '16px'
-        }}>
+        }}> {!userCreated ?
             <div style={{
                 height: 700,
                 width: 400,
@@ -80,7 +121,24 @@ const RegisterPage = () => {
                         Already have an account? <Link to="/login">Login</Link>
                     </span>
                     </div>
+            </div>:
+            <div>
+                <h1 style={{
+                    color: '#021452'
+                }}>
+                    Validation email has been sent
+                </h1>
+                <p style={{
+                    fontSize: '16px'
+                }}>
+                    If you did not receive the validation email, click here to resend it.
+                </p>
+                <Button onClick={handleClick}>
+                    Resend Email
+                </Button>
             </div>
+        }
+
         </div>
     )
 }

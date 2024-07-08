@@ -9,11 +9,13 @@ import {useNavigate, useParams} from "react-router-dom";
 const ValidateEmail = () => {
     const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
-
+    const user_id = 1
     const handleSubmit = async () => {
         try {
-            const res = await axios.put(`http://localhost:3001/api/users/validate_email/`, {});
-            navigate('/validate_email/' + '1');
+            const res = await axios.put("http://localhost:3001/api/users/validate_user_email", {user_id})
+            if(res.data.success){
+                setValidated(true)
+            }
         } catch(e: any) {
             console.log(e)
         }
@@ -38,12 +40,23 @@ const ValidateEmail = () => {
                 <h1 style={{
                     color: '#021452'
                 }}>
-                   VALIDATE SDADASD
+                   Validate you email
                 </h1>
                 <div style={{
                     fontSize: '16px',
                 }}>
-                    <Button onClick={handleClick}>Validate</Button>
+                    {!validated ?
+                        <Button onClick={handleClick}>Validate</Button>
+                        :
+                        <div style={{
+                            fontSize: 16,
+                            alignItems:"center"
+                        }}>
+                            <p>Email validated!</p>
+                            <p>You can close this tab now</p>
+                        </div>
+
+                    }
                 </div>
             </div>
         </div>
