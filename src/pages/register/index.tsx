@@ -49,10 +49,11 @@ const RegisterPage = () => {
         await axios.post(`http://localhost:3001/api/users/validate_email/${id}`, {email})
     }
     const handleClick = async () => {
-        sendEmail(currentUserId)
+        await sendEmail(currentUserId)
         setSentEmail(true)
     }
-    let intervalId: string | number | NodeJS.Timeout | undefined;
+
+    let intervalId: NodeJS.Timeout | undefined;
 
     const  checkValidatedEmail  = async(timeOutDuration: number | undefined) => {
         clearInterval(intervalId);
@@ -75,7 +76,9 @@ const RegisterPage = () => {
             clearInterval(intervalId)
         }, timeOutDuration)
     }
-    checkValidatedEmail(200000)
+    checkValidatedEmail(200000).then(r =>
+        setSentEmail(false)
+    )
 
     return (
         <div style={{
@@ -116,12 +119,22 @@ const RegisterPage = () => {
                     </span>
                     </div>
             </div>:
-            <div>
+            <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: "center",
+                gap: "1px"
+            }}>
                 <h1 style={{
                     color: '#021452'
                 }}>
-                    Validation email has been sent
+                    Validation email has been sent to:
                 </h1>
+                <p style={{
+                    fontSize: '20px'
+                }}>
+                    {email}
+                </p>
                 <p style={{
                     fontSize: '16px'
                 }}>
