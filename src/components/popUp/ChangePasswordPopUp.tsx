@@ -12,8 +12,24 @@ const ChangePasswordPopUp = () => {
     const [prevPassword, setPrevPassword] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+
+    const [prevPasswordError, setPrevPasswordError] = useState(false)
+    const [matchingPasswordError, setMatchingPasswordError] = useState(false)
+    const [passErrMessage, setPassErrMessage] = useState('')
+
+    const [prevPassErrMessage, setPrevPassErrMessage] = useState('')
+    const [matchingPassErrMessage, setMatchingPassErrMessage] = useState('')
+
     const handleSubmit = async () => {
         try {
+            if(!password){
+                setPassErrMessage("Password cannot be emtpy")
+                return
+            }
+            else{
+                setPassErrMessage('')
+            }
+
             let token = localStorage.getItem('token');
             const res = await axios.put(`http://localhost:3001/api/users/change_password`, {
                 prevPassword,
@@ -23,8 +39,14 @@ const ChangePasswordPopUp = () => {
             console.log("Password changed successfully");
             setOpen(false)
             window.location.reload();
-        } catch (error:any) {
-            console.error("Error changing password:", error);
+        } catch (e:any) {
+            setMatchingPasswordError(e.response.data.matchingPasswordError);
+            setPrevPasswordError(e.response.data.wrongPasswordError);
+            if(e.response.data.wrongPasswordError){
+                setPrevPassErrMessage(e.response.data.message)
+            }
+            else{setMatchingPassErrMessage(e.response.data.message)}
+            console.error("Error changing password:", e);
         }
     };
 
@@ -47,9 +69,12 @@ const ChangePasswordPopUp = () => {
                     textAlign: "center"
                 }}>Change  password</h1>
                 <div className="actions">
-                    <TextField value={prevPassword} placeholder={"Current password"} onChange={setPrevPassword}/>
-                    <TextField value={password} placeholder={"New password"} onChange={setPassword}/>
-                    <TextField value={confirmPassword} placeholder={"Confirm new password"} onChange={setConfirmPassword}/>
+                    <TextField value={prevPassword} placeholder={"Current password"} onChange={setPrevPassword} isError={prevPasswordError}/>
+                    <p style={{color: 'red'}}>{prevPassErrMessage}</p>
+                    <TextField value={password} placeholder={"New password"} onChange={setPassword} isError={matchingPasswordError || (passErrMessage != '')}/>
+                    <p style={{color: 'red'}}>{passErrMessage}</p>
+                    <TextField value={confirmPassword} placeholder={"Confirm new password"} onChange={setConfirmPassword} isError={matchingPasswordError}/>
+                    <p style={{color: 'red'}}>{matchingPassErrMessage}</p>
                     <Button variant={"primary"} onClick={handleSubmit}>Change password</Button>
                 </div>
             </div>
