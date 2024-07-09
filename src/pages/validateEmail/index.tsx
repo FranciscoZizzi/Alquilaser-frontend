@@ -13,6 +13,11 @@ const ValidateEmail = () => {
 
     const handleSubmit = async () => {
         try {
+            if(email === ''){
+                setEmailError(true)
+                setErrorMessage("Email cannot be empty")
+                return
+            }
             setSentEmail(true)
             const res = await axios.post("http://localhost:3001/api/users/validate_email", { email });
         } catch(e: any) {
