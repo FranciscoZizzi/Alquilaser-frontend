@@ -14,9 +14,7 @@ const RegisterPage = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
-    const [userCreated, setUserCreated] = useState<boolean>(false)
-    const [sentEmail , setSentEmail] = useState<boolean>(false)
-    const [currentUserId, setStateUserId] = useState<number>(0)
+
     const [usernameError, setUsernameError] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
@@ -28,15 +26,7 @@ const RegisterPage = () => {
         try {
             const res = await axios.post("http://localhost:3001/api/users/register", {name: username, email, password, confirmPassword, phoneNumber});
             localStorage.setItem("token", res.data.data.token);// Queda guardado en localstorage, se puede acceder desde toda la app
-            setStateUserId(res.data.data.userId)
-            setUserCreated(true)
-            try {
-                setSentEmail(true)
-                await sendEmail(res.data.data.userId)
-                window.location.reload()
-            } catch (e: any){
-                console.log(e)
-            }
+            navigate("/validate_email")
         } catch(e: any) {
             setUsernameError(e.response.data.usernameError);
             setEmailError(e.response.data.emailError);
@@ -45,40 +35,6 @@ const RegisterPage = () => {
             setErrorMessage(e.response.data.message);
         }
     }
-    const sendEmail = async (id : any)=> {
-        await axios.post(`http://localhost:3001/api/users/validate_email/${id}`, {email})
-    }
-    const handleClick = async () => {
-        await sendEmail(currentUserId)
-        setSentEmail(true)
-    }
-
-    let intervalId: NodeJS.Timeout | undefined;
-
-    const  checkValidatedEmail  = async(timeOutDuration: number | undefined) => {
-        clearInterval(intervalId);
-        intervalId = setInterval(async () => {
-            try {
-                if (sentEmail && currentUserId !== 0) {
-                    if (currentUserId) {
-                        const user = await axios.get(`http://localhost:3001/api/users/get/${currentUserId}`)
-                        if (user.data.email_validated) {
-                            navigate("/")
-                            clearInterval(intervalId)
-                        }
-                    }
-                }
-            } catch (error) {
-                console.log(error)
-            }
-        }, 5000);
-        setTimeout(() => {
-            clearInterval(intervalId)
-        }, timeOutDuration)
-    }
-    checkValidatedEmail(200000).then(r =>
-        setSentEmail(false)
-    )
 
     return (
         <div style={{
@@ -88,7 +44,7 @@ const RegisterPage = () => {
             justifyContent: 'center',
             height: '100vh',
             fontSize: '16px'
-        }}> {!userCreated ?
+        }}>
             <div style={{
                 height: 700,
                 width: 400,
@@ -118,34 +74,7 @@ const RegisterPage = () => {
                         Already have an account? <Link to="/login">Login</Link>
                     </span>
                     </div>
-            </div>:
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: "center",
-                gap: "1px"
-            }}>
-                <h1 style={{
-                    color: '#021452'
-                }}>
-                    Validation email has been sent to:
-                </h1>
-                <p style={{
-                    fontSize: '20px'
-                }}>
-                    {email}
-                </p>
-                <p style={{
-                    fontSize: '16px'
-                }}>
-                    If you did not receive the validation email, click here to resend it.
-                </p>
-                <Button onClick={handleClick}>
-                    Resend Email
-                </Button>
             </div>
-        }
-
         </div>
     )
 }

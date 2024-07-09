@@ -80,6 +80,10 @@ const ProfilePage = () => {
                 const { name, rating, profile_pic, bookings, rents } = res.data.data;
                 setUserData({ name, rating, profilePic: profile_pic, bookings , rents});
 
+                if(!res.data.data.email_validated){
+                    navigate('/')
+                }
+
                 if (profile_pic && profile_pic.data) {
                     setImageUrl(bufferToUrl(profile_pic));
                 }
