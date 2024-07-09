@@ -10,6 +10,7 @@ const CompleteGoogleLoginPage = () => {
 
     const [numberError, setNumberError] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const navigate = useNavigate();
     const handleSubmit = async () => {
@@ -26,6 +27,7 @@ const CompleteGoogleLoginPage = () => {
             navigate("/")
         } catch(e: any) {
             setNumberError(e.response.data.numberError);
+            setErrorMessage(e.response.data.message);
         }
     }
 
@@ -61,7 +63,8 @@ const CompleteGoogleLoginPage = () => {
                 fontSize: '16px',
             }}>
                 <div style={{ marginBottom: '16px' }}>
-                    <PhoneNumberField value={phoneNumber} placeholder="Enter your phone number" onChange={setPhoneNumber}/>
+                    <PhoneNumberField value={phoneNumber} placeholder="Enter your phone number" onChange={setPhoneNumber} isError={numberError}/>
+                    <p style={{color: 'red'}}>{errorMessage}</p>
                 </div>
                 <Button onClick={handleSubmit}>Submit</Button>
             </div>
