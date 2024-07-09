@@ -12,6 +12,8 @@ import ListingInfoPage from "./pages/listing/info";
 import ForgotPasswordPage from "./pages/forgotPassword";
 import ResetPasswordPage from "./pages/resetPassword";
 import StoreTokenPage from "./pages/storeToken";
+import ConfirmEmailValidation from "./pages/confirmEmailValidation";
+import Index from "./pages/validateEmail";
 
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
                     <Route path={'/forgot_password'} element={<ForgotPasswordPage/>}/>
                     <Route path={'/reset_password/:id/:token'} element={<ResetPasswordPage/>}/>
                     <Route path={'/store-token/:token'} element={<StoreTokenPage/>}/>
+                    <Route path={'/confirm_email_validation/:id/:token'} element={<ConfirmEmailValidation/>}/>
+                    <Route path={'/validate_email'} element={<Index/>}></Route>
                 </Routes>
             </BrowserRouter>
         </>

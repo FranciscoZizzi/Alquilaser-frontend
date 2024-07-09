@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import SearchBar from "../../components/searchBar/SearchBar";
 import {createSearchParams, useNavigate} from "react-router-dom";
 import Header from "../../components/header/Header";
@@ -6,11 +6,9 @@ import Header from "../../components/header/Header";
 const HomePage = () => {
 
     const [searchTerm, setValue] = useState<string>("");
-
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
         setValue(event.currentTarget.value);
     }
-
 
     let navigate = useNavigate();
     const handleKeyPress = async (keyEvent: React.KeyboardEvent<HTMLInputElement>) => {
@@ -25,6 +23,7 @@ const HomePage = () => {
     }
 
     return (
+
         <div>
             <Header showBackButton={false} showProfileIcon={true} showSearchBar={false}/>
             <div style = {{
