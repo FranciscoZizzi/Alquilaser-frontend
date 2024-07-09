@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 import axios from "axios";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {BASE_URL, PORT} from "../../utils/constants";
 import Header from "../../components/header/Header";
 import BookingDatePicker from "../../components/datePicker/BookingDatePicker";
@@ -19,7 +19,7 @@ const ListingPage = () => {
     const [additionalInfo, setInfo] = useState("");
     const [isLoading, setLoading] = useState(false);
     const [listingNotFound, set404] = useState(false);
-
+    const navigate = useNavigate();
     const {listingId} = useParams();
 
     useEffect(() => {
@@ -62,6 +62,9 @@ const ListingPage = () => {
             .catch((e) => {
                 setLoading(false);
                 setInfo(e.response.data.message);
+                if (e.response.status === 405) {
+                    navigate("/validate_email")
+                }
             })
     }
 
