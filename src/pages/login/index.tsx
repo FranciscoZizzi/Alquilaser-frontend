@@ -35,6 +35,9 @@ const LoginPage = () => {
 
     const handleSubmit = async () => {
         try {
+            if(localStorage.getItem("isGoogleSession") != null){
+                localStorage.removeItem("isGoogleSession");
+            }
             const res = await axios.post("http://localhost:3001/api/users/login", { email, password });
             const { token, profilePic } = res.data.data;
 

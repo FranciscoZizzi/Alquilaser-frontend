@@ -17,9 +17,13 @@ import ChangePasswordPopUp from "../../components/popUp/ChangePasswordPopUp";
 const ProfileInfoPage = () => {
     const navigate = useNavigate();
 
-    const [userData, setUserData] = useState({ name: '', phone: '', email: '', profilePic: null});
+    const [userData, setUserData] = useState({ name: '', phone: '', email:'', profilePic: null});
     const [imageUrl, setImageUrl] = useState('');
     const [editMode, setEditMode] = useState(false)
+
+    const [usernameError, setUsernameError] = useState(false);
+    const [numberError, setNumberError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -42,14 +46,16 @@ const ProfileInfoPage = () => {
             };
             const res = await axios.put('http://localhost:3001/api/users/edit', {
                 name: username,
-                email,
                 phoneNumber
             }, config);
             setEditMode(!editMode)
             window.location.reload()
         }
-        catch(error){
-            console.error('Error updating profile data:', error);
+        catch(e: any){
+            setUsernameError(e.response.data.usernameError);
+            setNumberError(e.response.data.numberError);
+            setErrorMessage(e.response.data.message);
+            console.error('Error updating profile data:', e);
         }
     }
 
@@ -151,24 +157,27 @@ const ProfileInfoPage = () => {
                     <div>
                         <h1>Name:</h1>
                         {editMode ? (
-                            <TextField value={username} placeholder={"Username"} onChange={setUsername}/>
+                            <>
+                                <TextField value={username} placeholder={"Username"} onChange={setUsername} isError={usernameError}/>
+                                {usernameError ? (<p style={{color: 'red'}}>{errorMessage}</p>) : null}
+                            </>
+
                         ) : (
                             <div>
-
                                 <h2>{userData.name}</h2>
                             </div>
                         )}
                         <h1>Email:</h1>
-                        {editMode ? (
-                            <TextField value={email} placeholder={"Email"} onChange={setEmail}/>
-                        ) : (
                             <div>
                                 <h2>{userData.email}</h2>
                             </div>
-                        )}
                         <h1>Phone Number:</h1>
                         {editMode ? (
-                            <PhoneNumberField value={phoneNumber} placeholder={"Phone number"}  onChange={setPhoneNumber}/>
+                            <>
+                                <PhoneNumberField value={phoneNumber} placeholder={"Phone number"}  onChange={setPhoneNumber} isError={numberError}/>
+                                {numberError ? (<p style={{color: 'red'}}>{errorMessage}</p>) : null}
+                            </>
+
                         ) : (
                             <div>
                                 <h2>{userData.phone}</h2>

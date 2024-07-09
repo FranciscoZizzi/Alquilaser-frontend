@@ -2,6 +2,9 @@ import React, { ButtonHTMLAttributes } from 'react';
 import styled, { css } from 'styled-components';
 
 const BaseButton = css`
+  display: flex; // Enable flexbox layout
+  justify-content: center; // Center content horizontally
+  align-items: center; // Center content vertically
   color: white;
   border: none;
   width: 100%;

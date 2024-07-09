@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import TextField from "../../components/textField/TextField";
 import PasswordField from "../../components/textField/PasswordField";
 import Button from "../../components/button/Button";
@@ -9,7 +9,6 @@ import {SearchIcon} from "../../components/icons/SearchIcon";
 import PhoneNumberField from "../../components/phoneNumberField/PhoneNumberField";
 
 const RegisterPage = () => {
-
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -25,9 +24,12 @@ const RegisterPage = () => {
     const navigate = useNavigate();
     const handleSubmit = async () => {
         try {
+            if(localStorage.getItem("isGoogleSession") != null){
+                localStorage.removeItem("isGoogleSession");
+            }
             const res = await axios.post("http://localhost:3001/api/users/register", {name: username, email, password, confirmPassword, phoneNumber});
-            localStorage.setItem("token", res.data.data.token); // Queda guardado en localstorage, se puede acceder desde toda la app
-            navigate('/')
+            localStorage.setItem("token", res.data.data.token);// Queda guardado en localstorage, se puede acceder desde toda la app
+            navigate("/validate_email")
         } catch(e: any) {
             setUsernameError(e.response.data.usernameError);
             setEmailError(e.response.data.emailError);

@@ -8,6 +8,7 @@ const StoreTokenPage = () => {
     useEffect(() => {
         console.log(token)
         if (token) {
+            // TODO check with backend if token at URL is valid
             localStorage.setItem("token", token);
             localStorage.setItem("isGoogleSession", "true");
             window.location.href = 'http://localhost:3002/'
@@ -17,7 +18,7 @@ const StoreTokenPage = () => {
     }, [token]);
 
     return (
-       <LoadingComponent/>
+        <LoadingComponent/>
     )
 }
 

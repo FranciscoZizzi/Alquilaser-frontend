@@ -11,6 +11,7 @@ import axios from "axios";
 import RegisterReturnPopUp from "../../components/popUp/RegisterReturnPupUp";
 import {Rating} from "react-simple-star-rating";
 import SearchBar from "../../components/searchBar/SearchBar";
+import LoadingComponent from "../../components/loadingComponent/LoadingComponent";
 
 const ProfilePage = () => {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ const ProfilePage = () => {
     const [userData, setUserData] = useState({ name: '', rating: 3, profilePic: null,  bookings: [], rents: [] });
     const [imageUrl, setImageUrl] = useState('');
     const [isGoogleSession, setIsGoogleSession] = useState(false);
+    const [isLoading, setLoading] = useState(false);
 
     const handleLogoutClick = () => {
         localStorage.removeItem("token");
@@ -52,6 +54,8 @@ const ProfilePage = () => {
 
     useEffect(() => {
         const fetchUserProfile = async () => {
+
+            setLoading(true)
             try { // TODO move try catch outside method declaration to avoid showing react error
                 const token = localStorage.getItem('token');
 
@@ -80,10 +84,14 @@ const ProfilePage = () => {
                 const { name, rating, profile_pic, bookings, rents } = res.data.data;
                 setUserData({ name, rating, profilePic: profile_pic, bookings , rents});
 
+                if(!res.data.data.email_validated && name){
+                    navigate('/validate_email')
+                }
+
                 if (profile_pic && profile_pic.data) {
                     setImageUrl(bufferToUrl(profile_pic));
                 }
-
+                setLoading(false)
             } catch (error) {
                 navigate('/login');
                 console.error("Error fetching user profile:", error);
@@ -112,67 +120,72 @@ const ProfilePage = () => {
 
 
     return (
-        <div style={{display: 'flex', flexDirection: 'column', justifyContent:'center'}}>
-            <Header showSearchBar={false} showProfileIcon={true} showBackButton={true} />
-            <div style={{ borderRadius: 25, background: theme.primary300,
-                display: "flex",
-                flexDirection: "row",
-                marginTop: 53,
-                marginLeft: "8%",
-                width: "80%",
-                padding: "2.5%",
-            }}>
+        <>
+            {isLoading ? (<LoadingComponent/>) : (
+                <div style={{display: 'flex', flexDirection: 'column', justifyContent:'center'}}>
+                    <Header showSearchBar={false} showProfileIcon={true} showBackButton={true} />
+                    <div style={{ borderRadius: 25, background: theme.primary300,
+                        display: "flex",
+                        flexDirection: "row",
+                        marginTop: 53,
+                        marginLeft: "8%",
+                        width: "80%",
+                        padding: "2.5%",
+                    }}>
 
-                <div style={{
-                    width: 320,
-                    display: 'flex',
-                    flexDirection: "column",
-                    gap: 10
-                }}>
-                    <Avatar name={userData.name} size="320" src={imageUrl} />
-                    {isGoogleSession ? null : <Button variant={"empty"} onClick={handleInfoClick}>Profile Info</Button>}
-                    <Button variant={"secondary"} onClick={handleLogoutClick}>Logout</Button>
-                </div>
-                <div className="info" style={{ marginLeft: "5%", width: "80%"}}>
-                    <h1>{userData.name}</h1>
-                    <Rating
-                        initialValue={userData.rating}
-                        readonly={true}
-                        allowFraction={true}
-                    />
-                    <div className="listed-parts">
-                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-                            <h1>Listed Parts:</h1>
-                            <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center" }}>
-                                <AddNewListingPopUp />
-                            </div>
-                        </div>
                         <div style={{
+                            width: 320,
                             display: 'flex',
                             flexDirection: "column",
-                            gap: '10px'
+                            gap: 10
                         }}>
-                            {listedParts}
+                            <Avatar name={userData.name} size="320" src={imageUrl} />
+                            {isGoogleSession ? null : <Button variant={"empty"} onClick={handleInfoClick}>Profile Info</Button>}
+                            <Button variant={"secondary"} onClick={handleLogoutClick}>Logout</Button>
                         </div>
-                    </div>
-                    <div className="rent-history">
-                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                            <h1>Rent History:</h1>
-                            <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center" }}>
-                                <RegisterReturnPopUp/>
+                        <div className="info" style={{ marginLeft: "5%", width: "80%"}}>
+                            <h1>{userData.name}</h1>
+                            <Rating
+                                initialValue={userData.rating}
+                                readonly={true}
+                                allowFraction={true}
+                            />
+                            <div className="listed-parts">
+                                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                                    <h1>Listed Parts:</h1>
+                                    <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center" }}>
+                                        <AddNewListingPopUp />
+                                    </div>
+                                </div>
+                                <div style={{
+                                    display: 'flex',
+                                    flexDirection: "column",
+                                    gap: '10px'
+                                }}>
+                                    {listedParts}
+                                </div>
+                            </div>
+                            <div className="rent-history">
+                                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                                    <h1>Rent History:</h1>
+                                    <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center" }}>
+                                        <RegisterReturnPopUp/>
+                                    </div>
+                                </div>
+                                {rentHistory}
+                            </div>
+                            <div className="booking-history">
+                                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                                    <h1>Booking History:</h1>
+                                </div>
+                                {bookingHistory}
                             </div>
                         </div>
-                        {rentHistory}
-                    </div>
-                    <div className="booking-history">
-                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                            <h1>Booking History:</h1>
-                        </div>
-                        {bookingHistory}
                     </div>
                 </div>
-            </div>
-        </div>
+            )}
+        </>
+
     );
 }
 
