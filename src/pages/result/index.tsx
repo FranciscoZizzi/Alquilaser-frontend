@@ -105,21 +105,20 @@ const ResultPage = () => {
     })
 
     return(
-        <body>
+        <div style={{backgroundColor: '#e0f0fd'}}>
             <div style={{
                 alignItems: "center",
             }}>
                 <Header showBackButton={true} showSearchBar={true} showProfileIcon={true}/>
 
                 <div style={{
-                    backgroundColor: '#e0f0fd',
                     display: "flex",
                     flexDirection: "column",
-                    alignItems: "center"
-
+                    alignItems: "center",
                 }}>
                     <div style={{
                         marginTop: '20px',
+                        marginBottom:'50px',
                         marginLeft: '50px',
                         alignItems: 'center',
                         width: "70%"
@@ -127,7 +126,6 @@ const ResultPage = () => {
                         <div style={{
                             display: 'flex',
                             flexDirection: 'row',
-                            height: '100vh'
                         }}>
                             <div style={{
                                 marginTop: '20px',
@@ -160,7 +158,7 @@ const ResultPage = () => {
                     </div>
                 </div>
             </div>
-        </body>
+        </div>
     )
 }
 
