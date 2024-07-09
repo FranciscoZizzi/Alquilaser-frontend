@@ -2,54 +2,24 @@ import React, { useEffect, useState } from "react";
 import Button from "../../components/button/Button";
 import axios from "axios";
 import TextField from "../../components/textField/TextField";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const ValidateEmail = () => {
-    const navigate = useNavigate();
     const [email, setEmail] = useState('')
 
     const [emailError, setEmailError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [sentEmail, setSentEmail] = useState(false)
-    const [currentUserId, setUserId] = useState<number>(0)
 
     const handleSubmit = async () => {
         try {
             setSentEmail(true)
             const res = await axios.post("http://localhost:3001/api/users/validate_email", { email });
-            setUserId(res.data.userId)
         } catch(e: any) {
             setEmailError(e.response.data.emailError);
             setErrorMessage(e.response.data.message);
         }
     };
-
-    // let intervalId: NodeJS.Timeout | undefined;
-    //
-    // const  checkValidatedEmail  = async(timeOutDuration: number | undefined) => {
-    //     clearInterval(intervalId);
-    //     intervalId = setInterval(async () => {
-    //         try {
-    //             if (sentEmail && currentUserId !== 0) {
-    //                 if (currentUserId) {
-    //                     const user = await axios.get(`http://localhost:3001/api/users/get/${currentUserId}`)
-    //                     if (user.data.email_validated) {
-    //                         navigate("/")
-    //                         clearInterval(intervalId)
-    //                     }
-    //                 }
-    //             }
-    //         } catch (error) {
-    //             console.log(error)
-    //         }
-    //     }, 5000);
-    //     setTimeout(() => {
-    //         clearInterval(intervalId)
-    //     }, timeOutDuration)
-    // }
-    // checkValidatedEmail(200000).then(r =>
-    //     setSentEmail(false)
-    // )
 
     return (
         <div style = {{

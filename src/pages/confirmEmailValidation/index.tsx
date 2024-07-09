@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import PasswordField from "../../components/textField/PasswordField";
 import Button from "../../components/button/Button";
 import axios from "axios";
-import {bool} from "prop-types";
 import {useNavigate, useParams} from "react-router-dom";
 
 
