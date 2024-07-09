@@ -13,6 +13,11 @@ const ForgotPasswordPage = () => {
     const [sentEmail, setSentEmail] = useState(false)
 
     const handleSubmit = async () => {
+        if(email == ''){
+            setEmailError(true)
+            setErrorMessage("Email cannot be empty")
+            return
+        }
         try {
             setSentEmail(true)
             const res = await axios.post("http://localhost:3001/api/users/forgot_password", { email });
@@ -47,6 +52,7 @@ const ForgotPasswordPage = () => {
                     ):(
                         <div>
                             <TextField value={email} placeholder={"Email"} onChange={setEmail} isError={emailError}/>
+                            <p style={{color: 'red'}}>{errorMessage}</p>
                             <Button onClick={handleSubmit}>Send recovery email</Button>
                         </div>
                     )}
@@ -59,7 +65,6 @@ const ForgotPasswordPage = () => {
                         justifyContent: 'center',
                         gap: '10px',
                     }}>
-                        <p style={{color: 'red'}}>{errorMessage}</p>
                         <span>
                             Don't have an account? <Link to="/register">Register</Link>
                         </span>

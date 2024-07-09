@@ -11,7 +11,22 @@ const ResetPasswordPage = () => {
     const {id,token} = useParams()
     const [hasReset, setHasReset] = useState(false)
 
+    const [passwordErrorMessage, setPasswordErrorMessage] = useState('')
+    const [matchingPasswordError, setMatchingPasswordError] = useState(false)
+
     const handleSubmit = async () => {
+        if(password != confirmPassword){
+            setMatchingPasswordError(true)
+            setPasswordErrorMessage("Passwords dont match")
+            return
+        }
+        else if(!password){
+            setPasswordErrorMessage('Password cannot be empty')
+            return
+        }
+        else{
+            setMatchingPasswordError(false)
+        }
         try {
             setHasReset(true)
             const res = await axios.put(`http://localhost:3001/api/users/reset_password/${id}/${token}`, { password, confirmPassword });
@@ -45,8 +60,9 @@ const ResetPasswordPage = () => {
                         <p>Password has been reset</p>
                     ) : (
                         <div>
-                            <PasswordField value={password} placeholder={"New password"} onChange={setPassword}/>
-                            <PasswordField value={confirmPassword} placeholder={"Confirm new password"} onChange={setConfirmPassword}/>
+                            <PasswordField value={password} placeholder={"New password"} onChange={setPassword} isError={matchingPasswordError || (passwordErrorMessage != '')}/>
+                            <PasswordField value={confirmPassword} placeholder={"Confirm new password"} onChange={setConfirmPassword} isError={matchingPasswordError}/>
+                            <p style={{color: 'red'}}>{passwordErrorMessage}</p>
                             <Button onClick={handleSubmit}>Change password</Button>
                         </div>
                     )}
