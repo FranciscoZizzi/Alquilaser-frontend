@@ -123,16 +123,17 @@ const ListingInfoPage = () => {
                             flexDirection: "column",
                             gap: 10
                         }}>
-                            <Avatar name={userData.name} size="320" src={userImageUrl} />
-                            <p style={{ fontSize: 37, margin: 0 }}>{userData.name}</p>
+                            <Avatar name={userData.name} size="320" src={userImageUrl}/>
+                            <p style={{fontSize: 37, margin: 0}}>{userData.name}</p>
                             <Rating
-                                initialValue={userData.rating}
+                                initialValue={userData.rating_avg}
                                 readonly={true}
                                 allowFraction={true}
                             />
+                            <p style={{fontSize: 37, margin: 0}}>Phone Number: {userData.phone}</p>
                         </div>
-                        <div style={{ marginLeft: "5%", width: "80%" }}>
-                            <Listing availability={listingData.listing_state} image={imageUrls[0]} listing_id={listingData.id} price={listingData.price} showEditButton={false} title={listingData.title} />
+                        <div style={{marginLeft: "5%", width: "80%"}}>
+                        <Listing availability={listingData.listing_state} image={imageUrls[0]} listing_id={listingData.id} price={listingData.price} showEditButton={false} title={listingData.title} />
                         </div>
                     </div>
                 </div>
