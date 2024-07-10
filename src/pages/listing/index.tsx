@@ -10,22 +10,26 @@ import {theme} from "../../utils/theme";
 import { Slider } from "reactjs-simple-slider";
 import ListingNotFoundPage from "./error";
 import { Rating } from 'react-simple-star-rating';
+import LoadingComponent from "../../components/loadingComponent/LoadingComponent";
 
 const ListingPage = () => {
+    const [isLoading, setLoading] = useState(true);
     const [listingData, setListingData] = useState(Object)
     const [startDate, setStartDate] = useState<Dayjs | null>();
     const [endDate, setEndDate] = useState<Dayjs | null>();
     const [imageUrls, setImageUrls] = useState<any>([]);
     const [additionalInfo, setInfo] = useState("");
-    const [isLoading, setLoading] = useState(false);
+    const [buttonIsLoading, setButtonIsLoading] = useState(false);
     const [listingNotFound, set404] = useState(false);
     const navigate = useNavigate();
     const {listingId} = useParams();
 
     useEffect(() => {
         const fetchListingData = async () => {
+            setLoading(true);
             const res = await axios.get(BASE_URL + ':' + PORT + `/api/listings/get/${listingId}`);
             setListingData(res.data);
+            setLoading(false);
         };
 
         fetchListingData().catch(() => set404(true));
@@ -46,7 +50,7 @@ const ListingPage = () => {
     }, [listingData, additionalInfo]);
 
     const handleClick = (event: any) => {
-        setLoading(true)
+        setButtonIsLoading(true)
         let token = localStorage.getItem('token');
         axios.post(BASE_URL + ':' + PORT + '/api/bookings/add',
             {listingId, startDate, endDate},
@@ -55,12 +59,12 @@ const ListingPage = () => {
                 setStartDate(null);
                 setEndDate(null);
 
-                setLoading(false);
+                setButtonIsLoading(false);
                 setInfo("booking successfully created");
             }
             )
             .catch((e) => {
-                setLoading(false);
+                setButtonIsLoading(false);
                 setInfo(e.response.data.message);
                 if (e.response.status === 405) {
                     navigate("/validate_email")
@@ -68,8 +72,11 @@ const ListingPage = () => {
             })
     }
 
-    if (listingNotFound) {
-        return(<ListingNotFoundPage/>)
+    if (listingNotFound || listingData.listing_state === "deleted") {
+        return(<ListingNotFoundPage/>);
+    }
+    if (isLoading) {
+        return(<LoadingComponent/>);
     }
     return(
         <div className="body">
@@ -122,10 +129,10 @@ const ListingPage = () => {
                                 />
                             </div>
                             <div className="date-picker">
-                                <BookingDatePicker listingId={listingId} maxBookDuration={60} startDate={startDate} endDate={endDate} handleSetStartDate={setStartDate} handleSetEndDate={setEndDate} disabled={isLoading}/>
+                                <BookingDatePicker listingId={listingId} maxBookDuration={60} startDate={startDate} endDate={endDate} handleSetStartDate={setStartDate} handleSetEndDate={setEndDate} disabled={buttonIsLoading}/>
                             </div>
                             <div>
-                                <Button onClick={handleClick} disabled={isLoading}>{isLoading ? "Loading" : "Make Reservation"}</Button>
+                                <Button onClick={handleClick} disabled={buttonIsLoading}>{buttonIsLoading ? "Loading" : "Make Reservation"}</Button>
                                 <p>{additionalInfo}</p>
                             </div>
                         </div>
